@@ -13,6 +13,19 @@ return [
     '__pattern__' => [
         'name' => '\w+',
     ],
+     '[]' => [
+    	'' => ['index/Index/index', ['method' => 'get']]
+    ],
+    '[login]' => [
+    	'' => ['index/Index/login', ['method' => 'get']]
+    ],
+    '[purchase]' => [
+        '' => ['index/Index/purchase', ['method' => 'get']]
+    ],
+    '[project]' => [
+        'new' => ['index/Project/new', ['method' => 'get'], ['new' => 'new']],
+        '__miss__' => ['index/Project/index', ['method' => 'get']]
+    ],
     '[hello]'     => [
         ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
         ':name' => ['index/hello', ['method' => 'post']],

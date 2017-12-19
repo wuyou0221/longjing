@@ -1,4 +1,6 @@
 .idea
 composer.lock
+*.DS_Store
+*.sql
 *.log
 thinkphp
