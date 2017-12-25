@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
+    <meta name="viewport" content="width=1200">
+    <title>LongJing</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/my.css">
+
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <header>
+      <div class="container-fluid clearfix">
+        <h1>龙净<small>项目管理系统</small></h1>
+        <div class="user hidden-xs">
+          <div class="user-icon">
+            <img src="image/head.jpg" class="img-thumbnail" width="100%">
+          </div>
+          <div class="user-info">
+            <p><span class="label label-primary">管理员</span></p>
+            <p>
+              ADMIN | 
+              <a href="#">退出</a>
+            </p>
+          </div>
+        </div>
+        <div class="user visible-xs dropdown">
+          <a class="user-icon" id="userDropdown" href="#" data-toggle="dropdown" role="button" >
+            <img src="image/head.jpg" class="img-thumbnail" width="100%">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+             <li><a>宇思 <span class="label label-primary">管理员</span></a></li>
+             <li role="separator" class="divider"></li>
+             <li><a href="#">退出</a></li>
+          </ul>
+      </div>
+    </header>
+
+    <div id="pageBody" class="container-fluid">
+      <div class="row">
+        <nav id="slidebar" class="col-sm-2">
+          <div class="hidden-xs" style="height: 40px"></div>
+          <ul class="nav nav-pills nav-stacked">
+            <li><a href="index.html"><span class="glyphicon glyphicon-home"></span>首页</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="project.html"><span class="glyphicon glyphicon-th-list"></span>项目</a></li>
+            <li><a href="purchase.html"><span class="glyphicon glyphicon-shopping-cart"></span>采购</a></li>
+            <li class="active"><a href="tender.html"><span class="glyphicon glyphicon-flag"></span>招标</a></li>
+            <li><a href="compact.html"><span class="glyphicon glyphicon-list-alt"></span>合同</a></li>
+            <li><a href="signet.html"><span class="glyphicon glyphicon-ok-sign"></span>用印</a></li>
+            <li><a href="approval.html"><span class="glyphicon glyphicon-briefcase"></span>审批<span class="badge pull-right">4</span></a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#"><span class="glyphicon glyphicon-glass"></span>供应商</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-hdd"></span>物料</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span>CRM</a></li>
+            <li>
+              <a data-toggle="collapse" href="#subnav-jcsz"><span class="glyphicon glyphicon-cog"></span>基础设置 <span class="caret"></span></a>
+              <div class="collapse" id="subnav-jcsz">
+                <div class="well">
+                  <ul class="list-unstyled">
+                    <li><a href="#">信息完善</a></li>
+                    <li><a href="#">密码修改</a></li>
+                    <li><a href="#">权限管理</a></li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+
+        <!-- 右侧内容区 -->
+        <div class="col-sm-10">
+
+          <div class="page-header">
+            <h4>招标管理</h4>
+          </div>
+          <!-- 搜索框 & 新建 -->
+          <div class="row">
+            <div class="col-xs-3 col-sm-1 col-sm-offset-6 clearfix">
+              <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#tenderDetailModal" data-name="new"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+            <div class="col-xs-9 col-sm-5">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="项目名称">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default content-list">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>编号</th>
+                  <th>招标内容</th>
+                  <th>关联项目</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="success">
+                  <th scope="row">1</th>
+                  <td>Mark / Tom / Jack</td>
+                  <td>项目1</td>
+                  <td>已通过</td>
+                  <td>
+                    <a href="#tenderDetailModal" data-toggle="modal" data-name="Mark">详细</a> |
+                    <a href="#tenderProcessModal"  data-toggle="modal" data-name="Mark">流程</a> |
+                    <a href="#tenderReviewModal"  data-toggle="modal" data-name="Mark">评审</a> |
+                    <a href="#"  data-toggle="modal" data-name="Mark">定标</a>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>项目1</td>
+                  <td>待审核</td>
+                  <td>
+                    <a href="#tenderDetailModal" data-toggle="modal" data-name="Jacob">详细</a> |
+                    <a href="#tenderProcessModal"  data-toggle="modal" data-name="Jacob">流程</a> |
+                    <a href="#tenderReviewModal"  data-toggle="modal" data-name="Jacob">评审</a> |
+                    <a href="#"  data-toggle="modal" data-name="Jacob">定标</a>
+                  </td>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Larry</td>
+                  <td>项目1</td>
+                  <td>待修改</td>
+                  <td>
+                    <a href="#tenderDetailModal" data-toggle="modal" data-name="Larry">详细</a> |
+                    <a href="#tenderProcessModal"  data-toggle="modal" data-name="Larry">流程</a> |
+                    <a href="#tenderReviewModal"  data-toggle="modal" data-name="Larry">评审</a> |
+                    <a href="#"  data-toggle="modal" data-name="Larry">定标</a>
+                  </td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 页码 -->
+          <div class="row" style="margin-bottom: 20px">
+            <div class="col-xs-5 col-sm-3 col-xs-offset-3 col-sm-offset-7">
+              <div class="pull-right">
+                <button class="btn btn-default"><span class="glyphicon glyphicon-triangle-left text-muted"></span></button>
+                <b> 1 / 8 </b>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-triangle-right text-muted"></span></button>
+              </div>
+            </div>
+            <div class="col-xs-4 col-sm-2">
+              <div class="input-group">
+                <input type="text" class="form-control" style="text-align: center;">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">跳转</button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <footer>
+      <a href="#">客服人员</a> |
+      <a href="#">联系邮箱</a> |
+      <span>Copyright © 2017 LongJing<span class="hidden-xs">. All Rights Reserved.</span></span>
+    </footer>
+
+    <!-- 招标详细 -->
+    <div class="modal fade" id="tenderDetailModal" tabindex="-1" role="dialog" aria-labelledby="tenderDetailModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="tenderDetailModalLabel">招标申请详情</h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-success" role="alert">申请已通过审批</div>
+            <form>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="tenderNum">招标申请编号</label>
+                    <input type="number" disabled class="form-control" id="tenderNum" placeholder="招标申请编号" value="00001">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="dropdown">
+                    <a id="purchaseList" role="button" data-toggle="dropdown">
+                      <div class="form-group">
+                        <label for="tenderPurchase">关联采购申请</label>
+                        <input type="text" class="form-control" id="tenderPurchase" placeholder="点击选择" disabled>
+                      </div>
+                    </a>
+                    <ul style="max-height: 200px; overflow-y: auto;" class="dropdown-menu" aria-labelledby="purchaseList">
+                      <li><a class="item-single" href="#">Another action</a></li>
+                      <li><a class="item-single" href="#">Something else here</a></li>
+                      <li><a class="item-single" href="#">Separated link</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>招标内容</label>
+                    <input type="hidden" class="form-control" disabled><br>
+                    <button type="button" class="btn btn-default product-detail" data-name="产品1"">产品1</button>
+                    <button type="button" class="btn btn-default product-detail" data-name="产品2"">产品2</button>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseApplyDate">申请日期</label>
+                    <input type="date" class="form-control" id="tenderApplyDate" placeholder="申请日期">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="tenderApplyDate">申请日期</label>
+                    <input type="date" class="form-control" id="tenderApplyDate" placeholder="申请日期">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="tenderTecDate">技术标开标日期</label>
+                    <input type="date" class="form-control" id="tenderTecDate" placeholder="技术标开标日期">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="tenderPriceDate">价格标开标日期</label>
+                    <input type="date" class="form-control" id="tenderPriceDate" placeholder="价格标开标日期">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="tenderAdviceSuplier">建议投标入围制造厂商</label>
+                    <input type="text" class="form-control" id="tenderAdviceSuplier" placeholder="建议投标入围制造厂商">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="tenderTip">备注</label>
+                    <input type="text" class="form-control" id="tenderTip" placeholder="备注">
+                  </div>
+                </div>
+              </div>          
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary">保存修改</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 明细产品 -->
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="productModalLabel">明细产品</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="productNum">产品编号</label>
+                    <input type="number" disabled class="form-control" id="productNum" placeholder="产品编号" value="00001">
+                  </div>
+                </div>
+                <div class="col-sm-6" >
+                  <div class="dropdown">
+                    <a id="itemList" role="button" data-toggle="dropdown">
+                      <div class="form-group">
+                        <label for="productName">名称</label>
+                        <input type="text" class="form-control" id="productName" placeholder="点击查找" disabled>
+                      </div>
+                    </a>
+                    <ul style="max-height: 200px; overflow-y: auto;" class="dropdown-menu" aria-labelledby="itemList">
+                      <li>
+                        <div class="input-group">
+                          <input type="text" class="form-control search-item" placeholder="名称">
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                        </div>
+                      </li>
+                      <li><a class="item-single" href="#">Another action</a></li>
+                      <li><a class="item-single" href="#">Something else here</a></li>
+                      <li><a class="item-single" href="#">Separated link</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="productType">型号</label>
+                    <input type="text" class="form-control" id="productType" placeholder="型号">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="productSum">数量</label>
+                    <input type="number" class="form-control" id="productSume" placeholder="数量">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="productTip">备注</label>
+                    <input type="text" class="form-control" id="productTip" placeholder="备注">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" id="addProductOver" class="btn btn-primary">添加</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 招标流程 -->
+    <div class="modal fade" id="tenderProcessModal" tabindex="-1" role="dialog" aria-labelledby="tenderProcessModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="tenderProcessModalLabel">审批流程</h4>
+          </div>
+          <div class="modal-body">
+            <div class="panel panel-default">
+              <div class="panel-heading">进度</div>
+              <div class="panel-body">
+                <ul class="list-inline">
+                  <li><h4><span class="label label-success">提交申请</span></h4></li>
+                  <li><span class="glyphicon glyphicon-option-horizontal"></span></li>
+                  <li><h4><span class="label label-warning">采购部审核</span></h4></li>
+                  <li><span class="glyphicon glyphicon-option-horizontal"></span></li>
+                  <li><h4><span class="label label-default">项目部意见</span></h4></li>
+                  <li><span class="glyphicon glyphicon-option-horizontal"></span></li>
+                  <li><h4><span class="label label-default">领导审批</span></h4></li>
+                  <li><span class="glyphicon glyphicon-option-horizontal"></span></li>
+                  <li><h4><span class="label label-default">技术评审</span></h4></li>
+                  <li><span class="glyphicon glyphicon-option-horizontal"></span></li>
+                  <li><h4><span class="label label-default">价格评审</span></h4></li>
+                  <li><span class="glyphicon glyphicon-option-horizontal"></span></li>
+                  <li><h4><span class="label label-default">综合评审</span></h4></li>
+                  <li><span class="glyphicon glyphicon-option-horizontal"></span></li>
+                  <li><h4><span class="label label-default">定标</span></h4></li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">历史</div>
+              <div class="panel-body">
+                <div class="alert alert-success" role="alert">创建新项目！ 潘潘于 2017-02-22 17:17:19 已完成</div>
+                <div class="alert alert-info" role="alert">项目经理审核！ 宇思于 2017-02-23 17:17:19 已完成<br><span class="badge">修改联系人以及物料信息</span></div>
+                <div class="alert alert-success" role="alert">修改项目！ 潘潘于 2017-02-23 17:17:19 已完成</div>
+                <div class="alert alert-info" role="alert">项目立项！ 宇思于 2017-02-24 17:17:19 已完成</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 评审 -->
+    <div class="modal fade" id="tenderReviewModal" tabindex="-1" role="dialog" aria-labelledby="tenderReviewModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="tenderReviewModalLabel">评审</h4>
+          </div>
+          <div class="modal-body">
+            <div class="panel-group" id="reviewAccordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="reviewHeadingOne">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#reviewAccordion" href="#reviewCollapseOne" aria-expanded="true" aria-controls="reviewCollapseOne">
+                      技术评审
+                    </a>
+                  </h4>
+                </div>
+                <div id="reviewCollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="reviewHeadingOne">
+                  <div class="panel-body">
+                    <form>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecNum">技术评审编号</label>
+                            <input type="number" class="form-control" id="reviewTecNum" placeholder="技术评审编号" value="00001" disabled>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecClass">采购分类</label>
+                            <input type="text" class="form-control" id="reviewTecClass" placeholder="采购分类">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecDept">编制部门</label>
+                            <input type="text" class="form-control" id="reviewTecDept" placeholder="编制部门">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecMember">编制人员</label>
+                            <input type="text" class="form-control" id="reviewTecMember" placeholder="编制人员">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecDate">评审日期</label>
+                            <input type="date" class="form-control" id="reviewTecDate" placeholder="评审日期">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecPara">招标参数</label>
+                            <input type="text" class="form-control" id="reviewTecPara" placeholder="招标参数">
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewTecSuplier">投标商</label>
+                            <input type="hidden" class="form-control" id="reviewTecSuplier"> |
+                            <a id="tecSuplierModalShow" href="#">[ 投标商1 / 投标商2 / 投标商3 ]</a>
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewTecAdvice">评审意见</label>
+                            <textarea id="reviewTecAdvice" class="form-control" placeholder="评审意见"></textarea>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 clearfix">
+                          <button type="submit" class="btn btn-success pull-right">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="reviewHeadingTwo">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#reviewAccordion" href="#reviewCollapseTwo" aria-expanded="false" aria-controls="reviewCollapseTwo">
+                      价格评审
+                    </a>
+                  </h4>
+                </div>
+                <div id="reviewCollapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="reviewHeadingTwo">
+                  <div class="panel-body">
+                    <form>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceNum">价格评审编号</label>
+                            <input type="number" class="form-control" id="reviewPriceNum" placeholder="技术评审编号" value="00001" disabled>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceDept">编制部门</label>
+                            <input type="text" class="form-control" id="reviewPriceDept" placeholder="编制部门">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceMember">编制人员</label>
+                            <input type="text" class="form-control" id="reviewPriceMember" placeholder="编制人员">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceDate">评审日期</label>
+                            <input type="date" class="form-control" id="reviewPriceDate" placeholder="评审日期">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceAnnounce">唱标人</label>
+                            <input type="text" class="form-control" id="reviewPriceAnnounce" placeholder="唱标人">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceRecord">记录人</label>
+                            <input type="text" class="form-control" id="reviewPriceRecord" placeholder="记录人">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceSupervice">监标人</label>
+                            <input type="text" class="form-control" id="reviewPriceSupervice" placeholder="监标人">
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewPriceSuplier">投标商</label>
+                            <input type="hidden" class="form-control" id="reviewPriceSuplier"> |
+                            <a id="priceSuplierModalShow" href="#">[ 投标商1 / 投标商2 / 投标商3 ]</a>
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewPriceAdvice">评审意见</label>
+                            <textarea id="reviewPriceAdvice" class="form-control" placeholder="评审意见"></textarea>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 clearfix">
+                          <button type="submit" class="btn btn-success pull-right">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="reviewHeadingThree">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#reviewAccordion" href="#reviewCollapseThree" aria-expanded="false" aria-controls="reviewCollapseThree">
+                      综合评审
+                    </a>
+                  </h4>
+                </div>
+                <div id="reviewCollapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="reviewHeadingThree">
+                  <div class="panel-body">
+                    <form>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewAllNum">综合评审编号</label>
+                            <input type="number" class="form-control" id="reviewAllNum" placeholder="综合评审编号" value="00001" disabled>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewAllClass">采购形式</label>
+                            <input type="text" class="form-control" id="reviewAllClass" placeholder="采购形式">
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewAllAdvice">风险分析及推荐意见</label>
+                            <textarea id="reviewAllAdvice" class="form-control" placeholder="风险分析及推荐意见"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">谈判商</div>
+                        <div class="panel-body">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="reviewAllSuplier">供应商信息</label>
+                              <input type="text" class="form-control" id="reviewAllSuplier" placeholder="供应商信息">
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="reviewAllPriceBef">预中标价格</label>
+                              <input type="text" class="form-control" id="reviewAllPriceBef" placeholder="预中标价格">
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="reviewAllPriceAft">谈判后价格</label>
+                              <input type="text" class="form-control" id="reviewAllPriceAft" placeholder="谈判后价格">
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label for="reviewAllChange">商务、技术变更</label>
+                              <textarea id="reviewAllChange" class="form-control" placeholder="商务、技术变更"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top: 15px">
+                        <div class="col-sm-12 clearfix">
+                          <button type="submit" class="btn btn-success pull-right">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 技术评审投标商 -->
+    <div class="modal fade" id="tecSuplierModal" tabindex="-1" role="dialog" aria-labelledby="tecSuplierModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="tecSuplierModalLabel">投标商</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-sm-2">
+                  <label>投标商名称</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>供货范围</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>技术差异</label>
+                </div>
+                <div class="col-sm-4">
+                  <label>主要技术参数和特点</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>技术评审意见</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-4">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-4">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-4">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+            </form>
+            <div class="clearfix" style="margin-top: 15px;">
+              <button class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-success">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 价格评审投标商 -->
+    <div class="modal fade" id="priceSuplierModal" tabindex="-1" role="dialog" aria-labelledby="priceSuplierModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="priceSuplierModalLabel">投标商</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-sm-2">
+                  <label>投标商名称</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>一次报价</label>
+                </div>
+                <div class="col-sm-3">
+                  <label>一次报价备注</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>澄清价格</label>
+                </div>
+                <div class="col-sm-3">
+                  <label>澄清价格备注</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+            </form>
+            <div class="clearfix" style="margin-top: 15px;">
+              <button class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-success">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

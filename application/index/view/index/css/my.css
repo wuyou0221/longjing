@@ -1,0 +1,146 @@
+body {
+  background: #E7E8EB;
+}
+
+header {
+  background: #FFF;
+  box-shadow: 0 1px 2px rgba(150, 150, 150, 0.3);
+  border-top: 4px #1E2E36 solid;
+}
+
+header > .container-fluid {
+  max-width: 1200px;
+}
+
+header h1 {
+  display: inline-block;
+}
+
+.user {
+  height: 70px;
+  line-height: 70px;
+  float: right;
+}
+
+.user-icon {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.user-info {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1.2;
+  height: 40px;
+}
+
+#pageBody {
+  margin-top: 40px;
+  max-width: 1200px;
+  background: #FFF;
+  box-shadow: 1px 1px 5px #ccc;
+}
+
+#slidebar {
+  background: #1E2E36;
+  padding: 0;
+}
+
+#slidebar > ul > li > a {
+  border-radius: 0;
+  color: #FFF;
+}
+
+#slidebar > ul > li > a:focus,  #slidebar > ul > li > a:hover{
+  background: #1C2327;
+}
+
+#slidebar > ul > li.active > a, #slidebar > ul > li.active > a:focus, #slidebar > ul > li.active > a:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+#slidebar > ul > li.divider {
+  height: 2px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #1C2327;
+}
+
+#slidebar .glyphicon {
+  margin-right: 20px;
+}
+
+#slidebar .well {
+  padding: 10px 19px;
+  margin-bottom: 0;
+}
+
+#welcome {
+  margin-top: 30px;
+  margin-bottom: 70px;
+  padding: 20px;
+}
+
+.content-list {
+  margin-top: 20px;
+}
+
+.content-list thead {
+  background: #F5F5F5;
+}
+
+a[data-toggle="dropdown"] {
+  color: #000;
+}
+
+a[data-toggle="dropdown"]:hover {
+  text-decoration: none;
+}
+
+footer {
+  height: 60px;
+  margin: 50px 0 0;
+  line-height: 60px;
+  background: #B8B9B9;
+  color: #FFF;
+  text-align: center;
+  word-spacing: 8px;
+  font-size: 12px;
+}
+
+footer > a, footer > a:hover {
+  color: #FFF;
+  word-spacing: 0;
+}
+
+footer > span {
+  word-spacing: 0;
+}
+
+#tecSuplierModal .row {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+#priceSuplierModal .row {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.login-bg {
+  background-image: url(../image/login-bg.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.login-bar {
+  background: rgba(255,255,255,0.7);
+}
+
+.login-input {
+  margin: 20px 0;
+}

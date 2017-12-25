@@ -1,0 +1,213 @@
+API
+
+*************************************
+接口：user/login
+功能：登录
+方式：post
+发送：
+  userID=20170001
+& password=123456
+返回：
+  {
+    "error":0,
+    "msg":"登录成功！"
+  }
+
+*************************************
+接口：user/logout
+功能：注销
+方式：get
+发送：空
+返回：
+  {
+    "error":0,
+    "msg":"已注销！"
+  }
+
+*************************************
+接口：user/getInfo
+功能：获取用户信息
+方式：get
+发送：空
+返回：
+  {
+    "error":0,
+    "userID":"20170001",
+    "userName":"宇思",
+    "headUrl":"http://yusi97.cn",
+    "status":"管理员"    //用户权限（部门）：项目部、采购部、招标办、领导等
+  }
+
+*************************************
+接口：project/get
+功能：获取当前用户关联的项目（普通用户只能看到自己创建的，领导可看到全部项目）
+方式：get
+发送：空
+返回：
+  {
+    "error":0,
+    "page":1,    //页码
+    "total":8,   //总页码
+    "content":[
+      {
+        "ID":"00001",
+        "name":"name",
+        "manager":"managerName",
+        "state":"待审核",
+      },
+      {
+        "ID":"00002",
+        "name":"name",
+        "manager":"managerName",
+        "state":"待审核",
+      }
+    ]
+  }
+
+*************************************
+接口：project/edit
+功能：新建/修改项目
+方式：post
+发送：
+  ID=00001             //为空则新建项目，系统生成ID
+& name=项目名称
+& code=XM123           //项目代号
+& type=项目类型
+& product=CP001,CP002  //产品代号(数组)
+& manager=项目经理
+& manager2=现场经理
+& customer=客户
+& place=项目所在地
+& delivery=项目交货信息
+& address=项目交货地址
+& receive=收货人
+& phone=15888888888    //收货人电话
+& tip=备注
+返回：
+  {
+    "error":0,
+    "msg":"OK!"
+  }
+
+*************************************
+接口：project/getDetail
+功能：获取项目的详细信息
+方式：get
+发送：
+  ID=00001
+返回：
+  {
+    "error":"0",
+    "content":{
+      "ID":"00001",
+      "name":"项目名称",
+      "code":"XM123",
+      "type":"项目类型",
+      "product":[
+        {
+          "productID":"CP001",  //产品ID
+          "name":"产品名称"
+        },
+        {
+          "productID":"CP002",
+          "name":"产品名称"
+        }
+      ],
+      "manager":"项目经理",
+      "manager2":"现场经理",
+      "customer":"客户",
+      "place":"项目所在地",
+      "delivery":"项目交货信息",
+      "address":"项目交货地址",
+      "receive":"收货人",
+      "phone":"15888888888",
+      "tip":"备注"
+    }
+  }
+
+*************************************
+接口：product/edit
+功能：新建/修改明细产品
+方式：post
+发送：
+  ID=00001         //项目ID
+& productID=CP001  //产品ID，为空则新建
+& name=名称
+& type=型号
+& sum=3       //数量
+& tip=备注
+返回：
+  {
+    "error":0,
+    "msg":"OK"
+  }
+
+*************************************
+接口：product/getDetail
+功能：获取明细产品
+方式：get
+发送：
+  productID=CP001
+返回：
+  {
+    "ID":"00001",
+    "productID":"CP001",
+    "name":"名称",
+    "type":"型号",
+    "sum":3,
+    "tip":"备注"
+  }
+
+*************************************
+接口：project/getProcess
+功能：获取项目审批流程
+方式：get
+发送：
+  ID=00001
+返回：
+  {
+    "error":0,
+    "process":1,  //用数字表示进行到第几步
+    "history":[
+      {
+        "operation":"修改项目",
+        "operator":"宇思",
+        "time":"2017-02-23 17:21",
+        "advice":"修改意见"
+      },
+      {
+        "operation":"修改项目",
+        "operator":"宇思",
+        "time":"2017-02-23 17:21",
+        "advice":"修改意见"
+      }
+    ]
+  }
+
+*************************************
+接口：project/search
+功能：搜索项目
+方式：get
+发送：
+  name=项目名称
+& status=状态
+返回：
+  {
+    "error":0,
+    "page":1,    //页码
+    "total":8,   //总页码
+    "content":[
+      {
+        "ID":"00001",
+        "name":"name",
+        "manager":"managerName",
+        "state":"待审核",
+      },
+      {
+        "ID":"00002",
+        "name":"name",
+        "manager":"managerName",
+        "state":"待审核",
+      }
+    ]
+  }
