@@ -20,7 +20,8 @@ return [
         '' => ['index/Api/test', ['method' => 'get']]
     ],
     '[api]' => [
-        'login' => ['index/Api/login', ['method' => 'get']]
+        'user/login' => ['index/Api/login', ['method' => 'post']],
+        '__miss__' => ['index/Index/index', ['method' => 'get']]
     ],
     '[login]' => [
     	'' => ['index/Index/login', ['method' => 'get']]
