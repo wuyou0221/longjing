@@ -15,15 +15,21 @@ class Api extends \think\Controller
     public function login()
     {
         $request = Request::instance();
-        if(!$request->has('userid','get')) {
-            return 'error1!';
+        if(!$request->has('userid','post')) {
+            return json([
+                'code' => 1003,
+                'message' => '用户名不能为空！'
+            ]);
         }
-        if(!$request->has('password','get')) {
-            return 'error2!';
+        if(!$request->has('password','post')) {
+            return json([
+                'code' => 1004,
+                'message' => '密码不能为空！'
+            ]);
         }
 
-        $userid = intval($request->get('userid'));
-        $password = $request->get('password');
+        $userid = intval($request->post('userid'));
+        $password = $request->post('password');
 
         $user = new User;
         $user_info = $user->field('user_login_password')->where('user_login_id', $userid)->find();
