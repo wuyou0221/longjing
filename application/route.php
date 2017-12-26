@@ -16,6 +16,12 @@ return [
      '[]' => [
     	'' => ['index/Index/index', ['method' => 'get']]
     ],
+    '[test]' => [
+        '' => ['index/Api/test', ['method' => 'get']]
+    ],
+    '[api]' => [
+        'login' => ['index/Api/login', ['method' => 'get']]
+    ],
     '[login]' => [
     	'' => ['index/Index/login', ['method' => 'get']]
     ],

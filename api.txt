@@ -5,7 +5,7 @@ API
 功能：登录
 方式：post
 发送：
-  userID=20170001
+  userid=20170001
 & password=123456
 返回：
   {
