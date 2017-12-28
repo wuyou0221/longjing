@@ -8,14 +8,15 @@ class Index extends \think\Controller
     public function index()
     {
         Session::set('userid','1');
-        return $this->fetch('index', ['name' => Session::get('name')]);
+        $this->view->engine->layout('index/main_layout');
+        return $this->fetch('index', ['name' => '1', 'class_list' => ['active','','','','','','','','','']]);
     }
 
     public function login()
     {
      //    Session::set('name','thinkphp');
     	// return 'login';
-        return $this->fetch('login', ['name' => Session::get('name')]);
+        return $this->fetch('header', ['name' => Session::get('name')]).$this->fetch('login', ['name' => Session::get('name')]);
     }
 
     public function purchase()
@@ -24,7 +25,8 @@ class Index extends \think\Controller
     }
     public function project()
     {
-        return $this->fetch('project', ['name' => Session::get('name')]);
+        $this->view->engine->layout('index/main_layout');
+        return $this->fetch('project', ['name' => '1', 'class_list' => ['','active','','','','','','','','']]);
     }
     public function tender()
     {

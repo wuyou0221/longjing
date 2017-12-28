@@ -10,7 +10,7 @@ class Api extends \think\Controller
     public function index()
     {
         Session::set('userid','1');
-        return $this->fetch('index', ['name' => Session::get('name')]);
+        return $this->fetch('index', ['name' => '管理员']);
     }
 
     public function login()
@@ -42,7 +42,7 @@ class Api extends \think\Controller
         } else {
             return json([
                 'code' => 1002,
-                'message' => '登录失败！'
+                'message' => '用户名或密码错误！'
             ]);
         }
     }
