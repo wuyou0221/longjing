@@ -7,6 +7,7 @@ class Index extends \think\Controller
 {
     public function index()
     {
+        Session::set('userid','1');
         return $this->fetch('index', ['name' => Session::get('name')]);
     }
 

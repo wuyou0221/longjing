@@ -22,6 +22,7 @@ return [
     '[api]' => [
         'user/login' => ['index/Api/login', ['method' => 'post']],
         'user/logout' => ['index/Api/logout', ['method' => 'get']],
+        'user/getInfo' => ['index/Api/get_info', ['method' => 'get']],
         '__miss__' => ['index/Index/index', ['method' => 'get']]
     ],
     '[login]' => [

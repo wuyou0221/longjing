@@ -31,11 +31,13 @@ API
 发送：空
 返回：
   {
-    "error":0,
-    "userID":"20170001",
-    "userName":"宇思",
-    "headUrl":"http://yusi97.cn",
-    "status":"管理员"    //用户权限（部门）：项目部、采购部、招标办、领导等
+    "code" : 1021,
+    "message" : "获取用户信息成功！",
+    "user_login_id" : 20170001,
+    "user_name" : "宇思",
+    "user_permission" : 0,  //权限
+    "user_post" : 0,  //职称
+    "user_head_url" : "https:\/\/avatars0.githubusercontent.com\/u\/17042911?s=460&v=4"
   }
 
 *************************************

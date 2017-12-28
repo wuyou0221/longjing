@@ -9,6 +9,7 @@ class Api extends \think\Controller
 {
     public function index()
     {
+        Session::set('userid','1');
         return $this->fetch('index', ['name' => Session::get('name')]);
     }
 
@@ -56,6 +57,24 @@ class Api extends \think\Controller
 
     public function get_info()
     {
+        if(!Session::has('userid')) {
+            return json([
+                'code' => 1022,
+                'message' => '获取用户信息失败！'
+            ]);
+        }
+        $userid = Session::get('userid');
+        $user = new User;
+        $user_info = $user->field('user_login_id,user_name,user_permission_id,user_post_id,user_head_url')->where('user_id', $userid)->find();
+        return json([
+            'code' => 1021,
+            'message' => '获取用户信息成功！',
+            'user_login_id' => $user_info['user_login_id'],
+            'user_name' => $user_info['user_name'],
+            'user_permission' => $user_info['user_permission_id'],
+            'user_post' => $user_info['user_post_id'],
+            'user_head_url' => $user_info['user_head_url']
+        ]);
         
     }
 
@@ -66,6 +85,6 @@ class Api extends \think\Controller
 
     public function test()
     {
-        
+        var_dump(Session::get('userid'));
     }
 }
