@@ -1,0 +1,120 @@
+    <!-- 项目详细 -->
+    <div class="modal fade" id="projectDetailModal" tabindex="-1" role="dialog" aria-labelledby="projectDetailModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="projectDetailModalLabel">项目详情</h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-success" role="alert">项目已通过审批</div>
+            <form>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectNum">项目编号</label>
+                    <input type="number" disabled class="form-control" id="projectNum" name="ID" placeholder="项目编号" value="00001">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectName">项目名称</label>
+                    <input type="text" class="form-control" id="projectName" name="name" placeholder="项目名称">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectCode">项目代号</label>
+                    <input type="text" class="form-control" id="projectCode" name="code" placeholder="项目代号">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectType">项目类型</label>
+                    <input type="text" class="form-control" id="projectType" name="type" placeholder="项目类型">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>明细产品</label>
+                    <input type="hidden" class="form-control" name="product" value=""><br>
+                    <p class="help-block">点击产品以查看详情</p>
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-default product-detail" data-name="产品1"">产品1</button>
+                      <button type="button" class="btn btn-danger delProduct"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-default product-detail" data-name="产品2">产品2</button>
+                      <button type="button" class="btn btn-danger delProduct"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <button type="button" class="btn btn-info product-detail" data-name="new"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectManager">项目经理</label>
+                    <select class="form-control" id="projectManager">
+                      <option>A</option>
+                      <option>B</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectSiteManager">现场经理</label>
+                    <input type="text" class="form-control" id="projectSiteManager" name="manager2" placeholder="现场经理">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectCustomer">客户</label>
+                    <input type="text" class="form-control" id="projectCustomer" name="customer" placeholder="客户">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectPlace">项目所在地</label>
+                    <input type="text" class="form-control" id="projectPlace" name="place" placeholder="项目所在地">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectDelivery">项目交货信息</label>
+                    <input type="text" class="form-control" id="projectDelivery" name="delivery" placeholder="项目交货信息">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectAddress">项目交货地址</label>
+                    <input type="text" class="form-control" id="projectAddress" name="address" placeholder="项目交货地址">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectReceive">收货人</label>
+                    <input type="text" class="form-control" id="projectReceive" name="receive" placeholder="收货人">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectPhone">收货人电话</label>
+                    <input type="text" class="form-control" id="projectPhone" name="phone" placeholder="收货人电话">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectTip">备注</label>
+                    <input type="text" class="form-control" id="projectTip" name="tip" placeholder="备注">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary">保存修改</button>
+          </div>
+        </div>
+      </div>
+    </div>
+

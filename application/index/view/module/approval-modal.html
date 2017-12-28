@@ -1,0 +1,49 @@
+    <!-- 审批 -->
+    <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="approvalModalLabel">审批内容</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="approvalName">名称</label>
+                  <input type="text" class="form-control" id="approvalName" placeholder="名称" disabled>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="approvalType">类型</label>
+                  <input type="text" class="form-control" id="approvalType" placeholder="类型" disabled>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-danger">
+              <div class="panel-heading">操作</div>
+              <div class="panel-body">
+                <form class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <label for="adviceProject">审批意见</label>
+                      <textarea class="form-control" id="adviceProject" placeholder="请输入审批意见"></textarea>
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-3 col-sm-offset-6">
+                    <button class="btn btn-warning btn-block">退回</button>
+                  </div>
+                  <div class="col-xs-6 col-sm-3">
+                    <button class="btn btn-success btn-block">通过</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>

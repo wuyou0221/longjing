@@ -1,0 +1,413 @@
+    <!-- 评审 -->
+    <div class="modal fade" id="tenderReviewModal" tabindex="-1" role="dialog" aria-labelledby="tenderReviewModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="tenderReviewModalLabel">评审</h4>
+          </div>
+          <div class="modal-body">
+            <div class="panel-group" id="reviewAccordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="reviewHeadingOne">
+                  <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#reviewAccordion" href="#reviewCollapseOne" aria-expanded="true" aria-controls="reviewCollapseOne">
+                      技术评审
+                    </a>
+                  </h4>
+                </div>
+                <div id="reviewCollapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="reviewHeadingOne">
+                  <div class="panel-body">
+                    <form>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecNum">技术评审编号</label>
+                            <input type="number" class="form-control" id="reviewTecNum" placeholder="技术评审编号" value="00001" disabled>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecClass">采购分类</label>
+                            <input type="text" class="form-control" id="reviewTecClass" placeholder="采购分类">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecDept">编制部门</label>
+                            <input type="text" class="form-control" id="reviewTecDept" placeholder="编制部门">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecMember">编制人员</label>
+                            <input type="text" class="form-control" id="reviewTecMember" placeholder="编制人员">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecDate">评审日期</label>
+                            <input type="date" class="form-control" id="reviewTecDate" placeholder="评审日期">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewTecPara">招标参数</label>
+                            <input type="text" class="form-control" id="reviewTecPara" placeholder="招标参数">
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewTecSuplier">投标商</label>
+                            <input type="hidden" class="form-control" id="reviewTecSuplier"> |
+                            <a id="tecSuplierModalShow" href="#">[ 投标商1 / 投标商2 / 投标商3 ]</a>
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewTecAdvice">评审意见</label>
+                            <textarea id="reviewTecAdvice" class="form-control" placeholder="评审意见"></textarea>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 clearfix">
+                          <button type="submit" class="btn btn-success pull-right">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="reviewHeadingTwo">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#reviewAccordion" href="#reviewCollapseTwo" aria-expanded="false" aria-controls="reviewCollapseTwo">
+                      价格评审
+                    </a>
+                  </h4>
+                </div>
+                <div id="reviewCollapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="reviewHeadingTwo">
+                  <div class="panel-body">
+                    <form>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceNum">价格评审编号</label>
+                            <input type="number" class="form-control" id="reviewPriceNum" placeholder="技术评审编号" value="00001" disabled>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceDept">编制部门</label>
+                            <input type="text" class="form-control" id="reviewPriceDept" placeholder="编制部门">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceMember">编制人员</label>
+                            <input type="text" class="form-control" id="reviewPriceMember" placeholder="编制人员">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceDate">评审日期</label>
+                            <input type="date" class="form-control" id="reviewPriceDate" placeholder="评审日期">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceAnnounce">唱标人</label>
+                            <input type="text" class="form-control" id="reviewPriceAnnounce" placeholder="唱标人">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceRecord">记录人</label>
+                            <input type="text" class="form-control" id="reviewPriceRecord" placeholder="记录人">
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewPriceSupervice">监标人</label>
+                            <input type="text" class="form-control" id="reviewPriceSupervice" placeholder="监标人">
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewPriceSuplier">投标商</label>
+                            <input type="hidden" class="form-control" id="reviewPriceSuplier"> |
+                            <a id="priceSuplierModalShow" href="#">[ 投标商1 / 投标商2 / 投标商3 ]</a>
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewPriceAdvice">评审意见</label>
+                            <textarea id="reviewPriceAdvice" class="form-control" placeholder="评审意见"></textarea>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 clearfix">
+                          <button type="submit" class="btn btn-success pull-right">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="reviewHeadingThree">
+                  <h4 class="panel-title">
+                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#reviewAccordion" href="#reviewCollapseThree" aria-expanded="false" aria-controls="reviewCollapseThree">
+                      综合评审
+                    </a>
+                  </h4>
+                </div>
+                <div id="reviewCollapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="reviewHeadingThree">
+                  <div class="panel-body">
+                    <form>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewAllNum">综合评审编号</label>
+                            <input type="number" class="form-control" id="reviewAllNum" placeholder="综合评审编号" value="00001" disabled>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="reviewAllClass">采购形式</label>
+                            <input type="text" class="form-control" id="reviewAllClass" placeholder="采购形式">
+                          </div>
+                        </div>
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="reviewAllAdvice">风险分析及推荐意见</label>
+                            <textarea id="reviewAllAdvice" class="form-control" placeholder="风险分析及推荐意见"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading">谈判商</div>
+                        <div class="panel-body">
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="reviewAllSuplier">供应商信息</label>
+                              <input type="text" class="form-control" id="reviewAllSuplier" placeholder="供应商信息">
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="reviewAllPriceBef">预中标价格</label>
+                              <input type="text" class="form-control" id="reviewAllPriceBef" placeholder="预中标价格">
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label for="reviewAllPriceAft">谈判后价格</label>
+                              <input type="text" class="form-control" id="reviewAllPriceAft" placeholder="谈判后价格">
+                            </div>
+                          </div>
+                          <div class="col-sm-12">
+                            <div class="form-group">
+                              <label for="reviewAllChange">商务、技术变更</label>
+                              <textarea id="reviewAllChange" class="form-control" placeholder="商务、技术变更"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top: 15px">
+                        <div class="col-sm-12 clearfix">
+                          <button type="submit" class="btn btn-success pull-right">提交</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 技术评审投标商 -->
+    <div class="modal fade" id="tecSuplierModal" tabindex="-1" role="dialog" aria-labelledby="tecSuplierModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="tecSuplierModalLabel">投标商</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-sm-2">
+                  <label>投标商名称</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>供货范围</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>技术差异</label>
+                </div>
+                <div class="col-sm-4">
+                  <label>主要技术参数和特点</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>技术评审意见</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-4">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-4">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-4">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+            </form>
+            <div class="clearfix" style="margin-top: 15px;">
+              <button class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-success">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 价格评审投标商 -->
+    <div class="modal fade" id="priceSuplierModal" tabindex="-1" role="dialog" aria-labelledby="priceSuplierModalLabel">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="priceSuplierModalLabel">投标商</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-sm-2">
+                  <label>投标商名称</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>一次报价</label>
+                </div>
+                <div class="col-sm-3">
+                  <label>一次报价备注</label>
+                </div>
+                <div class="col-sm-2">
+                  <label>澄清价格</label>
+                </div>
+                <div class="col-sm-3">
+                  <label>澄清价格备注</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-2">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-sm-3">
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+              </div>
+            </form>
+            <div class="clearfix" style="margin-top: 15px;">
+              <button class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-success">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>

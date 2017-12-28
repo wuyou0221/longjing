@@ -1,0 +1,66 @@
+    <!-- 明细产品 -->
+    <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="productModalLabel">明细产品</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="productNum">产品编号</label>
+                    <input type="number" disabled class="form-control" id="productNum" name="productID" placeholder="产品编号" value="00001">
+                  </div>
+                </div>
+                <div class="col-sm-6" >
+                  <div class="dropdown">
+                    <a id="itemList" role="button" data-toggle="dropdown">
+                      <div class="form-group">
+                        <label for="productName">名称</label>
+                        <input type="text" class="form-control" id="productName" name="name" placeholder="点击查找" disabled>
+                      </div>
+                    </a>
+                    <ul style="max-height: 200px; overflow-y: auto;" class="dropdown-menu" aria-labelledby="itemList">
+                      <li>
+                        <div class="input-group">
+                          <input type="text" class="form-control search-item" placeholder="名称">
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                        </div>
+                      </li>
+                      <li><a class="item-single" href="#">Another action</a></li>
+                      <li><a class="item-single" href="#">Something else here</a></li>
+                      <li><a class="item-single" href="#">Separated link</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="productType">型号</label>
+                    <input type="text" class="form-control" id="productType" name="type" placeholder="型号">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="productSum">数量</label>
+                    <input type="number" class="form-control" id="productSum" name="sum" placeholder="数量">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="productTip">备注</label>
+                    <input type="text" class="form-control" id="productTip" name="tip" placeholder="备注">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" id="addProductOver" class="btn btn-primary">添加</button>
+          </div>
+        </div>
+      </div>
+    </div>

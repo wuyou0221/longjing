@@ -1,0 +1,93 @@
+    <!-- 用印详细 -->
+    <div class="modal fade" id="signetDetailModal" tabindex="-1" role="dialog" aria-labelledby="signetDetailModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="signetDetailModalLabel">用印申请详情</h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-success" role="alert">申请已通过审批</div>
+            <form>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="signetNum">用印申请编号</label>
+                    <input type="number" disabled class="form-control" id="signetNum" placeholder="用印申请编号" value="00001">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="dropdown">
+                    <a id="projectListsignet" role="button" data-toggle="dropdown">
+                      <div class="form-group">
+                        <label for="signetCompact">关联合同</label>
+                        <input type="text" class="form-control" id="signetCompact" placeholder="点击选择" disabled>
+                      </div>
+                    </a>
+                    <ul style="max-height: 200px; overflow-y: auto;" class="dropdown-menu" aria-labelledby="compactList">
+                      <li><a class="item-single" href="#">Another action</a></li>
+                      <li><a class="item-single" href="#">Something else here</a></li>
+                      <li><a class="item-single" href="#">Separated link</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="signetDept">用印部门</label>
+                    <input type="text" class="form-control" id="signetDept" placeholder="用印部门">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="signetPerson">申请人</label>
+                    <input type="text" class="form-control" id="signetPersonr" placeholder="申请人">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="signetType">印章类型</label>
+                    <select class="form-control" id="signetType">
+                      <option>公司章</option>
+                      <option>法人章</option>
+                      <option>合同专用章</option>
+                      <option>其他章</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="signetPriceSum">合同总价</label>
+                    <input type="text" class="form-control" id="signetPriceSum" placeholder="合同总价">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="signetPayWay">付款方式</label>
+                    <input type="text" class="form-control" id="signetPayWay" placeholder="付款方式">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="signetTip">备注</label>
+                    <input type="text" class="form-control" id="signetTip" placeholder="备注">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="signetApprover">审批人</label>
+                    <select class="form-control" id="signetApprover">
+                      <option>A</option>
+                      <option>B</option>
+                    </select>
+                  </div>
+                </div>
+              </div>          
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary">保存修改</button>
+          </div>
+        </div>
+      </div>
+    </div>

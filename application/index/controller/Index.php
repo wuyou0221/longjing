@@ -20,28 +20,27 @@ class Index extends \think\Controller
 
     public function purchase()
     {
-    	return $this->fetch('purchase', ['name' => Session::get('name')]);
+    	return $this->fetch('purchase', ['name' => '1', 'class_list' => ['','','active','','','','','','','']]);
     }
     public function project()
     {
-        $this->view->engine->layout('index/main_layout');
         return $this->fetch('project', ['name' => '1', 'class_list' => ['','active','','','','','','','','']]);
     }
     public function tender()
     {
-        return $this->fetch('tender', ['name' => Session::get('name')]);
+        return $this->fetch('tender', ['name' => '1', 'class_list' => ['','','','active','','','','','','']]);
     }
     public function compact()
     {
-        return $this->fetch('compact', ['name' => Session::get('name')]);
+        return $this->fetch('compact', ['name' => '1', 'class_list' => ['','','','','active','','','','','']]);
     }
     public function signet()
     {
-        return $this->fetch('signet', ['name' => Session::get('name')]);
+        return $this->fetch('signet', ['name' => '1', 'class_list' => ['','','','','','active','','','','']]);
     }
     public function approval()
     {
-        return $this->fetch('approval', ['name' => Session::get('name')]);
+        return $this->fetch('approval', ['name' => '1', 'class_list' => ['','','','','','','active','','','']]);
     }
 
 

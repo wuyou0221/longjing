@@ -1,0 +1,102 @@
+    <!-- 合同详细 -->
+    <div class="modal fade" id="compactDetailModal" tabindex="-1" role="dialog" aria-labelledby="compactDetailModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="compactDetailModalLabel">合同详情</h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-success" role="alert">合同已通过审批</div>
+            <form>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="compactNum">合同编号</label>
+                    <input type="number" disabled class="form-control" id="compactNum" placeholder="合同编号" value="00001">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="dropdown">
+                    <a id="projectListCompact" role="button" data-toggle="dropdown">
+                      <div class="form-group">
+                        <label for="compactTender">关联招标申请</label>
+                        <input type="text" class="form-control" id="compactTender" placeholder="点击选择" disabled>
+                      </div>
+                    </a>
+                    <ul style="max-height: 200px; overflow-y: auto;" class="dropdown-menu" aria-labelledby="tenderList">
+                      <li><a class="item-single" href="#">Another action</a></li>
+                      <li><a class="item-single" href="#">Something else here</a></li>
+                      <li><a class="item-single" href="#">Separated link</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="compactName">合同名称</label>
+                    <input type="text" class="form-control" id="compactName" placeholder="合同名称">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="compactSuplier">供应商</label>
+                    <input type="text" class="form-control" id="compactSuplier" placeholder="供应商">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>物料信息</label>
+                    <input type="hidden" class="form-control" disabled><br>
+                    <button type="button" class="btn btn-default product-detail" data-name="产品1"">产品1</button>
+                    <button type="button" class="btn btn-default product-detail" data-name="产品2"">产品2</button>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="compactRequire">技术要求</label>
+                    <textarea class="form-control" id="compactRequire" placeholder="技术要求"></textarea>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="compactGivenDate">交货日期</label>
+                    <input type="text" class="form-control" id="compactGivenDate" placeholder="交货日期">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="compactPriceSum">合同总价</label>
+                    <input type="text" class="form-control" id="compactPriceSum" placeholder="合同总价">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="compactPayWay">付款方式</label>
+                    <input type="text" class="form-control" id="compactPayWay" placeholder="付款方式">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="compactTip">备注</label>
+                    <input type="text" class="form-control" id="compactTip" placeholder="备注">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="compactApprover">审批人</label>
+                    <select class="form-control" id="compactApprover">
+                      <option>A</option>
+                      <option>B</option>
+                    </select>
+                  </div>
+                </div>
+              </div>          
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary">保存修改</button>
+          </div>
+        </div>
+      </div>
+    </div>
