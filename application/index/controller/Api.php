@@ -69,11 +69,11 @@ class Api extends \think\Controller
         return json([
             'code' => 1021,
             'message' => '获取用户信息成功！',
-            'user_login_id' => $user_info['user_login_id'],
-            'user_name' => $user_info['user_name'],
-            'user_permission' => $user_info['user_permission_id'],
-            'user_post' => $user_info['user_post_id'],
-            'user_head_url' => $user_info['user_head_url']
+            'userLoginId' => $user_info['user_login_id'],
+            'userName' => $user_info['user_name'],
+            'userPermission' => $user_info['user_permission_id'],
+            'userPost' => $user_info['user_post_id'],
+            'userHeadUrl' => $user_info['user_head_url']
         ]);
         
     }
