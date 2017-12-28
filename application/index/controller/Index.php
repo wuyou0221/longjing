@@ -21,6 +21,27 @@ class Index extends \think\Controller
     {
     	return $this->fetch('purchase', ['name' => Session::get('name')]);
     }
+    public function project()
+    {
+        return $this->fetch('project', ['name' => Session::get('name')]);
+    }
+    public function tender()
+    {
+        return $this->fetch('tender', ['name' => Session::get('name')]);
+    }
+    public function compact()
+    {
+        return $this->fetch('compact', ['name' => Session::get('name')]);
+    }
+    public function signet()
+    {
+        return $this->fetch('signet', ['name' => Session::get('name')]);
+    }
+    public function approval()
+    {
+        return $this->fetch('approval', ['name' => Session::get('name')]);
+    }
+
 
     public function test()
     {

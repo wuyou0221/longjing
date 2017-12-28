@@ -30,8 +30,19 @@ return [
         '' => ['index/Index/purchase', ['method' => 'get']]
     ],
     '[project]' => [
-        'new' => ['index/Project/new', ['method' => 'get'], ['new' => 'new']],
-        '__miss__' => ['index/Project/index', ['method' => 'get']]
+        '__miss__' => ['index/Index/project', ['method' => 'get']]
+    ],
+    '[tender]' => [
+        '__miss__' => ['index/Index/tender', ['method' => 'get']]
+    ],
+    '[compact]' => [
+        '__miss__' => ['index/Index/compact', ['method' => 'get']]
+    ],
+    '[signet]' => [
+        '__miss__' => ['index/Index/signet', ['method' => 'get']]
+    ],
+    '[approval]' => [
+        '__miss__' => ['index/Index/approval', ['method' => 'get']]
     ],
     '[hello]'     => [
         ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
