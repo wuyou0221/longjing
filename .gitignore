@@ -4,5 +4,4 @@ composer.lock
 *.sql
 *.log
 thinkphp
-database.php
 application/database.php
