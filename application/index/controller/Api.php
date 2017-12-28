@@ -15,7 +15,7 @@ class Api extends \think\Controller
     public function login()
     {
         $request = Request::instance();
-        if(!$request->has('userid','post')) {
+        if(!$request->has('userID','post')) {
             return json([
                 'code' => 1003,
                 'message' => '用户名不能为空！'
@@ -28,7 +28,7 @@ class Api extends \think\Controller
             ]);
         }
 
-        $userid = intval($request->post('userid'));
+        $userid = intval($request->post('userID'));
         $password = $request->post('password');
 
         $user = new User;
@@ -44,6 +44,19 @@ class Api extends \think\Controller
                 'message' => '登录失败！'
             ]);
         }
+    }
+    public function logout()
+    {
+        Session::delete('userid');
+        return json([
+            'code' => 1011,
+            'message' => '注销成功！'
+        ]);
+    }
+
+    public function get_info()
+    {
+        
     }
 
     public function purchase()
