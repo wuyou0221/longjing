@@ -8,7 +8,6 @@ class Index extends \think\Controller
     public function index()
     {
         Session::set('userid','1');
-        $this->view->engine->layout('index/main_layout');
         return $this->fetch('index', ['name' => '1', 'class_list' => ['active','','','','','','','','','']]);
     }
 
