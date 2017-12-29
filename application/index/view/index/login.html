@@ -30,16 +30,16 @@
                 <h2>登录<small>LOGIN</small></h2>
               </div>
               <div>
-                <form>
+                <form id="loginForm">
                   <div class="input-group input-group-lg login-input">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                    <input type="text" class="form-control" name="userid" placeholder="用户ID">
+                    <input type="text" class="form-control" name="userID" placeholder="用户ID">
                   </div>
                   <div class="input-group input-group-lg login-input">
                     <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
                     <input type="text" class="form-control" name="password" placeholder="密码">
                   </div>
-                  <div class="alert alert-warning" role="alert">登录中...</div>
+                  <div class="alert alert-warning" role="alert" style="display: none;">登录中...</div>
                   <div class="login-input">
                     <button type="submit" class="btn btn-success btn-lg btn-block">登录</button>
                   </div>
@@ -51,16 +51,4 @@
       </div>
     </div>
 
-    <footer>
-      <a href="#">客服人员</a> |
-      <a href="#">联系邮箱</a> |
-      <span>Copyright © 2017 LongJing<span class="hidden-xs">. All Rights Reserved.</span></span>
-    </footer>
-
-
-
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
-  </body>
-</html>
+{include file="module/footer" /}

@@ -5,12 +5,29 @@ $(function($) {
   $('#pageBody').css('min-height', bodyHeight+'px');
   $('#slidebar').css('min-height', $('#pageBody')[0].clientHeight+'px');
   $('.login-bar').css('min-height', $('#pageBody')[0].clientHeight+'px');
-  // if (window.innerWidth > 768) {
-  //   $('#slidebar').css('min-height', $('#pageBody')[0].clientHeight+'px');
-  // } else {
-  //   $('#slidebar').css('min-height', '0');
-  // }
+  if (window.innerWidth > 768) {
+    $('#slidebar').css('min-height', $('#pageBody')[0].clientHeight+'px');
+  } else {
+    $('#slidebar').css('min-height', '0');
+  }
 
+
+  // 登录
+  $('#loginForm').on('submit', function(event) {
+    event.preventDefault();
+    var alertBox = $(this).find('.alert');
+    alertBox.show();
+    $.post('api/user/login', $(this).serialize(), function(data) {
+        alertBox.text(data.message);
+        alertBox.removeClass('alert-warning alert-danger');
+        if (data.code === 1001) {
+          alertBox.addClass('alert-success');
+          setTimeout('location.href="project"', 500);
+        } else {
+          alertBox.addClass('alert-danger');
+        }
+      },'json');
+  });
 
   // 项目详情
   $('#projectDetailModal').on('show.bs.modal', function(event) {
