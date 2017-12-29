@@ -34,6 +34,12 @@ class Api extends \think\Controller
 
         $user = new User;
         $user_info = $user->field('user_login_password')->where('user_login_id', $userid)->find();
+        if($user_info === null) {
+            return json([
+                'code' => 1005,
+                'message' => '用户名或密码错误！'
+            ]);
+        }
         if($user_info['user_login_password'] == $password) {
             return json([
                 'code' => 1001,
