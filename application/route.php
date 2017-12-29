@@ -28,11 +28,11 @@ return [
     '[login]' => [
     	'' => ['index/Index/login', ['method' => 'get']]
     ],
-    '[purchase]' => [
-        '' => ['index/Index/purchase', ['method' => 'get']]
-    ],
     '[project]' => [
         '__miss__' => ['index/Index/project', ['method' => 'get']]
+    ],
+    '[purchase]' => [
+        '' => ['index/Index/purchase', ['method' => 'get']]
     ],
     '[tender]' => [
         '__miss__' => ['index/Index/tender', ['method' => 'get']]
@@ -40,11 +40,26 @@ return [
     '[compact]' => [
         '__miss__' => ['index/Index/compact', ['method' => 'get']]
     ],
+    '[urge]' => [
+        '__miss__' => ['index/Index/urge', ['method' => 'get']]
+    ],
+    '[pay]' => [
+        '__miss__' => ['index/Index/pay', ['method' => 'get']]
+    ],
     '[signet]' => [
         '__miss__' => ['index/Index/signet', ['method' => 'get']]
     ],
     '[approval]' => [
         '__miss__' => ['index/Index/approval', ['method' => 'get']]
+    ],
+    '[suplier]' => [
+        '__miss__' => ['index/Index/suplier', ['method' => 'get']]
+    ],
+    '[item]' => [
+        '__miss__' => ['index/Index/item', ['method' => 'get']]
+    ],
+    '[crm]' => [
+        '__miss__' => ['index/Index/crm', ['method' => 'get']]
     ],
     '[hello]'     => [
         ':id'   => ['index/hello', ['method' => 'get'], ['id' => '\d+']],
