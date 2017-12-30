@@ -24,21 +24,97 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
+                    <label for="projectNameAbbr">项目简称</label>
+                    <input type="text" class="form-control" id="projectNameAbbr" name="nameAbbr" placeholder="项目简称">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectType">项目类型</label>
+                    <select class="form-control" id="projectType" name="type">
+                      <option>A</option>
+                      <option>B</option>
+                      <option>C</option>
+                      <option>D</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
                     <label for="projectCode">项目代号</label>
                     <input type="text" class="form-control" id="projectCode" name="code" placeholder="项目代号">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="projectType">项目类型</label>
-                    <input type="text" class="form-control" id="projectType" name="type" placeholder="项目类型">
+                    <label for="projectAddress">项目交货地址</label>
+                    <input type="text" class="form-control" id="projectAddress" name="address" placeholder="项目交货地址">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectCompactSum">合同总额</label>
+                    <input type="text" class="form-control" id="projectCompactSum" name="compactSum" placeholder="合同总额">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectTarget">目标额</label>
+                    <input type="text" class="form-control" id="projectTarget" name="target" placeholder="目标额">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="projectPayWay">付款方式</label>
+                    <input type="text" class="form-control" id="projectPayWay" name="payWay" placeholder="付款方式">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="projectIntroduction">项目简介</label>
+                    <textarea class="form-control" id="projectIntroduction" name="introduction" placeholder="项目简介"></textarea>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>商务合同</label>
+                    <input type="hidden" name=""><br>
+                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
+                    <div class="btn-group" role="group" data-fileid="0">
+                      <a href="#" role="button" class="btn btn-default">附件1</a>
+                      <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>技术协议</label>
+                    <input type="hidden" name=""><br>
+                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
+                    <div class="btn-group" role="group" data-fileid="0">
+                      <a href="#" role="button" class="btn btn-default">附件1</a>
+                      <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>其他附件</label>
+                    <input type="hidden" name=""><br>
+                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
+                    <div class="btn-group" role="group" data-fileid="0">
+                      <a href="#" role="button" class="btn btn-default">附件1</a>
+                      <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label>明细产品</label>
                     <input type="hidden" class="form-control" name="product" value=""><br>
-                    <p class="help-block">点击产品以查看详情</p>
                     <div class="btn-group" role="group">
                       <button type="button" class="btn btn-default product-detail" data-name="产品1"">产品1</button>
                       <button type="button" class="btn btn-danger delProduct"><span class="glyphicon glyphicon-remove"></span></button>
@@ -53,40 +129,25 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="projectManager">项目经理</label>
-                    <select class="form-control" id="projectManager">
-                      <option>A</option>
-                      <option>B</option>
-                    </select>
+                    <input type="text" class="form-control" id="projectManager" name="manager" placeholder="姓名 / 电话">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="projectSiteManager">现场经理</label>
-                    <input type="text" class="form-control" id="projectSiteManager" name="manager2" placeholder="现场经理">
+                    <label for="projectSiteManager">施工经理</label>
+                    <input type="text" class="form-control" id="projectSiteManager" name="manager2" placeholder="姓名 / 电话">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="projectCustomer">客户</label>
-                    <input type="text" class="form-control" id="projectCustomer" name="customer" placeholder="客户">
+                    <label for="projectDesginManager">设计经理</label>
+                    <input type="text" class="form-control" id="projectDesginManager" name="manager3" placeholder="姓名 / 电话">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="projectPlace">项目所在地</label>
-                    <input type="text" class="form-control" id="projectPlace" name="place" placeholder="项目所在地">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="projectDelivery">项目交货信息</label>
-                    <input type="text" class="form-control" id="projectDelivery" name="delivery" placeholder="项目交货信息">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="projectAddress">项目交货地址</label>
-                    <input type="text" class="form-control" id="projectAddress" name="address" placeholder="项目交货地址">
+                    <label for="projectPurchaseManager">采购经理</label>
+                    <input type="text" class="form-control" id="projectPurchaseManager" name="manager4" placeholder="姓名 / 电话">
                   </div>
                 </div>
                 <div class="col-sm-6">
@@ -95,10 +156,28 @@
                     <input type="text" class="form-control" id="projectReceive" name="receive" placeholder="收货人">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="projectPhone">收货人电话</label>
-                    <input type="text" class="form-control" id="projectPhone" name="phone" placeholder="收货人电话">
+                    <label>项目计划</label>
+                    <input type="hidden" name=""><br>
+                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
+                    <div class="btn-group" role="group" data-fileid="0">
+                      <a href="#" role="button" class="btn btn-default">附件1</a>
+                      <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>采购计划</label>
+                    <input type="hidden" name=""><br>
+                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
+                    <div class="btn-group" role="group" data-fileid="0">
+                      <a href="#" role="button" class="btn btn-default">附件1</a>
+                      <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
                 <div class="col-sm-6">

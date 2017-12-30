@@ -70,7 +70,6 @@ $(function($) {
     }
     // 弹出新的model
     var fatherModal = $(this).parents('.modal');
-    console.log(fatherModal);
     fatherModal.modal('hide');
     fatherModal.on('hidden.bs.modal', function() {  // 动画完成之后再弹出新的模态框
       $('#productModal').modal('show');
@@ -111,7 +110,6 @@ $(function($) {
   $('#tecSuplierModalShow').on('click', function() {
     // 弹出新的model
     var fatherModal = $(this).parents('.modal');
-    console.log(fatherModal);
     fatherModal.modal('hide');
     fatherModal.on('hidden.bs.modal', function() {  // 动画完成之后再弹出新的模态框
       $('#tecSuplierModal').modal('show');
@@ -127,7 +125,6 @@ $(function($) {
   $('#priceSuplierModalShow').on('click', function() {
     // 弹出新的model
     var fatherModal = $(this).parents('.modal');
-    console.log(fatherModal);
     fatherModal.modal('hide');
     fatherModal.on('hidden.bs.modal', function() {  // 动画完成之后再弹出新的模态框
       $('#priceSuplierModal').modal('show');
@@ -139,33 +136,72 @@ $(function($) {
     });
   });
 
+
+  // 上传附件
+  $('.upload-file').on('click', function() {
+    // 添加文件上传input
+    if ($(':file').length === 0) {
+      $('body').append('<input type="file" name="file" style="display:none;">')
+    }
+    var fileInput = $(':file').first();
+    fileInput.click();
+
+    var thisButton = $(this);
+    var thisAlert = thisButton.prevAll('.alert');
+    var thisInput = thisButton.prevAll('input:hidden');
+    // 上传
+    fileInput.one('change', function() {
+      // 获取数据
+      var formData = new FormData();
+      formData.append('file', fileInput[0].files[0]);
+      thisAlert.text('文件上传中...');
+      thisAlert.show();
+      // 上传数据
+      if(formData){
+        $.ajax({
+            url: 'api/file/upload',  //server script to process data
+            type: 'POST',
+            //Ajax事件
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+              thisAlert.text(data.message);
+              thisAlert.removeClass('alert-warning alert-danger');
+              if (data.code === 1031) {
+                // 上传成功的操作
+                thisAlert.addClass('alert-success');
+                setTimeout(()=>{thisAlert.hide()}, 500);
+                var addContent = '\
+                  <div class="btn-group" role="group" data-fileid="'+data.fileID+'">\
+                    <a href="api/file/download/'+data.downloadUrl+'" role="button" class="btn btn-default">'+data.fileName+' | '+data.fileTime+'</a>\
+                    <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>\
+                  </div>\
+                '
+                thisButton.before(addContent);
+                thisInput.val(thisInput.val()+data.fileID+',');
+              }else {
+                thisAlert.addClass('alert-danger');
+              }
+              fileInput.val('');
+            },
+            //Options to tell JQuery not to process data or worry about content-type
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+      }
+    });
+  });
+
+  // 删除附件
+  $('.form-group').on('click', '.del-file', function() {
+    var thisItem =  $(this).parent();
+    var thisInput = thisItem.prevAll('input');
+    // 删除input中的数据
+    thisInput.val(thisInput.val().replace(thisItem[0].dataset.fileid+',',''));
+    thisItem.remove();
+
+  });
 });
 
 
-function uploadFile() {
-  if ($(':file').length === 0) {
-    $('body').append('<input type="file" name="file" style="display:none;">')
-  }
-  var fileInput = $(':file').first();
-  fileInput.click();
-
-  fileInput.one('change', function() {
-    var formData = new FormData();
-    formData.append('file', fileInput[0].files[0]);
-    
-    $.ajax({
-        url: 'api/file/upload',  //server script to process data
-        type: 'POST',
-        //Ajax事件
-        data: formData,
-        dataType: 'json',
-        success: function() {
-          console.log('ok');
-        },
-        //Options to tell JQuery not to process data or worry about content-type
-        cache: false,
-        contentType: false,
-        processData: false
-    });
-  });
-}
