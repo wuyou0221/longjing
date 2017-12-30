@@ -140,3 +140,32 @@ $(function($) {
   });
 
 });
+
+
+function uploadFile() {
+  if ($(':file').length === 0) {
+    $('body').append('<input type="file" name="file" style="display:none;">')
+  }
+  var fileInput = $(':file').first();
+  fileInput.click();
+
+  fileInput.one('change', function() {
+    var formData = new FormData();
+    formData.append('file', fileInput[0].files[0]);
+    
+    $.ajax({
+        url: 'api/file/upload',  //server script to process data
+        type: 'POST',
+        //Ajax事件
+        data: formData,
+        dataType: 'json',
+        success: function() {
+          console.log('ok');
+        },
+        //Options to tell JQuery not to process data or worry about content-type
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+  });
+}
