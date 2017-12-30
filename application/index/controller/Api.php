@@ -4,6 +4,7 @@ namespace app\index\controller;
 use think\Session;
 use \think\Request;
 use app\index\model\User;
+use app\index\model\File;
 
 class Api extends \think\Controller
 {
@@ -86,26 +87,61 @@ class Api extends \think\Controller
 
     public function upload()
     {
+        $file_info = request()->file('file');
+        if($file_info){
+            $file_info = $file_info->move(ROOT_PATH.'upload');
+            if($file_info){
+                // echo $info->getExtension();
+                // echo $info->getSaveName();
+                // echo $info->getFilename(); 
+                $now_time = time();
+                $file = new File();
+                $file->data([
+                    'file_name'  =>  $file_info->getInfo()['name'],
+                    'file_md5' =>  $file_info->getSaveName(),
+                    'file_upload_time' =>  $now_time
+                ]);
+                $file->save();
+                return json([
+                    'code' => 1031,
+                    'message' => '上传成功！',
+                    'fileID' => $file->file_id,
+                    'fileName' => $file_info->getInfo()['name'],
+                    'downloadUrl' => $file_info->getFilename(),
+                    'fileTime' =>  date('Y-m-d', $now_time)
+                ]);
+            }else{
+                // echo $file->getError();
+                return json([
+                    'code' => 1032,
+                    'message' => '上传失败！'
+                ]);
+            }
+        }
+    }
+
+    public function download()
+    {
         $file = request()->file('file');
         if($file){
             $info = $file->move(ROOT_PATH.'upload');
-        if($info){
-            // echo $info->getExtension();
-            // echo $info->getSaveName();
-            // echo $info->getFilename(); 
-            return json([
-                'code' => 1031,
-                'message' => '上传成功！',
-                'downloadUrl' => $info->getFilename()
-            ]);
-        }else{
-            // echo $file->getError();
-            return json([
-                'code' => 1032,
-                'message' => '上传失败！'
-            ]);
+            if($info){
+                // echo $info->getExtension();
+                // echo $info->getSaveName();
+                // echo $info->getFilename(); 
+                return json([
+                    'code' => 1031,
+                    'message' => '上传成功！',
+                    'downloadUrl' => $info->getFilename()
+                ]);
+            }else{
+                // echo $file->getError();
+                return json([
+                    'code' => 1032,
+                    'message' => '上传失败！'
+                ]);
+            }
         }
-    }
     }
 
     public function purchase()
@@ -115,6 +151,6 @@ class Api extends \think\Controller
 
     public function test()
     {
-        echo DS;
+        echo time();
     }
 }
