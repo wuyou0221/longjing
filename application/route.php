@@ -11,7 +11,7 @@
 
 return [
     '__pattern__' => [
-        'name' => '\w+',
+        'name' => '\w+'
     ],
      '[]' => [
     	'' => ['index/Index/index', ['method' => 'get']]
@@ -24,6 +24,7 @@ return [
         'user/logout' => ['index/Api/logout', ['method' => 'get']],
         'user/getInfo' => ['index/Api/get_info', ['method' => 'get']],
         'file/upload' => ['index/Api/upload', ['method' => 'post']],
+        'file/download/:fileid' => ['index/Api/download', ['method' => 'get'], ['fileid' => '\w+']],
         '__miss__' => ['index/Index/index', ['method' => 'get']]
     ],
     '[login]' => [

@@ -98,7 +98,7 @@ class Api extends \think\Controller
                 $file = new File();
                 $file->data([
                     'file_name'  =>  $file_info->getInfo()['name'],
-                    'file_md5' =>  $file_info->getSaveName(),
+                    'file_md5' =>  substr($file_info->getFilename(), 0, 32),
                     'file_upload_time' =>  $now_time
                 ]);
                 $file->save();
@@ -107,7 +107,7 @@ class Api extends \think\Controller
                     'message' => '上传成功！',
                     'fileID' => $file->file_id,
                     'fileName' => $file_info->getInfo()['name'],
-                    'downloadUrl' => $file_info->getFilename(),
+                    'downloadUrl' => substr($file_info->getFilename(), 0, 32),
                     'fileTime' =>  date('Y-m-d', $now_time)
                 ]);
             }else{
@@ -117,30 +117,21 @@ class Api extends \think\Controller
                     'message' => '上传失败！'
                 ]);
             }
+        } else {
+            return json([
+                'code' => 1033,
+                'message' => '参数有误！'
+            ]);
         }
     }
 
-    public function download()
+    public function download($fileid)
     {
-        $file = request()->file('file');
-        if($file){
-            $info = $file->move(ROOT_PATH.'upload');
-            if($info){
-                // echo $info->getExtension();
-                // echo $info->getSaveName();
-                // echo $info->getFilename(); 
-                return json([
-                    'code' => 1031,
-                    'message' => '上传成功！',
-                    'downloadUrl' => $info->getFilename()
-                ]);
-            }else{
-                // echo $file->getError();
-                return json([
-                    'code' => 1032,
-                    'message' => '上传失败！'
-                ]);
-            }
+        if(strlen($fileid) != 32) {
+            return json([
+                'code' => 1042,
+                'message' => '参数有误！'
+            ]);
         }
     }
 
@@ -151,6 +142,6 @@ class Api extends \think\Controller
 
     public function test()
     {
-        echo time();
+        echo strlen('21');
     }
 }
