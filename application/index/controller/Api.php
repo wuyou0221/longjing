@@ -84,6 +84,30 @@ class Api extends \think\Controller
         
     }
 
+    public function upload()
+    {
+        $file = request()->file('file');
+        if($file){
+            $info = $file->move(ROOT_PATH.'upload');
+        if($info){
+            // echo $info->getExtension();
+            // echo $info->getSaveName();
+            // echo $info->getFilename(); 
+            return json([
+                'code' => 1031,
+                'message' => '上传成功！',
+                'downloadUrl' => $info->getFilename()
+            ]);
+        }else{
+            // echo $file->getError();
+            return json([
+                'code' => 1032,
+                'message' => '上传失败！'
+            ]);
+        }
+    }
+    }
+
     public function purchase()
     {
     	return $this->fetch('purchase', ['name' => Session::get('name')]);
@@ -91,6 +115,6 @@ class Api extends \think\Controller
 
     public function test()
     {
-        var_dump(Session::get('userid'));
+        echo DS;
     }
 }
