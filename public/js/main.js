@@ -29,6 +29,7 @@ $(function($) {
       },'json');
   });
 
+
   // 项目详情
   $('#projectDetailModal').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
@@ -39,6 +40,19 @@ $(function($) {
       $(this).find('.modal-header .modal-title').text('项目详情 [ ' + name + ' ]');
       $('#projectName').val(name);
     }
+  });
+
+  // 项目修改
+  $('#projectSubmit').on('click', function() {
+    $(this).button('loading');
+    $.post('api/project/edit', $('#projectDetailForm').serialize(), function(data) {
+      alert(data.message);
+      $(this).button('reset');
+      if (code === 1001) {
+        $('#projectDetailModal').modal('hide');
+      }
+    });
+
   });
 
   // 审批流程
@@ -57,22 +71,107 @@ $(function($) {
     $(this).find('.modal-header .modal-title').text('项目总流程 [ ' + name + ' ]');
   });
 
+  // 上传附件or导入Excel
+  $('.upload-file').on('click', function() {
+    // 添加文件上传input
+    $('body').append('<input type="file" name="file" style="display:none;">')
+    var fileInput = $(':file').last();
+    var thisButton = $(this);
+    var thisAlert = thisButton.prevAll('.alert');
+    var thisInput = thisButton.prevAll('input:hidden');
+    var api = '';
+    // 判断上传附件或导入excel
+    if (thisButton.data('type') === 'excel') {
+      api = 'excel';
+      fileInput.attr('accept', 'application/vnd.ms-excel');
+    } else {
+      api = 'upload';
+    }
+    fileInput.click();
+
+    // 上传
+    fileInput.one('change', function() {
+      // 获取数据
+      var formData = new FormData();
+      formData.append('file', fileInput[0].files[0]);
+      thisAlert.text('文件上传中...');
+      thisAlert.show();
+      // 上传数据
+      if(formData){
+        $.ajax({
+            url: 'api/file/'+api,  //server script to process data
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(data) {
+              thisAlert.text(data.message);
+              thisAlert.removeClass('alert-warning alert-danger');
+              if (data.code === 1031) {
+                // 上传成功
+                thisAlert.addClass('alert-success');
+                setTimeout(()=>{thisAlert.hide()}, 500);
+                (thisButton.data('type') === 'excel') ? exceled(data) : uploaded(data);
+              }else {
+                thisAlert.addClass('alert-danger');
+              }
+              $(':file').remove();
+            },
+            //Options to tell JQuery not to process data or worry about content-type
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+      }
+      // 上传成功处理函数
+      function uploaded(data) {
+        var addContent = '\
+          <div class="btn-group" role="group" data-fileid="'+data.fileID+'">\
+            <a href="api/file/download/'+data.downloadUrl+'" role="button" class="btn btn-default">'+data.fileName+' | '+data.fileTime+'</a>\
+            <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>\
+          </div>\
+        '
+        thisButton.before(addContent);
+        thisInput.val(thisInput.val()+data.fileID+',');
+      }
+      function exceled(data) {
+        console.log(data);
+        fileInput.removeAttr('accept');
+      }
+    });
+  });
+
+  // 删除附件
+  $('form').on('click', '.del-file', function() {
+    var thisItem =  $(this).parent();
+    var thisInput = thisItem.prevAll('input');
+    // 删除input中的数据
+    thisInput.val(thisInput.val().replace(thisItem.data('fileid')+',',''));
+    thisItem.remove();
+  });
+
   // 明细产品
   $('.modal').on('click', '.product-detail', function() {
     // 还原model数据
-    var name = $(this).data('name');
-    if (name === 'new') {  // 新建
+    var id = $(this).data('productid');
+    if (id) {  // 查看已填写的内容
+      $('#addProductOver').css('display', 'none');
+      $.get('api/product/get?productID='+id, function(data) {
+        $('#productNum').val(data.productID);
+        $('#productName').val(data.name);
+        $('#productType').val(data.type);
+        $('#productSum').val(data.sum);
+        $('#productTip').val(data.tip);
+      });
+    } else {   // 新建
       $('#productModal').find('input').val('');
       $('#addProductOver').css('display', 'inline-block');
-    } else if (name) {     // 查看已填写的内容
-      $('#productName').val(name);
-      $('#addProductOver').css('display', 'none');
     }
     // 弹出新的model
     var fatherModal = $(this).parents('.modal');
     fatherModal.modal('hide');
     fatherModal.on('hidden.bs.modal', function() {  // 动画完成之后再弹出新的模态框
       $('#productModal').modal('show');
+      $('#productModal').data('father', fatherModal.attr('id'));
       $(this).off('hidden.bs.modal');                     // 解除监听，避免后续冲突
     });
     $('#productModal').on('hidden.bs.modal', function() {
@@ -82,13 +181,29 @@ $(function($) {
   });
 
   // 添加/修改明细产品
-  $('#addProductOver').on('click', function() {
-    $('#productModal').modal('hide');
+  $('#productModal').on('click', '#addProductOver', function() {
+    $(this).modal('hide');
+    $.post('api/product/edit', $('#productForm').serialize(), function(data) {
+      var addContent = '\
+        <div class="btn-group" role="group">\
+          <button type="button" class="btn btn-default product-detail" data-productid="'+data.productID+'">'+data.productName+'</button>\
+          <button type="button" class="btn btn-danger del-product" data-productid="'+data.productID+'"><span class="glyphicon glyphicon-remove"></span></button>\
+        </div>\
+      '
+      var fatherModal = $('#'+$('#productModal').data('father'));
+      fatherModal.find('.product-detail').last().before(addContent);
+      var thisInput = fatherModal.find('[name=product]');
+      thisInput.val(thisInput.val()+data.productID+',');
+    });
   });
 
   // 删除明细产品
-  $('.delProduct').on('click', function() {
-    console.log('del');
+  $('form').on('click', '.del-product', function() {
+    var thisItem =  $(this).parent();
+    var thisInput = thisItem.prevAll('input');
+    // 删除input中的数据
+    thisInput.val(thisInput.val().replace(thisItem.data('productid')+',',''));
+    thisItem.remove();
   });
 
   // 搜索物料
@@ -99,6 +214,8 @@ $(function($) {
   $('.search-item').on('input propertychange', function(event) {
     console.log($(this));
   });
+
+
 
   // 采购关联项目
   $('#purchaseDetailModal').on('click', '.item-single', function(event) {
@@ -137,71 +254,7 @@ $(function($) {
   });
 
 
-  // 上传附件
-  $('.upload-file').on('click', function() {
-    // 添加文件上传input
-    if ($(':file').length === 0) {
-      $('body').append('<input type="file" name="file" style="display:none;">')
-    }
-    var fileInput = $(':file').first();
-    fileInput.click();
-
-    var thisButton = $(this);
-    var thisAlert = thisButton.prevAll('.alert');
-    var thisInput = thisButton.prevAll('input:hidden');
-    // 上传
-    fileInput.one('change', function() {
-      // 获取数据
-      var formData = new FormData();
-      formData.append('file', fileInput[0].files[0]);
-      thisAlert.text('文件上传中...');
-      thisAlert.show();
-      // 上传数据
-      if(formData){
-        $.ajax({
-            url: 'api/file/upload',  //server script to process data
-            type: 'POST',
-            //Ajax事件
-            data: formData,
-            dataType: 'json',
-            success: function(data) {
-              thisAlert.text(data.message);
-              thisAlert.removeClass('alert-warning alert-danger');
-              if (data.code === 1031) {
-                // 上传成功的操作
-                thisAlert.addClass('alert-success');
-                setTimeout(()=>{thisAlert.hide()}, 500);
-                var addContent = '\
-                  <div class="btn-group" role="group" data-fileid="'+data.fileID+'">\
-                    <a href="api/file/download/'+data.downloadUrl+'" role="button" class="btn btn-default">'+data.fileName+' | '+data.fileTime+'</a>\
-                    <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>\
-                  </div>\
-                '
-                thisButton.before(addContent);
-                thisInput.val(thisInput.val()+data.fileID+',');
-              }else {
-                thisAlert.addClass('alert-danger');
-              }
-              fileInput.val('');
-            },
-            //Options to tell JQuery not to process data or worry about content-type
-            cache: false,
-            contentType: false,
-            processData: false
-        });
-      }
-    });
-  });
-
-  // 删除附件
-  $('.form-group').on('click', '.del-file', function() {
-    var thisItem =  $(this).parent();
-    var thisInput = thisItem.prevAll('input');
-    // 删除input中的数据
-    thisInput.val(thisInput.val().replace(thisItem[0].dataset.fileid+',',''));
-    thisItem.remove();
-
-  });
+ 
 });
 
 
