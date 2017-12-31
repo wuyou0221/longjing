@@ -129,38 +129,38 @@ API
   {
     "error":"0",
     "content":{
-      'ID':'00001'             //为空则新建项目，系统生成ID
-      'name':'项目名称'
-      'nameAbbr':'项目简称' 
-      'type':'项目类型'
-      'code':'XM123'           //项目代号
-      'address':'项目交货地址'
-      'projectCompactSum':'合同总额'
-      'projectTarget':'目标额'
-      'payWay':'付款方式'
-      'introduction':'项目简介'
-      'compact':'1,2'          //商务合同ID
-      'tecDeal':'1,2'          //技术协议ID
-      'otherFile':'1,2'        //其他附件ID
-      'product':'CP001,CP002'  //产品代号(数组)
-      'productArray':[
+      "ID":"00001"             //为空则新建项目，系统生成ID
+      "name":"项目名称"
+      "nameAbbr":"项目简称" 
+      "type":"项目类型"
+      "code":"XM123"           //项目代号
+      "address":"项目交货地址"
+      "projectCompactSum":"合同总额"
+      "projectTarget":"目标额"
+      "payWay":"付款方式"
+      "introduction":"项目简介"
+      "compact":"1,2"          //商务合同ID
+      "tecDeal":"1,2"          //技术协议ID
+      "otherFile":"1,2"        //其他附件ID
+      "product":"CP001,CP002"  //产品代号(数组)
+      "productArray":[
         {
-          'productID':1,
-          'productName':'产品1',
+          "productID":1,
+          "productName":"产品1",
         },
         {
-          'productID':1,
-          'productName':'产品1',
+          "productID":1,
+          "productName":"产品1",
         }
       ]
-      'manager':'项目经理'
-      'manager2':'施工经理'
-      'manager3':'设计经理'
-      'manager4':'采购经理'
-      'receive':'收货人'
-      'projectPlan':'1,2'      //项目计划ID
-      'purchasePlan':'1,2'     //采购计划ID
-      'tip':'备注'
+      "manager":"项目经理"
+      "manager2":"施工经理"
+      "manager3":"设计经理"
+      "manager4":"采购经理"
+      "receive":"收货人"
+      "projectPlan":"1,2"      //项目计划ID
+      "purchasePlan":"1,2"     //采购计划ID
+      "tip":"备注"
     },
     "time":"2017-12-30"
   }
@@ -270,3 +270,25 @@ API
     "fileTime" : "2017-12-30"
   }
 
+*************************************
+接口：api/file/excel
+功能：导入excel
+方式：post
+发送：
+  file=[文件]
+返回：
+  {
+    "code" : 1001,
+    "message" : "导入成功！",
+    "product" : "1,2,3",
+    "productArray" : [
+      {
+        "productID":1,
+        "productName":"产品1"
+      },
+      {
+        "productID":1,
+        "productName":"产品1"
+      }
+    ]
+  }
