@@ -170,6 +170,7 @@ class Api extends \think\Controller
     public function project_edit() {
 
         // $project_name = intval($request->post('userID'));
+        $request = Request::instance();
         $project_name = $request->post('name');
         $project_description = $request->post('nameAbbr');
         $project_type = intval($request->post('type'));

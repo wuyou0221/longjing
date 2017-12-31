@@ -3,6 +3,5 @@ composer.lock
 *.DS_Store
 *.sql
 *.log
-thinkphp
 runtime
 upload
