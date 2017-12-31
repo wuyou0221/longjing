@@ -97,8 +97,8 @@ API
 & type=项目类型
 & code=XM123           //项目代号
 & address=项目交货地址
-& projectCompactSum=合同总额
-& projectTarget=目标额
+& compactSum=合同总额
+& target=目标额
 & payWay=付款方式
 & introduction=项目简介
 & compact=1,2          //商务合同ID

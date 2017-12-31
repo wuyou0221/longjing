@@ -44,10 +44,9 @@ $(function($) {
 
   // 项目修改
   $('#projectSubmit').on('click', function() {
-    $(this).button('loading');
+    var thisBtn = $(this).button('loading');
     $.post('api/project/edit', $('#projectDetailForm').serialize(), function(data) {
-      alert(data.message);
-      $(this).button('reset');
+      thisBtn.button('reset');
       if (code === 1001) {
         $('#projectDetailModal').modal('hide');
       } else {
@@ -78,11 +77,11 @@ $(function($) {
     // 添加文件上传input
     $('body').append('<input type="file" name="file" style="display:none;">')
     var fileInput = $(':file').last();
-    var thisButton = $(this);
-    var thisInput = thisButton.prevAll('input:hidden');
+    var thisBtn = $(this);
+    var thisInput = thisBtn.prevAll('input:hidden');
     var api = '';
     // 判断上传附件或导入excel
-    if (thisButton.data('type') === 'excel') {
+    if (thisBtn.data('type') === 'excel') {
       api = 'excel';
       fileInput.attr('accept', 'application/vnd.ms-excel');
     } else {
@@ -98,7 +97,7 @@ $(function($) {
       formData.append('file', fileInput[0].files[0]);
       // 上传数据
       if(formData){
-        thisButton.button('loading');
+        thisBtn.button('loading');
         $.ajax({
             url: 'api/file/'+api,  //server script to process data
             type: 'POST',
@@ -107,12 +106,12 @@ $(function($) {
             success: function(data) {
               if (data.code === 1031) {
                 // 上传成功
-                (thisButton.data('type') === 'excel') ? exceled(data) : uploaded(data);
+                (thisBtn.data('type') === 'excel') ? exceled(data) : uploaded(data);
               }else {
                 alert(data.message);
               }
               $(':file').remove();
-              thisButton.button('reset');
+              thisBtn.button('reset');
             },
             //Options to tell JQuery not to process data or worry about content-type
             cache: false,
@@ -128,7 +127,7 @@ $(function($) {
             <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>\
           </div>\
         '
-        thisButton.before(addContent);
+        thisBtn.before(addContent);
         thisInput.val(thisInput.val()+data.fileID+',');
       }
       function exceled(data) {
