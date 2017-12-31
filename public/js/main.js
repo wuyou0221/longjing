@@ -154,6 +154,7 @@ $(function($) {
       $('#productModal').find('.modal-header .modal-title').text('产品详情');
       $('#addProductOver').css('display', 'none');
       $.get('api/product/get?productID='+id, function(data) {
+        $('#productProject').val(data.ID);
         $('#productNum').val(data.productID);
         $('#productName').val(data.name);
         $('#productType').val(data.type);
@@ -161,6 +162,7 @@ $(function($) {
         $('#productTip').val(data.tip);
       });
     } else {   // 新建
+      $('#productProject').val($('#projectNum').val());
       $('#productModal').find('.modal-header .modal-title').text('添加产品');
       $('#productModal').find('input').val('');
       $('#addProductOver').css('display', 'inline-block');

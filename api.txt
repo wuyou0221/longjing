@@ -170,7 +170,7 @@ API
 功能：新建/修改明细产品
 方式：post
 发送：
-  ID=00001         //项目ID
+  ID=00001         //关联项目ID，后续需从指定项目选取产品，该字段用于遍历的筛选条件
 & productID=CP001  //产品ID，为空则新建
 & name=名称
 & type=型号
@@ -178,8 +178,8 @@ API
 & tip=备注
 返回：
   {
-    "error":0,
-    "msg":"OK",
+    "code":0,
+    "message":"OK",
     "productID":CP001,
     "productName":"产品1"
   }
@@ -208,7 +208,7 @@ API
   ID=00001
 返回：
   {
-    "error":0,
+    "code":0,
     "process":1,  //用数字表示进行到第几步
     "history":[
       {
@@ -235,7 +235,7 @@ API
 & status=状态
 返回：
   {
-    "error":0,
+    "code":0,
     "page":1,    //页码
     "total":8,   //总页码
     "content":[
