@@ -3,8 +3,10 @@ namespace app\index\controller;
 
 use think\Session;
 use \think\Request;
+use \think\Response;
 use app\index\model\User;
 use app\index\model\File;
+use app\index\model\Project;
 
 class Api extends \think\Controller
 {
@@ -133,8 +135,134 @@ class Api extends \think\Controller
                 'message' => '参数有误！'
             ]);
         }
+        $file = new File();
+        $file_info = $file->field('file_name,file_upload_time')->where('file_md5', $fileid)->find();
+        if($file_info === null) {
+            return json([
+                'code' => 1043,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        $file_extension = explode('.', $file_info['file_name']);
+        $file_path = ROOT_PATH.'upload'.DS.date('Ymd', $file_info['file_upload_time']).DS.$fileid.'.'.array_pop($file_extension);
+
+        //检查文件是否存在
+        if(!file_exists($file_path)) {  
+            return json([
+                'code' => 1044,
+                'message' => '文件已被删除！'
+            ]);
+        }
+
+        // header('Content-Description: File Transfer');
+        // header('Content-Type: application/octet-stream');
+        // header('Content-Disposition: attachment; filename="'.basename($file_path).'"');
+        // header('Expires: 0');
+        // header('Cache-Control: must-revalidate');
+        // header('Pragma: public');
+        // header('Content-Length: ' . filesize($file_path));
+        // echo readfile($file_path);
+        die;
+
     }
 
+    public function project_edit() {
+
+        // $project_name = intval($request->post('userID'));
+        $project_name = $request->post('name');
+        $project_description = $request->post('nameAbbr');
+        $project_type = intval($request->post('type'));
+        $project_code = $request->post('code');
+        $project_address = $request->post('address');
+        $project_compact_sum = $request->post('projectCompactSum');
+        $project_target = $request->post('projectTarget');
+        $project_payment = $request->post('payWay');
+        $project_introduction = $request->post('introduction');
+        $project_compact = $request->post('compact');
+        $project_technology_deal = $request->post('tecDeal');
+        $project_other_file = $request->post('otherFile');
+        $project_product = $request->post('product');
+        $project_manager = $request->post('manager');
+        $project_site_manager = $request->post('manager2');
+        $project_design_manager = $request->post('manager3');
+        $project_purchase_manager = $request->post('manager4');
+        $project_receiver = $request->post('receive');
+        $project_plan = $request->post('projectPlan');
+        $project_purchase_plan = $request->post('purchasePlan');
+        $project_tip = $request->post('tip');
+        
+        $project = new Project();
+
+        if($request->has('ID','post')) {
+            $project_id = intval($request->post('ID'));
+            $project_info = $project->field('project_id')->where('project_id', $project_id)->find();
+            if($project_info == null) {
+                return json([
+                    'code' => 1053,
+                    'message' => '项目不存在！'
+                ]);
+            }
+            $project->save([
+                'project_name' => $project_name,
+                'project_description' => $project_description,
+                'project_type' => $project_type,
+                'project_code' => $project_code,
+                'project_address' => $project_address,
+                'project_compact_sum' => $project_compact_sum,
+                'project_target' => $project_target,
+                'project_payment' => $project_payment,
+                'project_introduction' => $project_introduction,
+                'project_compact' => $project_compact,
+                'project_technology_deal' => $project_technology_deal,
+                'project_other_file' => $project_other_file,
+                'project_product' => $project_product,
+                'project_manager' => $project_manager,
+                'project_site_manager' => $project_site_manager,
+                'project_design_manager' => $project_design_manager,
+                'project_purchase_manager' => $project_purchase_manager,
+                'project_receiver' => $project_receiver,
+                'project_plan' => $project_plan,
+                'project_purchase_plan' => $project_purchase_plan,
+                'project_tip' => $project_tip,
+            ], ['ID' => $project_id]);
+            return json([
+                'code' => 1052,
+                'message' => '项目编辑成功！'
+            ]);
+        } else {
+            $project->data([
+                'project_name' => $project_name,
+                'project_description' => $project_description,
+                'project_type' => $project_type,
+                'project_code' => $project_code,
+                'project_address' => $project_address,
+                'project_compact_sum' => $project_compact_sum,
+                'project_target' => $project_target,
+                'project_payment' => $project_payment,
+                'project_introduction' => $project_introduction,
+                'project_compact' => $project_compact,
+                'project_technology_deal' => $project_technology_deal,
+                'project_other_file' => $project_other_file,
+                'project_product' => $project_product,
+                'project_manager' => $project_manager,
+                'project_site_manager' => $project_site_manager,
+                'project_design_manager' => $project_design_manager,
+                'project_purchase_manager' => $project_purchase_manager,
+                'project_receiver' => $project_receiver,
+                'project_plan' => $project_plan,
+                'project_purchase_plan' => $project_purchase_plan,
+                'project_tip' => $project_tip,
+                'project_create_time' => time(),
+                'project_status' => 0
+            ]);
+            $project->save();
+            return json([
+                'code' => 1051,
+                'message' => '项目创建成功！'
+            ]);
+        }
+    }
     public function purchase()
     {
     	return $this->fetch('purchase', ['name' => Session::get('name')]);
@@ -142,6 +270,7 @@ class Api extends \think\Controller
 
     public function test()
     {
-        echo strlen('21');
+        $data = explode('.','123123131223.123132.123123');
+        var_dump(array_pop($data));
     }
 }
