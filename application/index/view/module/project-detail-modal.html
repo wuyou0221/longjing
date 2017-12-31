@@ -13,7 +13,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="projectNum">项目编号</label>
-                    <input type="number" disabled class="form-control" id="projectNum" name="ID" placeholder="项目编号" value="00001">
+                    <input type="number" disabled class="form-control" id="projectNum" name="ID" placeholder="项目编号">
                   </div>
                 </div>
                 <div class="col-sm-6">
@@ -79,43 +79,39 @@
                   <div class="form-group">
                     <label>商务合同</label>
                     <input type="hidden" name="compact"><br>
-                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
                     <div class="btn-group" role="group" data-fileid="0">
                       <a href="#" role="button" class="btn btn-default">附件1</a>
                       <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
-                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" class="btn btn-info upload-file" data-loading-text="上传中"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label>技术协议</label>
                     <input type="hidden" name="tecDeal"><br>
-                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
                     <div class="btn-group" role="group" data-fileid="0">
                       <a href="#" role="button" class="btn btn-default">附件1</a>
                       <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
-                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" class="btn btn-info upload-file" data-loading-text="上传中"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label>其他附件</label>
                     <input type="hidden" name="otherFile"><br>
-                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
                     <div class="btn-group" role="group" data-fileid="0">
                       <a href="#" role="button" class="btn btn-default">附件1</a>
                       <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
-                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" class="btn btn-info upload-file" data-loading-text="上传中"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label>明细产品</label>
                     <input type="hidden" class="form-control" name="product" value=""><br>
-                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
                     <div class="btn-group" role="group">
                       <button type="button" class="btn btn-default product-detail" data-productid="1">产品1</button>
                       <button type="button" class="btn btn-danger del-product"><span class="glyphicon glyphicon-remove"></span></button>
@@ -162,30 +158,28 @@
                   <div class="form-group">
                     <label>项目计划</label>
                     <input type="hidden" name="projectPlan"><br>
-                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
                     <div class="btn-group" role="group" data-fileid="0">
                       <a href="#" role="button" class="btn btn-default">附件1</a>
                       <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
-                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" class="btn btn-info upload-file" data-loading-text="上传中"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label>采购计划</label>
                     <input type="hidden" name="purchasePlan"><br>
-                    <div class="alert alert-warning" role="alert" style="display: none;">文件上传中...</div>
                     <div class="btn-group" role="group" data-fileid="0">
                       <a href="#" role="button" class="btn btn-default">附件1</a>
                       <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
-                    <button type="button" class="btn btn-info upload-file"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" class="btn btn-info upload-file" data-loading-text="上传中"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <label for="projectTip">备注</label>
-                    <input type="text" class="form-control" id="projectTip" name="tip" placeholder="备注">
+                    <textarea class="form-control" id="projectTip" name="tip" placeholder="备注"></textarea>
                   </div>
                 </div>
               </div>

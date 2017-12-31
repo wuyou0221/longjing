@@ -33,12 +33,12 @@ $(function($) {
   // 项目详情
   $('#projectDetailModal').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
-    var name = button.data('name');      // Extract info from data-* attributes
-    if (name === 'new') {
-      $(this).find('.modal-header .modal-title').text('新建项目');
-    } else if (name) {
-      $(this).find('.modal-header .modal-title').text('项目详情 [ ' + name + ' ]');
+    var id = button.data('id');      // Extract info from data-* attributes
+    if (id) {
+      $(this).find('.modal-header .modal-title').text('项目详情');
       $('#projectName').val(name);
+    } else {
+      $(this).find('.modal-header .modal-title').text('新建项目');
     }
   });
 
@@ -50,6 +50,8 @@ $(function($) {
       $(this).button('reset');
       if (code === 1001) {
         $('#projectDetailModal').modal('hide');
+      } else {
+        alert(data.message);
       }
     });
 
@@ -77,7 +79,6 @@ $(function($) {
     $('body').append('<input type="file" name="file" style="display:none;">')
     var fileInput = $(':file').last();
     var thisButton = $(this);
-    var thisAlert = thisButton.prevAll('.alert');
     var thisInput = thisButton.prevAll('input:hidden');
     var api = '';
     // 判断上传附件或导入excel
@@ -86,6 +87,7 @@ $(function($) {
       fileInput.attr('accept', 'application/vnd.ms-excel');
     } else {
       api = 'upload';
+      fileInput.attr('accept', 'application/msword, application/pdf');
     }
     fileInput.click();
 
@@ -94,27 +96,23 @@ $(function($) {
       // 获取数据
       var formData = new FormData();
       formData.append('file', fileInput[0].files[0]);
-      thisAlert.text('文件上传中...');
-      thisAlert.show();
       // 上传数据
       if(formData){
+        thisButton.button('loading');
         $.ajax({
             url: 'api/file/'+api,  //server script to process data
             type: 'POST',
             data: formData,
             dataType: 'json',
             success: function(data) {
-              thisAlert.text(data.message);
-              thisAlert.removeClass('alert-warning alert-danger');
               if (data.code === 1031) {
                 // 上传成功
-                thisAlert.addClass('alert-success');
-                setTimeout(()=>{thisAlert.hide()}, 500);
                 (thisButton.data('type') === 'excel') ? exceled(data) : uploaded(data);
               }else {
-                thisAlert.addClass('alert-danger');
+                alert(data.message);
               }
               $(':file').remove();
+              thisButton.button('reset');
             },
             //Options to tell JQuery not to process data or worry about content-type
             cache: false,
@@ -154,6 +152,7 @@ $(function($) {
     // 还原model数据
     var id = $(this).data('productid');
     if (id) {  // 查看已填写的内容
+      $('#productModal').find('.modal-header .modal-title').text('产品详情');
       $('#addProductOver').css('display', 'none');
       $.get('api/product/get?productID='+id, function(data) {
         $('#productNum').val(data.productID);
@@ -163,6 +162,7 @@ $(function($) {
         $('#productTip').val(data.tip);
       });
     } else {   // 新建
+      $('#productModal').find('.modal-header .modal-title').text('添加产品');
       $('#productModal').find('input').val('');
       $('#addProductOver').css('display', 'inline-block');
     }
