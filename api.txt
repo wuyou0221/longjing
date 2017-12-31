@@ -93,17 +93,25 @@ API
 发送：
   ID=00001             //为空则新建项目，系统生成ID
 & name=项目名称
-& code=XM123           //项目代号
+& nameAbbr=项目简称 
 & type=项目类型
+& code=XM123           //项目代号
+& address=项目交货地址
+& projectCompactSum=合同总额
+& projectTarget=目标额
+& payWay=付款方式
+& introduction=项目简介
+& compact=1,2          //商务合同ID
+& tecDeal=1,2          //技术协议ID
+& otherFile=1,2        //其他附件ID
 & product=CP001,CP002  //产品代号(数组)
 & manager=项目经理
-& manager2=现场经理
-& customer=客户
-& place=项目所在地
-& delivery=项目交货信息
-& address=项目交货地址
+& manager2=施工经理
+& manager3=设计经理
+& manager4=采购经理
 & receive=收货人
-& phone=15888888888    //收货人电话
+& projectPlan=1,2      //项目计划ID
+& purchasePlan=1,2     //采购计划ID
 & tip=备注
 返回：
   {
@@ -121,30 +129,40 @@ API
   {
     "error":"0",
     "content":{
-      "ID":"00001",
-      "name":"项目名称",
-      "code":"XM123",
-      "type":"项目类型",
-      "product":[
+      'ID':'00001'             //为空则新建项目，系统生成ID
+      'name':'项目名称'
+      'nameAbbr':'项目简称' 
+      'type':'项目类型'
+      'code':'XM123'           //项目代号
+      'address':'项目交货地址'
+      'projectCompactSum':'合同总额'
+      'projectTarget':'目标额'
+      'payWay':'付款方式'
+      'introduction':'项目简介'
+      'compact':'1,2'          //商务合同ID
+      'tecDeal':'1,2'          //技术协议ID
+      'otherFile':'1,2'        //其他附件ID
+      'product':'CP001,CP002'  //产品代号(数组)
+      'productArray':[
         {
-          "productID":"CP001",  //产品ID
-          "name":"产品名称"
+          'productID':1,
+          'productName':'产品1',
         },
         {
-          "productID":"CP002",
-          "name":"产品名称"
+          'productID':1,
+          'productName':'产品1',
         }
-      ],
-      "manager":"项目经理",
-      "manager2":"现场经理",
-      "customer":"客户",
-      "place":"项目所在地",
-      "delivery":"项目交货信息",
-      "address":"项目交货地址",
-      "receive":"收货人",
-      "phone":"15888888888",
-      "tip":"备注"
-    }
+      ]
+      'manager':'项目经理'
+      'manager2':'施工经理'
+      'manager3':'设计经理'
+      'manager4':'采购经理'
+      'receive':'收货人'
+      'projectPlan':'1,2'      //项目计划ID
+      'purchasePlan':'1,2'     //采购计划ID
+      'tip':'备注'
+    },
+    "time":"2017-12-30"
   }
 
 *************************************
@@ -251,3 +269,4 @@ API
     "downloadUrl" : "下载地址",
     "fileTime" : "2017-12-30"
   }
+
