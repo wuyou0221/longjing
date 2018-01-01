@@ -1,15 +1,15 @@
 $(function($) {
 
   // 加载项目列表
-  function loadProject() {
+  function loadProject(page) {
     var alertBox = $('#projectTable').parent().next();
+    var pageBox = alertBox.next();
     alertBox.show();
-    $.get('api/project/get', function(data) {
+    $.get('api/project/get/'+page, function(data) {
       var addContent = '';
       for (var i = 0; i < data.content.length; i++) { 
-        var addContent = '';
         addContent += '\
-          <tr class="success">\
+          <tr>\
             <th scope="row">'+data.content[i].ID+'</th>\
             <td>'+data.content[i].name+'</td>\
             <td>'+data.content[i].manager+'</td>\
@@ -23,10 +23,11 @@ $(function($) {
         ';
       }
       $('#projectTable > tbody').html(addContent);
+      pageDivide(pageBox, data.page, data.total, loadProject);
       alertBox.hide();
     });
   }
-  loadProject();
+  loadProject(1);
 
   // 项目详情
   $('#projectDetailModal').on('show.bs.modal', function(event) {
@@ -80,8 +81,8 @@ $(function($) {
     }
     // 添加文件按钮
     function addFileBtn(JQdom, array) {
-      for (var i = 0; i < array.length; i++) {
-        var addContent = '';
+      var addContent = '';
+      for (var i = 0; i < array.length; i++) {    
         addContent += '\
           <div class="btn-group" role="group" data-fileid="'+array[i].fileID+'">\
             <a href="api/file/download/'+array[i].downloadUrl+'" role="button" class="btn btn-default">'+array[i].fileName+' | '+array[i].fileTime+'</a>\
@@ -94,8 +95,8 @@ $(function($) {
     }
     // 添加产品明细按钮
     function addProductBtn(JQdom, array) {
+      var addContent = '';
       for (var i = 0; i < array.length; i++) {
-        var addContent = '';
         addContent += '\
           <div class="btn-group" role="group">\
             <button type="button" class="btn btn-default product-detail" data-productid="'+array[i].productID+'">'+array[i].productName+'</button>\
@@ -113,7 +114,7 @@ $(function($) {
     var thisBtn = $(this).button('loading');
     $.post('api/project/edit', $('#projectDetailForm').serialize(), function(data) {
       thisBtn.button('reset');
-      if (code === 1001) {
+      if (data.code === 1052) {
         $('#projectDetailModal').modal('hide');
         loadProject();
       } else {

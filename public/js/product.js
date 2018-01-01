@@ -1,11 +1,19 @@
 $(function($) {
 
-  // 明细产品
+  var productModal = $('#productModal');
+  // 明细产品详情
   $('.modal').on('click', '.product-detail', function() {
     // 还原model数据
     var id = $(this).data('productid');
-    if (id) {  // 查看已填写的内容
-      $('#productModal').find('.modal-header .modal-title').text('产品详情');
+    if (id === 'new') {
+      // 新建
+      $('#productProject').val($('#projectNum').val());
+      productModal.find('.modal-header .modal-title').text('添加产品');
+      productModal.find('input, textarea').val('');
+      $('#addProductOver').css('display', 'inline-block');
+    } else if (id) {
+      // 查看已填写的内容
+      productModal.find('.modal-header .modal-title').text('产品详情');
       $('#addProductOver').css('display', 'none');
       $.get('api/product/get/'+id, function(data) {
         $('#productProject').val(data.ID);
@@ -15,28 +23,25 @@ $(function($) {
         $('#productSum').val(data.sum);
         $('#productTip').val(data.tip);
       });
-    } else {   // 新建
-      $('#productProject').val($('#projectNum').val());
-      $('#productModal').find('.modal-header .modal-title').text('添加产品');
-      $('#productModal').find('input, textarea').val('');
-      $('#addProductOver').css('display', 'inline-block');
     }
     // 弹出新的model
     var fatherModal = $(this).parents('.modal');
     fatherModal.modal('hide');
-    fatherModal.on('hidden.bs.modal', function() {  // 动画完成之后再弹出新的模态框
-      $('#productModal').modal('show');
-      $('#productModal').data('father', fatherModal.attr('id'));
-      $(this).off('hidden.bs.modal');                     // 解除监听，避免后续冲突
+    fatherModal.on('hidden.bs.modal', function() {  
+      // 动画完成之后再弹出新的模态框
+      productModal.modal('show');
+      productModal.data('father', fatherModal.attr('id'));
+      // 解除监听，避免后续冲突
+      $(this).off('hidden.bs.modal');         
     });
-    $('#productModal').on('hidden.bs.modal', function() {
+    productModal.on('hidden.bs.modal', function() {
       fatherModal.modal('show');
       $(this).off('hidden.bs.modal');
     });
   });
 
   // 添加/修改明细产品
-  $('#productModal').on('click', '#addProductOver', function() {
+  productModal.on('click', '#addProductOver', function() {
     $(this).modal('hide');
     $.post('api/product/edit', $('#productForm').serialize(), function(data) {
       var addContent = '\
@@ -45,7 +50,7 @@ $(function($) {
           <button type="button" class="btn btn-danger del-product" data-productid="'+data.productID+'"><span class="glyphicon glyphicon-remove"></span></button>\
         </div>\
       ';
-      var fatherModal = $('#'+$('#productModal').data('father'));
+      var fatherModal = $('#'+productModal.data('father'));
       fatherModal.find('.product-detail').last().before(addContent);
       var thisInput = fatherModal.find('[name=product]');
       thisInput.val(thisInput.val()+data.productID+',');
@@ -62,7 +67,7 @@ $(function($) {
   });
 
   // 搜索物料
-  $('#productModal').on('click', '.item-single', function(event) {
+  productModal.on('click', '.item-single', function(event) {
     $('#productName').val($(this).text());
   });
 

@@ -85,5 +85,28 @@ $(function($) {
     thisItem.remove();
   });
 
-
 });
+
+// 公用方法
+
+// 分页
+function pageDivide(pageBox, page, total, getList) {
+  var pageContent = pageBox.find('b').html(page+' / '+total);
+  pageContent.prev().off();
+  pageContent.prev().one('click', function() {
+    getList(page-1);
+  });
+  pageContent.next().off();
+  pageContent.next().one('click', function() {
+    getList(page+1);
+  });
+
+  pageContent.prev().show();
+  pageContent.next().show();
+  if (page === 1) {
+    pageContent.prev().hide();
+  }
+  if (page === total) {
+    pageContent.next().hide();
+  }
+}
