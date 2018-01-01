@@ -16,7 +16,6 @@ class Api extends \think\Controller
 {
     public function index()
     {
-        Session::set('userid','1');
         return $this->fetch('index', ['name' => '管理员']);
     }
 
@@ -48,6 +47,7 @@ class Api extends \think\Controller
             ]);
         }
         if($user_info['user_login_password'] == $password) {
+            Session::set('userid', $userid);
             return json([
                 'code' => 1001,
                 'message' => '登录成功！'
@@ -198,7 +198,7 @@ class Api extends \think\Controller
         
         $project = new Project();
 
-        if($request->has('ID','post')) {
+        if($request->post('ID') != '') {
             $project_id = intval($request->post('ID'));
             $project_info = $project->field('project_id')->where('project_id', $project_id)->find();
             if($project_info == null) {
@@ -422,6 +422,11 @@ class Api extends \think\Controller
         return json($sheet->toArray());
     }
 
+    private function check_login() {
+        if(!Session::has('userid')) {
+            $this->redirect('index/Index/login');
+        }
+    }
     private function list_to_file($fileidlist) {
         $file = new File();
         $file_list = array();
