@@ -2,14 +2,11 @@
 namespace app\index\controller;
 
 use think\Session;
-use think\Request;
-use think\Response;
+use \think\Request;
+use \think\Response;
 use app\index\model\User;
 use app\index\model\File;
 use app\index\model\Project;
-use app\index\model\Product;
-
-use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class Api extends \think\Controller
 {
@@ -331,95 +328,27 @@ class Api extends \think\Controller
         ]);
     }
 
-    public function product_excel($fileid) {
-        if(strlen($fileid) != 32) {
-            return json([
-                'code' => 1082,
-                'message' => '参数有误！'
-            ]);
-        }
-        $file = new File();
-        $file_info = $file->field('file_name,file_upload_time')->where('file_md5', $fileid)->find();
-        if($file_info === null) {
-            return json([
-                'code' => 1083,
-                'message' => '参数有误！'
-            ]);
-        }
-
-        $file_extension = explode('.', $file_info['file_name']);
-        $file_path = ROOT_PATH.'upload'.DS.date('Ymd', $file_info['file_upload_time']).DS.$fileid.'.'.array_pop($file_extension);
-
-        //检查文件是否存在
-        if(!file_exists($file_path)) {  
-            return json([
-                'code' => 1084,
-                'message' => '文件已被删除！'
-            ]);
-        }
-
-        $product_array = $this->excel_to_array($file_path);
-        $product = new Product();
-
-        $error_num = 0;
-        $success_num = 0;
-        $total_num = count($product_array);
-        $rank = 0;
-        foreach ($product_array as $product_temp_info) {
-            if($product_temp_info[0] == null || $product_temp_info[1] == null || $product_temp_info[2] == null) {
-                $error_num++;
-                continue;
-            }
-            if(intval($product_temp_info[1]) == 1) {
-                $product_info = $product->field('product_id,product_rank')->where('product_name', $product_temp_info[0])->find();
-                if($product_info != null) {
-                    $error_num++;
-                    continue;
-                } else {
-                    $product->data([
-                        'product_name'  =>  $product_temp_info[0],
-                        'product_rank' =>  1,
-                        'product_parent_id' =>  0
-                    ]);
-                    $product->isUpdate(false)->save();
-                    $success_num++;
-                }
-            } else {
-                $product_info = $product->field('product_id,product_rank')->where('product_name', 'in', [$product_temp_info[0], $product_temp_info[2]])->select();
-                if(count($product_info) == 2 || count($product_info) == 0) {
-                    $error_num++;
-                    continue;
-                }
-                if(count($product_info) == 1) {
-                    $product->data([
-                        'product_name'  =>  $product_temp_info[0],
-                        'product_rank' =>  intval($product_temp_info[1]),
-                        'product_parent_id' =>  $product_info[0]['product_id']
-                    ]);
-                    $product->isUpdate(false)->save();
-                    $success_num++;
-                }
-            }
-        }
-        return json([
-            'code' => 1081,
-            'message' => '文件导入成功！',
-            'successNum' => $success_num,
-            'errorNum' => $error_num
-        ]);
-    }
-
     public function purchase()
     {
-        return $this->fetch('purchase', ['name' => Session::get('name')]);
+    	return $this->fetch('purchase', ['name' => Session::get('name')]);
     }
 
     public function test()
     {
-        $reader = new Xlsx();
-        $spreadsheet = $reader->load("1.xlsx");
-        $sheet = $spreadsheet->getSheet(0);
-        return json($sheet->toArray());
+        $file = new File();
+        $fileidlist = '59,60';
+        $file_list = array();
+        $file_id_list = explode(',', $fileidlist);
+        foreach ($file_id_list as $file_id) {
+            $file_info = $file->field('file_name,file_md5,file_upload_time')->where('file_id', $file_id)->find();
+            $file_list[] = [
+                'fileID' => $file_id,
+                'fileName' => $file_info['file_name'],
+                'downloadUrl' => $file_info['file_md5'],
+                'fileTime' => date('Y-m-d', $file_info['file_upload_time'])
+            ];
+        }
+        var_dump($file_list);
     }
 
     private function list_to_file($fileidlist) {
@@ -449,11 +378,5 @@ class Api extends \think\Controller
             ];
         }
         return $file_list;
-    }
-    private function excel_to_array($filepath) {
-        $reader = new Xlsx();
-        $spreadsheet = $reader->load($filepath);
-        $sheet = $spreadsheet->getSheet(0);
-        return $sheet->toArray();
     }
 }

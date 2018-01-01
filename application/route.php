@@ -29,7 +29,6 @@ return [
         'project/get/:pageid' => ['index/Api/project_get', ['method' => 'get'], ['pageid' => '\d+']],
         'project/get' => ['index/Api/project_get', ['method' => 'get']],
         'project/getDetail/:projectid' => ['index/Api/project_get_detail', ['method' => 'get'], ['projectid' => '\d+']],
-        'product/excel/:fileid' => ['index/Api/product_excel', ['method' => 'get'], ['fileid' => '\w+']],
         '__miss__' => ['index/Index/index', ['method' => 'get']]
     ],
     '[login]' => [
