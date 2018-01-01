@@ -270,7 +270,7 @@ class Api extends \think\Controller
         $project = new Project();
         $perpage = 10;
         $totalid = ceil($project->count('project_id') / 10);
-        $project_info = $project->field('project_id,project_name,project_manager,project_status')->order('project_id asc')->limit(($pageid - 1) * $perpage, $pageid * $perpage)->select();
+        $project_info = $project->field('project_id as ID,project_name as name,project_manager as manager,project_status as state')->order('project_id asc')->limit(($pageid - 1) * $perpage, $pageid * $perpage)->select();
         return json([
             'code' => 1061,
             'message' => '项目查询成功！',
