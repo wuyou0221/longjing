@@ -1,7 +1,11 @@
 $(function($) {
 
+  var currentPage = 1;
+
   // 加载项目列表
   function loadProject(page) {
+    currentPage = page;
+    var tbody = $('#projectTable > tbody').html('');
     var alertBox = $('#projectTable').parent().next();
     var pageBox = alertBox.next();
     alertBox.show();
@@ -22,7 +26,7 @@ $(function($) {
           </tr>\
         ';
       }
-      $('#projectTable > tbody').html(addContent);
+      tbody.html(addContent);
       pageDivide(pageBox, data.page, data.total, loadProject);
       alertBox.hide();
     });
@@ -116,7 +120,7 @@ $(function($) {
       thisBtn.button('reset');
       if (data.code === 1052) {
         $('#projectDetailModal').modal('hide');
-        loadProject();
+        loadProject(currentPage);
       } else {
         alert(data.message);
       }
