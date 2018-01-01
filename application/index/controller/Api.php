@@ -226,7 +226,7 @@ class Api extends \think\Controller
                 'project_plan' => $project_plan,
                 'project_purchase_plan' => $project_purchase_plan,
                 'project_tip' => $project_tip,
-            ], ['ID' => $project_id]);
+            ], ['project_id' => $project_id]);
             return json([
                 'code' => 1052,
                 'message' => '项目编辑成功！'
@@ -264,6 +264,70 @@ class Api extends \think\Controller
             ]);
         }
     }
+
+    public function project_get($pageid = 1) {
+        $pageid = intval($pageid);
+        $project = new Project();
+        $perpage = 10;
+        $totalid = ceil($project->count('project_id') / 10);
+        $project_info = $project->field('project_id,project_name,project_manager,project_status')->order('project_id asc')->limit(($pageid - 1) * $perpage, $pageid * $perpage)->select();
+        return json([
+            'code' => 1061,
+            'message' => '项目查询成功！',
+            'page' => $pageid,
+            'total' => $totalid,
+            'content' => $project_info
+        ]);
+    }
+    
+    public function project_get_detail($projectid) {
+        $projectid = intval($projectid);
+        $project = new Project();
+        $project_info = $project->field('project_name,project_description,project_type,project_code,project_address,project_compact_sum,project_target,project_payment,project_introduction,project_compact,project_technology_deal,project_other_file,project_product,project_manager,project_site_manager,project_design_manager,project_purchase_manager,project_receiver,project_plan,project_purchase_plan,project_tip,project_create_time,project_status')->where('project_id', $projectid)->find();
+        if($project_info == null) {
+            return json([
+                'code' => 1072,
+                'message' => '项目不存在！'
+            ]);
+        }
+        return json([
+            'code' => 1071,
+            'message' => '项目明细查询成功！',
+            'content' => [
+                'ID' => $projectid,
+                'name' => $project_info['project_name'],
+                'nameAbbr' => $project_info['project_description'],
+                'type' => $project_info['project_type'],
+                'code' => $project_info['project_code'],
+                'address' => $project_info['project_address'],
+                'projectCompactSum' => $project_info['project_compact_sum'],
+                'projectTarget' => $project_info['project_target'],
+                'payWay' => $project_info['project_payment'],
+                'introduction' => $project_info['project_introduction'],
+                'compact' => $project_info['project_compact'],
+                'compactArray' => $this->list_to_file($project_info['project_compact']),
+                'tecDeal' => $project_info['project_technology_deal'],
+                'tecDealArray' => $this->list_to_file($project_info['project_technology_deal']),
+                'otherFile' => $project_info['project_other_file'],
+                'otherFileArray' => $this->list_to_file($project_info['project_other_file']),
+                'product' => $project_info['project_product'],
+                'productArray' => $this->list_to_product($project_info['project_product']),
+                'manager' => $project_info['project_manager'],
+                'manager2' => $project_info['project_site_manager'],
+                'manager3' => $project_info['project_design_manager'],
+                'manager4' => $project_info['project_purchase_manager'],
+                'receive' => $project_info['project_receiver'],
+                'projectPlan' => $project_info['project_plan'],
+                'projectPlanArray' => $this->list_to_file($project_info['project_plan']),
+                'purchasePlan' => $project_info['project_purchase_plan'],
+                'purchasePlanArray' => $this->list_to_file($project_info['project_purchase_plan']),
+                'tip' => $project_info['project_tip']
+            ],
+            'time' => date('Y-m-d', $project_info['project_create_time']),
+            'state' => $project_info['project_status']
+        ]);
+    }
+
     public function purchase()
     {
     	return $this->fetch('purchase', ['name' => Session::get('name')]);
@@ -271,7 +335,48 @@ class Api extends \think\Controller
 
     public function test()
     {
-        $data = explode('.','123123131223.123132.123123');
-        var_dump(array_pop($data));
+        $file = new File();
+        $fileidlist = '59,60';
+        $file_list = array();
+        $file_id_list = explode(',', $fileidlist);
+        foreach ($file_id_list as $file_id) {
+            $file_info = $file->field('file_name,file_md5,file_upload_time')->where('file_id', $file_id)->find();
+            $file_list[] = [
+                'fileID' => $file_id,
+                'fileName' => $file_info['file_name'],
+                'downloadUrl' => $file_info['file_md5'],
+                'fileTime' => date('Y-m-d', $file_info['file_upload_time'])
+            ];
+        }
+        var_dump($file_list);
+    }
+
+    private function list_to_file($fileidlist) {
+        $file = new File();
+        $file_list = array();
+        $file_id_list = explode(',', $fileidlist);
+        foreach ($file_id_list as $file_id) {
+            $file_info = $file->field('file_name,file_md5,file_upload_time')->where('file_id', $file_id)->find();
+            $file_list[] = [
+                'fileID' => $file_id,
+                'fileName' => $file_info['file_name'],
+                'downloadUrl' => $file_info['file_md5'],
+                'fileTime' => date('Y-m-d', $file_info['file_upload_time'])
+            ];
+        }
+        return $file_list;
+    }
+    private function list_to_product($productidlist) {
+        $file = new File();
+        $file_list = array();
+        $file_id_list = explode(',', $productidlist);
+        foreach ($file_id_list as $file_id) {
+            $file_info = $file->field('file_name,file_md5,file_upload_time')->where('file_id', $file_id)->find();
+            $file_list[] = [
+                'productID' => $file_id,
+                'productName' => $file_info['file_name']
+            ];
+        }
+        return $file_list;
     }
 }
