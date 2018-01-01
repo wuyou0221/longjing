@@ -4,6 +4,7 @@ namespace app\index\controller;
 use think\Session;
 use think\Request;
 use think\Response;
+use think\Hook;
 use app\index\model\User;
 use app\index\model\File;
 use app\index\model\Project;
@@ -158,16 +159,15 @@ class Api extends \think\Controller
             ]);
         }
 
-        // header('Content-Description: File Transfer');
-        // header('Content-Type: application/octet-stream');
-        // header('Content-Disposition: attachment; filename="'.basename($file_path).'"');
-        // header('Expires: 0');
-        // header('Cache-Control: must-revalidate');
-        // header('Pragma: public');
-        // header('Content-Length: ' . filesize($file_path));
-        // echo readfile($file_path);
-        die;
-
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="'.$file_info['file_name'].'"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file_path));
+        readfile($file_path);
+        exit();
     }
 
     public function project_edit() {
