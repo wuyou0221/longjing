@@ -13,9 +13,16 @@ class Index extends \think\Controller
 
     public function login()
     {
-     //    Session::set('name','thinkphp');
-    	// return 'login';
+        if(Session::has('userid')) {
+            $this->redirect('index/Index/index');
+        }
         return $this->fetch('login', ['name' => Session::get('name')]);
+    }
+
+    public function logout()
+    {
+        Session::delete('userid');
+        $this->redirect('index/Index/login');
     }
 
     public function project()
@@ -48,7 +55,7 @@ class Index extends \think\Controller
         $this->check_login();
         return $this->fetch('pay', ['name' => '1', 'class_list' => ['','','','','','','active','','','','','']]);
     }
-        public function signet()
+    public function signet()
     {
         $this->check_login();
         return $this->fetch('signet', ['name' => '1', 'class_list' => ['','','','','','','','active','','','','']]);

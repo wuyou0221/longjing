@@ -30,10 +30,14 @@ return [
         'project/get' => ['index/Api/project_get', ['method' => 'get']],
         'project/getDetail/:projectid' => ['index/Api/project_get_detail', ['method' => 'get'], ['projectid' => '\d+']],
         'product/excel/:fileid' => ['index/Api/product_excel', ['method' => 'get'], ['fileid' => '\w+']],
+        'product/search' => ['index/Api/product_search', ['method' => 'get']],
         '__miss__' => ['index/Index/index', ['method' => 'get']]
     ],
     '[login]' => [
     	'' => ['index/Index/login', ['method' => 'get']]
+    ],
+    '[logout]' => [
+        '' => ['index/Index/logout', ['method' => 'get']]
     ],
     '[project]' => [
         '__miss__' => ['index/Index/project', ['method' => 'get']]

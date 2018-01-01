@@ -39,7 +39,7 @@ class Api extends \think\Controller
         $password = $request->post('password');
 
         $user = new User;
-        $user_info = $user->field('user_login_password')->where('user_login_id', $userid)->find();
+        $user_info = $user->field('user_id,user_login_password')->where('user_login_id', $userid)->find();
         if($user_info === null) {
             return json([
                 'code' => 1005,
@@ -47,7 +47,7 @@ class Api extends \think\Controller
             ]);
         }
         if($user_info['user_login_password'] == $password) {
-            Session::set('userid', $userid);
+            Session::set('userid', $user_info['user_id']);
             return json([
                 'code' => 1001,
                 'message' => '登录成功！'
@@ -70,13 +70,14 @@ class Api extends \think\Controller
 
     public function get_info()
     {
+        $this->check_login();
         if(!Session::has('userid')) {
             return json([
                 'code' => 1022,
                 'message' => '获取用户信息失败！'
             ]);
         }
-        $userid = Session::get('userid');
+        $userid = intval(Session::get('userid'));
         $user = new User;
         $user_info = $user->field('user_login_id,user_name,user_permission_id,user_post_id,user_head_url')->where('user_id', $userid)->find();
         return json([
@@ -93,6 +94,8 @@ class Api extends \think\Controller
 
     public function upload()
     {
+        $this->check_login();
+        $user_id = intval(Session::get('userid'));
         $file_info = request()->file('file');
         if($file_info){
             $file_info = $file_info->move(ROOT_PATH.'upload');
@@ -104,6 +107,7 @@ class Api extends \think\Controller
                 $file = new File();
                 $file->data([
                     'file_name'  =>  $file_info->getInfo()['name'],
+                    'file_user_id' => $user_id,
                     'file_md5' =>  substr($file_info->getFilename(), 0, 32),
                     'file_upload_time' =>  $now_time
                 ]);
@@ -133,6 +137,8 @@ class Api extends \think\Controller
 
     public function download($fileid)
     {
+        $this->check_login();
+        $user_id = intval(Session::get('userid'));
         if(strlen($fileid) != 32) {
             return json([
                 'code' => 1042,
@@ -140,7 +146,7 @@ class Api extends \think\Controller
             ]);
         }
         $file = new File();
-        $file_info = $file->field('file_name,file_upload_time')->where('file_md5', $fileid)->find();
+        $file_info = $file->field('file_name,file_user_id,file_upload_time')->where('file_md5', $fileid)->find();
         if($file_info === null) {
             return json([
                 'code' => 1043,
@@ -159,6 +165,13 @@ class Api extends \think\Controller
             ]);
         }
 
+        if(intval($file_info['file_user_id']) != $user_id) {
+            return json([
+                'code' => 1045,
+                'message' => '没有下载权限！'.$file_info['file_user_id'].$user_id
+            ]);
+        }
+
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="'.$file_info['file_name'].'"');
@@ -171,7 +184,7 @@ class Api extends \think\Controller
     }
 
     public function project_edit() {
-
+        $this->check_login();
         // $project_name = intval($request->post('userID'));
         $request = Request::instance();
         $project_name = $request->post('name');
@@ -269,6 +282,7 @@ class Api extends \think\Controller
     }
 
     public function project_get($pageid = 1) {
+        $this->check_login();
         $pageid = intval($pageid);
         $project = new Project();
         $perpage = 10;
@@ -284,6 +298,7 @@ class Api extends \think\Controller
     }
     
     public function project_get_detail($projectid) {
+        $this->check_login();
         $projectid = intval($projectid);
         $project = new Project();
         $project_info = $project->field('project_name,project_description,project_type,project_code,project_address,project_compact_sum,project_target,project_payment,project_introduction,project_compact,project_technology_deal,project_other_file,project_product,project_manager,project_site_manager,project_design_manager,project_purchase_manager,project_receiver,project_plan,project_purchase_plan,project_tip,project_create_time,project_status')->where('project_id', $projectid)->find();
@@ -332,6 +347,7 @@ class Api extends \think\Controller
     }
 
     public function product_excel($fileid) {
+        $this->check_login();
         if(strlen($fileid) != 32) {
             return json([
                 'code' => 1082,
@@ -409,6 +425,16 @@ class Api extends \think\Controller
         ]);
     }
 
+    public function product_search() {
+        $this->check_login();
+        $request = Request::instance();
+        // $product_name = $request->get('name');
+
+        $product = new Product();
+        // ->where('product_name', 'like', '%'.$product_name.'%')
+        $product_info = $product->field('product_id as ID,product_name as name')->where('product_is_root', 1)->select();
+        return json($product_info);
+    }
     public function purchase()
     {
         return $this->fetch('purchase', ['name' => Session::get('name')]);
@@ -416,10 +442,10 @@ class Api extends \think\Controller
 
     public function test()
     {
-        $reader = new Xlsx();
-        $spreadsheet = $reader->load("1.xlsx");
-        $sheet = $spreadsheet->getSheet(0);
-        return json($sheet->toArray());
+        $productidlist = '59,60,';
+        $file_id_list = explode(',', $productidlist);
+        array_pop($file_id_list);
+        var_dump($file_id_list);
     }
 
     private function check_login() {
@@ -431,6 +457,7 @@ class Api extends \think\Controller
         $file = new File();
         $file_list = array();
         $file_id_list = explode(',', $fileidlist);
+        array_pop($file_id_list);
         foreach ($file_id_list as $file_id) {
             $file_info = $file->field('file_name,file_md5,file_upload_time')->where('file_id', $file_id)->find();
             $file_list[] = [
@@ -446,6 +473,7 @@ class Api extends \think\Controller
         $file = new File();
         $file_list = array();
         $file_id_list = explode(',', $productidlist);
+        array_pop($file_id_list);
         foreach ($file_id_list as $file_id) {
             $file_info = $file->field('file_name,file_md5,file_upload_time')->where('file_id', $file_id)->find();
             $file_list[] = [
