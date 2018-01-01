@@ -7,7 +7,7 @@ $(function($) {
     if (id) {  // 查看已填写的内容
       $('#productModal').find('.modal-header .modal-title').text('产品详情');
       $('#addProductOver').css('display', 'none');
-      $.get('api/product/get?productID='+id, function(data) {
+      $.get('api/product/get/'+id, function(data) {
         $('#productProject').val(data.ID);
         $('#productNum').val(data.productID);
         $('#productName').val(data.name);

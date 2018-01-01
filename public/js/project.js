@@ -2,6 +2,8 @@ $(function($) {
 
   // 加载项目列表
   function loadProject() {
+    var alertBox = $('#projectTable').parent().next();
+    alertBox.show();
     $.get('api/project/get', function(data) {
       var addContent = '';
       for (var i = 0; i < data.content.length; i++) { 
@@ -21,17 +23,21 @@ $(function($) {
         ';
       }
       $('#projectTable > tbody').html(addContent);
+      alertBox.hide();
     });
   }
   loadProject();
 
   // 项目详情
   $('#projectDetailModal').on('show.bs.modal', function(event) {
+    var modal = $(this);
     var button = $(event.relatedTarget); // Button that triggered the modal
     var id = button.data('id');      // Extract info from data-* attributes
     if (id) {
-      $(this).find('.modal-header .modal-title').text('项目详情');
-      $.get('api/project/getDetail?ID='+id, function(data) {
+      modal.find('.modal-header .modal-title').text('项目详情');
+      var formBox = modal.find('form').hide();
+      var alertBox = modal.find('.alert').show();
+      $.get('api/project/getDetail/'+id, function(data) {
         console.log(data);
         // 填入数据
         $('#projectNum').val(data.content.ID);
@@ -63,12 +69,14 @@ $(function($) {
         addFileBtn($('#projectPlan'), data.content.projectPlanArray);
         addFileBtn($('#projectPurchasePlan'), data.content.purchasePlanArray);
         addProductBtn($('#projectProduct'), data.content.productArray);
+        formBox.show();
+        alertBox.hide();
       });
     } else {
-      $(this).find('.modal-header .modal-title').text('新建项目');
+      modal.find('.modal-header .modal-title').text('新建项目');
       // 清空数据
-      $(this).find('input').val('');
-      $(this).find('.form-group > .btn-group').remove();
+      modal.find('input').val('');
+      modal.find('.form-group > .btn-group').remove();
     }
     // 添加文件按钮
     function addFileBtn(JQdom, array) {
@@ -94,7 +102,8 @@ $(function($) {
             <button type="button" class="btn btn-danger del-product" data-productid="'+array[i].productID+'"><span class="glyphicon glyphicon-remove"></span></button>\
           </div>\
         ';
-      }   
+      }
+      JQdom.nextAll('.btn-group').remove();  
       JQdom.after(addContent);
     }
   });
