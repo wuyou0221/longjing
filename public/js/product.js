@@ -18,7 +18,7 @@ $(function($) {
     } else {   // 新建
       $('#productProject').val($('#projectNum').val());
       $('#productModal').find('.modal-header .modal-title').text('添加产品');
-      $('#productModal').find('input').val('');
+      $('#productModal').find('input, textarea').val('');
       $('#addProductOver').css('display', 'inline-block');
     }
     // 弹出新的model

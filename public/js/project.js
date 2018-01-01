@@ -33,7 +33,12 @@ $(function($) {
     var modal = $(this);
     var button = $(event.relatedTarget); // Button that triggered the modal
     var id = button.data('id');      // Extract info from data-* attributes
-    if (id) {
+    if (id === 'new') {
+      modal.find('.modal-header .modal-title').text('新建项目');
+      // 清空数据
+      modal.find('input, textarea').val('');
+      modal.find('.form-group > .btn-group').remove();
+    } else if (id) {
       modal.find('.modal-header .modal-title').text('项目详情');
       var formBox = modal.find('form').hide();
       var alertBox = modal.find('.alert').show();
@@ -72,11 +77,6 @@ $(function($) {
         formBox.show();
         alertBox.hide();
       });
-    } else {
-      modal.find('.modal-header .modal-title').text('新建项目');
-      // 清空数据
-      modal.find('input').val('');
-      modal.find('.form-group > .btn-group').remove();
     }
     // 添加文件按钮
     function addFileBtn(JQdom, array) {
