@@ -534,14 +534,13 @@ class Api extends \think\Controller
         //获取参数并判断
         $request = Request::instance();
         
-        if(!$request->has('ID') || !$request->has('fileName')) {
+        if(!$request->has('fileName')) {
             return json([
                 'code' => 1124,
                 'message' => '参数有误！'
             ]);
         }
 
-        $project_id = $request->post('ID');
         $file_id = $request->post('fileName');
 
         if(strlen($file_id) != 32) {
@@ -593,7 +592,6 @@ class Api extends \think\Controller
                 continue;
             }
             $product->data([
-                'product_project_id' => $project_id,
                 'product_item_id'  =>  $item_info['item_id'],
                 'product_name' =>  $product_temp_info[0],
                 'product_type' =>  $product_info[1],
