@@ -599,7 +599,7 @@ class Api extends \think\Controller
                 'product_tip' =>  $product_temp_info[3]
             ]);
             $product->isUpdate(false)->save();
-            $product_data_list += $product->product_id.',';
+            $product_data_list = $product_data_list.$product->product_id.',';
             $product_data[] = [
                 'productID' => $product->product_id,
                 'productName' => $product_temp_info[0]
