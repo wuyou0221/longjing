@@ -71,9 +71,23 @@ $(function($) {
     $('#productName').val($(this).text());
     $('#itemID').val($(this).data('itemid'));
   });
-
-  $('.search-item').on('input propertychange', function(event) {
-    console.log($(this));
+  var timeout;
+  $('.search-item').on('input propertychange', function() {
+    clearTimeout(timeout);   // 重复触发则取消
+    var input = $(this);
+    var inputBox = input.parents('li');   
+    timeout = setTimeout(function(){
+      $.get('api/item/search?name='+input.val(), function(data) {
+        var addContent = '';
+        for (var i = 0; i < data.content.length; i++) {
+          addContent += '\
+            <li><a class="item-single" href="#" data-itemid="'+data.content[i].itemID+'">'+data.content[i].name+'</a></li>\
+          ';
+        }
+        inputBox.nextAll('li').remove();
+        inputBox.after(addContent);
+      });
+    }, 500);
   });
 
 });
