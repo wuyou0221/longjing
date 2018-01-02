@@ -21,7 +21,8 @@
                     <a id="itemList" role="button" data-toggle="dropdown">
                       <div class="form-group">
                         <label for="productName">名称</label>
-                        <input type="text" class="form-control" id="productName" name="name" placeholder="点击查找" readonly>
+                        <input type="hidden" class="form-control" id="itemID" name="itemID">
+                        <input type="text" class="form-control" id="productName" placeholder="点击查找" readonly>
                       </div>
                     </a>
                     <ul style="max-height: 200px; overflow-y: auto;" class="dropdown-menu" aria-labelledby="itemList">
@@ -31,9 +32,9 @@
                           <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
                         </div>
                       </li>
-                      <li><a class="item-single" href="#">Another action</a></li>
-                      <li><a class="item-single" href="#">Something else here</a></li>
-                      <li><a class="item-single" href="#">Separated link</a></li>
+                      <li><a class="item-single" href="#" data-itemid="1">Another action</a></li>
+                      <li><a class="item-single" href="#" data-itemid="2">Something else here</a></li>
+                      <li><a class="item-single" href="#" data-itemid="3">Separated link</a></li>
                     </ul>
                   </div>
                 </div>

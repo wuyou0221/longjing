@@ -1,7 +1,7 @@
 API
 
 *************************************
-接口：api/user/login
+接口：user/login
 功能：登录
 方式：post
 发送：
@@ -29,7 +29,7 @@ API
   }
 
 *************************************
-接口：api/user/logout
+接口：logout
 功能：注销
 方式：get
 发送：空
@@ -40,7 +40,7 @@ API
   }
 
 *************************************
-接口：api/user/getInfo
+接口：user/getInfo
 功能：获取用户信息
 方式：get
 发送：空
@@ -48,11 +48,11 @@ API
   {
     "code" : 1021,
     "message" : "获取用户信息成功！",
-    "user_login_id" : 20170001,
-    "user_name" : "宇思",
-    "user_permission" : 0,  //权限
-    "user_post" : 0,  //职称
-    "user_head_url" : "https:\/\/avatars0.githubusercontent.com\/u\/17042911?s=460&v=4"
+    "userLoginId" : 20170001,
+    "userName" : "宇思",
+    "userPermission" : 0,  //权限
+    "userPost" : 0,  //职称
+    "userHeadUrl" : "https:\/\/avatars0.githubusercontent.com\/u\/17042911?s=460&v=4"
   }
 
   {
@@ -117,7 +117,7 @@ API
 & tip=备注
 返回：
   {
-    "error":0,
+    "code":0,
     "msg":"OK!"
   }
 
@@ -129,7 +129,7 @@ API
   ID=00001
 返回：
   {
-    "error":"0",
+    "code":"0",
     "content":{
       "ID":"00001",             //为空则新建项目，系统生成ID
       "name":"项目名称",
@@ -245,6 +245,7 @@ API
   ID=00001         //关联项目ID，后续需从指定项目选取产品，该字段用于遍历的筛选条件
 & productID=CP001  //产品ID，为空则新建
 & name=名称
+& itemID=物料ID
 & type=型号
 & sum=3       //数量
 & tip=备注
@@ -267,9 +268,32 @@ API
     "ID":"00001",
     "productID":"CP001",
     "name":"名称",
+    "itemID":"物料ID"，
     "type":"型号",
     "sum":3,
     "tip":"备注"
+  }
+
+*************************************
+接口：item/search
+功能：物料库中搜索
+方式：get
+发送：
+  name=name
+返回：
+  {
+    "code":0,
+    "message":"OK",
+    "content":[
+      {
+        "itemID":1,
+        "name":"名字"
+      },
+      {
+        "itemID":1,
+        "name":"名字"
+      }
+    ]
   }
 
 *************************************

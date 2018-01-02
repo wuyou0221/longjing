@@ -3,13 +3,20 @@ $(function($) {
   // 内容适配屏幕高度
   var bodyHeight = window.innerHeight - 224;
   $('#pageBody').css('min-height', bodyHeight+'px');
-  $('#slidebar').css('min-height', $('#pageBody')[0].clientHeight+'px');
-  $('.login-bar').css('min-height', $('#pageBody')[0].clientHeight+'px');
+  $('.login-bar').css('min-height', $('#pageBody').height()+'px');
   if (window.innerWidth > 768) {
-    $('#slidebar').css('min-height', $('#pageBody')[0].clientHeight+'px');
+    $('#slidebar').css('min-height', $('#pageBody').height()+'px');
   } else {
     $('#slidebar').css('min-height', '0');
   }
+
+  // 获取用户信息
+  $.get('api/user/getInfo', function(data) {
+    var userBox = $('.user');
+    userBox.find('img').attr('src', data.userHeadUrl);
+    userBox.find('.label').text(data.userPost);
+    userBox.find('.user-name').text(data.userName);
+  });
 
   // 上传附件or导入Excel
   $('.upload-file').on('click', function() {
@@ -87,7 +94,18 @@ $(function($) {
 
 });
 
-// 公用方法
+
+/************* 公用方法 **************/
+
+// 调整边侧栏高度
+var adjustBox = $('#adjustBox');
+function resizePage() {
+  adjustBox.height(40);
+  var addHeight = $('#pageBody').height() - adjustBox.prev().height() - 40;
+  if (addHeight > 40) {
+    adjustBox.height(addHeight);
+  }
+}
 
 // 分页
 function pageDivide(pageBox, page, total, getList) {
@@ -110,3 +128,4 @@ function pageDivide(pageBox, page, total, getList) {
     pageContent.next().hide();
   }
 }
+

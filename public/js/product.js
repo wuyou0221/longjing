@@ -69,6 +69,7 @@ $(function($) {
   // 搜索物料
   productModal.on('click', '.item-single', function(event) {
     $('#productName').val($(this).text());
+    $('#itemID').val($(this).data('itemid'));
   });
 
   $('.search-item').on('input propertychange', function(event) {

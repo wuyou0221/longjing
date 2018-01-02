@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> -->
     <meta name="viewport" content="width=1200">
-    <title>LongJing</title>
+    <title>LongJin</title>
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="./css/my.css">
 
@@ -23,10 +23,10 @@
             <img src="image/head.jpg" class="img-thumbnail" width="100%">
           </div>
           <div class="user-info">
-            <p><span class="label label-primary">管理员</span></p>
+            <p><span class="label label-primary">职称</span></p>
             <p>
-              ADMIN | 
-              <a href="#">退出</a>
+              <span class="user-name">用户名</span> | 
+              <a href="logout">退出</a>
             </p>
           </div>
         </div>
@@ -35,7 +35,7 @@
             <img src="image/head.jpg" class="img-thumbnail" width="100%">
           </a>
           <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-             <li><a>宇思 <span class="label label-primary">管理员</span></a></li>
+             <li><a><span class="user-name">用户名</span> <span class="label label-primary">职称</span></a></li>
              <li role="separator" class="divider"></li>
              <li><a href="#">退出</a></li>
           </ul>
@@ -74,5 +74,5 @@
               </div>
             </li>
           </ul>
-          <div class="hidden-xs" style="height: 40px"></div>
+          <div id="adjustBox" class="hidden-xs" style="height: 40px"></div>
         </nav>

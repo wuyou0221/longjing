@@ -29,6 +29,7 @@ $(function($) {
       tbody.html(addContent);
       pageDivide(pageBox, data.page, data.total, loadProject);
       alertBox.hide();
+      resizePage();
     });
   }
   loadProject(1);
@@ -118,7 +119,7 @@ $(function($) {
     var thisBtn = $(this).button('loading');
     $.post('api/project/edit', $('#projectDetailForm').serialize(), function(data) {
       thisBtn.button('reset');
-      if (data.code === 1052) {
+      if (data.code === 1052 || data.code === 1051) {
         $('#projectDetailModal').modal('hide');
         loadProject(currentPage);
       } else {
