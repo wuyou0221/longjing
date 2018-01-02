@@ -190,7 +190,7 @@ class Api extends \think\Controller
         $request = Request::instance();
         $project_name = $request->post('name');
         $project_description = $request->post('nameAbbr');
-        $project_type = intval($request->post('type'));
+        $project_type = $request->post('type');
         $project_code = $request->post('code');
         $project_address = $request->post('address');
         $project_compact_sum = $request->post('compactSum');
