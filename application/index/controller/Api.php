@@ -528,6 +528,35 @@ class Api extends \think\Controller
         ]);
     }
     public function product_excel() {
+        $this->check_login();
+        if(strlen($fileid) != 32) {
+            return json([
+                'code' => 1082,
+                'message' => '参数有误！'
+            ]);
+        }
+        $file = new File();
+        $file_info = $file->field('file_name,file_upload_time')->where('file_md5', $fileid)->find();
+        if($file_info === null) {
+            return json([
+                'code' => 1083,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        $file_extension = explode('.', $file_info['file_name']);
+        $file_path = ROOT_PATH.'upload'.DS.date('Ymd', $file_info['file_upload_time']).DS.$fileid.'.'.array_pop($file_extension);
+
+        //检查文件是否存在
+        if(!file_exists($file_path)) {  
+            return json([
+                'code' => 1084,
+                'message' => '文件已被删除！'
+            ]);
+        }
+
+        $product_array = $this->excel_to_array($file_path);
+        $product = new Product();
         
     }
 
@@ -574,7 +603,7 @@ class Api extends \think\Controller
             $product_info = $product->field('product_name')->where('product_id', $product_id)->find();
             $product_list[] = [
                 'productID' => $product_id,
-                'productName' => $file_info['product_name']
+                'productName' => $product_info['product_name']
             ];
         }
         return $product_list;
