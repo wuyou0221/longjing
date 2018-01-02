@@ -4,8 +4,8 @@ $(function($) {
   // 明细产品详情
   $('.modal').on('click', '.product-detail', function() {
     // 还原model数据
-    var id = $(this).data('productid');
-    if (id === 'new') {
+    var id = $(this).parent().data('productid');
+    if ($(this).data('type') === 'add') {
       // 新建
       $('#productProject').val($('#projectNum').val());
       productModal.find('.modal-header .modal-title').text('添加产品');
@@ -14,14 +14,19 @@ $(function($) {
     } else if (id) {
       // 查看已填写的内容
       productModal.find('.modal-header .modal-title').text('产品详情');
+      productModal.find('.alert').show();
+      $('#productForm').hide();
       $('#addProductOver').css('display', 'none');
-      $.get('api/product/get/'+id, function(data) {
-        $('#productProject').val(data.ID);
+      $.get('api/product/getDetail?productID='+id, function(data) {
         $('#productNum').val(data.productID);
         $('#productName').val(data.name);
         $('#productType').val(data.type);
         $('#productSum').val(data.sum);
         $('#productTip').val(data.tip);
+      })
+      .done(function() {
+        productModal.find('.alert').hide();
+        $('#productForm').show();
       });
     }
     // 弹出新的model
@@ -44,16 +49,10 @@ $(function($) {
   productModal.on('click', '#addProductOver', function() {
     productModal.modal('hide');
     $.post('api/product/edit', $('#productForm').serialize(), function(data) {
-      var addContent = '\
-        <div class="btn-group" role="group">\
-          <button type="button" class="btn btn-default product-detail" data-productid="'+data.productID+'">'+data.productName+'</button>\
-          <button type="button" class="btn btn-danger del-product" data-productid="'+data.productID+'"><span class="glyphicon glyphicon-remove"></span></button>\
-        </div>\
-      ';
       var fatherModal = $('#'+productModal.data('father'));
-      fatherModal.find('.product-detail').last().before(addContent);
       var thisInput = fatherModal.find('[name=product]');
       thisInput.val(thisInput.val()+data.productID+',');
+      addProductBtn(thisInput, [data], true);
     });
   });
 

@@ -7,8 +7,8 @@
             <h4 class="modal-title" id="productModalLabel">明细产品</h4>
           </div>
           <div class="modal-body">
+            <div class="alert alert-warning" role="alert" style="display: none;">加载中</div>
             <form id="productForm">
-              <input type="hidden" id="productProject" name="ID" value >
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
@@ -32,9 +32,7 @@
                           <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
                         </div>
                       </li>
-                      <li><a class="item-single" href="#" data-itemid="1">Another action</a></li>
-                      <li><a class="item-single" href="#" data-itemid="2">Something else here</a></li>
-                      <li><a class="item-single" href="#" data-itemid="3">Separated link</a></li>
+                      <li><a class="item-single" href="#" data-itemid="1"><em>请输入需要查询的物料</em></a></li>
                     </ul>
                   </div>
                 </div>
@@ -47,7 +45,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="productSum">数量</label>
-                    <input type="number" class="form-control" id="productSum" name="sum" placeholder="数量">
+                    <input type="number" min="1" max="255" class="form-control" id="productSum" name="sum" placeholder="1~255">
                   </div>
                 </div>
                 <div class="col-sm-12">

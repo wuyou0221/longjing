@@ -445,7 +445,6 @@ class Api extends \think\Controller
     public function product_edit() {
         $this->check_login();
         $request = Request::instance();
-        $product_project_id = $request->post('ID');
         $product_item_id = $request->post('itemID');
         $product_name = $request->post('name');
         $product_sum = intval($request->post('sum'));
@@ -464,7 +463,6 @@ class Api extends \think\Controller
                 ]);
             }
             $product->save([
-                'product_project_id' => $product_project_id,
                 'product_item_id' => $product_item_id,
                 'product_name' => $product_name,
                 'product_sum' => $product_sum,
@@ -479,7 +477,6 @@ class Api extends \think\Controller
             ]);
         } else {
             $product->data([
-                'product_project_id' => $product_project_id,
                 'product_item_id' => $product_item_id,
                 'product_name' => $product_name,
                 'product_sum' => $product_sum,
@@ -508,7 +505,7 @@ class Api extends \think\Controller
         $product_id = $request->get('productID');
        
         $product = new Product();
-        $product_info = $product->field('product_project_id,product_item_id,product_name,product_sum,product_type,product_tip')->where('product_id', $product_id)->find();
+        $product_info = $product->field('product_item_id,product_name,product_sum,product_type,product_tip')->where('product_id', $product_id)->find();
         if($product_info == null) {
             return json([
                 'code' => 1112,
@@ -518,7 +515,6 @@ class Api extends \think\Controller
         return json([
             'code' => 1111,
             'message' => '产品详细获取成功！',
-            'ID' => $product_info['product_project_id'],
             'productID' => $product_id,
             'itemID' => $product_info['product_item_id'],
             'name' => $product_info['product_name'],
@@ -529,7 +525,7 @@ class Api extends \think\Controller
     }
     public function product_excel() {
         //检查登陆
-        $this->check_login();
+        //$this->check_login();
         
         //获取参数并判断
         $request = Request::instance();

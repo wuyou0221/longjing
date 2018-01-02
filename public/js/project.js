@@ -28,6 +28,8 @@ $(function($) {
       }
       tbody.html(addContent);
       pageDivide(pageBox, data.page, data.total, loadProject);
+    })
+    .done(function() {
       alertBox.hide();
       resizePage();
     });
@@ -74,43 +76,17 @@ $(function($) {
         $('#projectPurchasePlan').val(data.content.purchasePlan);
         $('#projectTip').val(data.content.tip);
         // 添加按钮
-        addFileBtn($('#projectCompact'), data.content.compactArray);
-        addFileBtn($('#projectTecDeal'), data.content.tecDealArray);
-        addFileBtn($('#projectOtherFile'), data.content.otherFileArray);
-        addFileBtn($('#projectPlan'), data.content.projectPlanArray);
-        addFileBtn($('#projectPurchasePlan'), data.content.purchasePlanArray);
-        addProductBtn($('#projectProduct'), data.content.productArray);
+        addFileBtn($('#projectCompact'), data.content.compactArray, false);
+        addFileBtn($('#projectTecDeal'), data.content.tecDealArray, false);
+        addFileBtn($('#projectOtherFile'), data.content.otherFileArray, false);
+        addFileBtn($('#projectPlan'), data.content.projectPlanArray, false);
+        addFileBtn($('#projectPurchasePlan'), data.content.purchasePlanArray, false);
+        addProductBtn($('#projectProduct'), data.content.productArray, false);      
+      })
+      .done(function() {
         formBox.show();
         alertBox.hide();
       });
-    }
-    // 添加文件按钮
-    function addFileBtn(JQdom, array) {
-      var addContent = '';
-      for (var i = 0; i < array.length; i++) {    
-        addContent += '\
-          <div class="btn-group" role="group" data-fileid="'+array[i].fileID+'">\
-            <a href="api/file/download/'+array[i].downloadUrl+'" role="button" class="btn btn-default">'+array[i].fileName+' | '+array[i].fileTime+'</a>\
-            <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>\
-          </div>\
-        ';
-      }
-      JQdom.nextAll('.btn-group').remove();
-      JQdom.after(addContent);
-    }
-    // 添加产品明细按钮
-    function addProductBtn(JQdom, array) {
-      var addContent = '';
-      for (var i = 0; i < array.length; i++) {
-        addContent += '\
-          <div class="btn-group" role="group">\
-            <button type="button" class="btn btn-default product-detail" data-productid="'+array[i].productID+'">'+array[i].productName+'</button>\
-            <button type="button" class="btn btn-danger del-product" data-productid="'+array[i].productID+'"><span class="glyphicon glyphicon-remove"></span></button>\
-          </div>\
-        ';
-      }
-      JQdom.nextAll('.btn-group').remove();  
-      JQdom.after(addContent);
     }
   });
 
