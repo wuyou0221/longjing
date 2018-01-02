@@ -254,7 +254,7 @@ class Api extends \think\Controller
                 'project_description' => $project_description,
                 'project_user_id' => $user_id,
                 'project_type' => $project_type,
-                'project_code' => time(),
+                'project_code' => $project_code,
                 'project_address' => $project_address,
                 'project_compact_sum' => $project_compact_sum,
                 'project_target' => $project_target,
