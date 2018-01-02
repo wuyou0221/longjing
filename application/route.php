@@ -32,6 +32,8 @@ return [
         'item/excel/:fileid' => ['index/Api/item_excel', ['method' => 'get'], ['fileid' => '\w+']],
         'item/search' => ['index/Api/item_search', ['method' => 'get']],
         'product/edit' => ['index/Api/product_edit', ['method' => 'post']],
+        'product/getDetail' => ['index/Api/product_get_detail', ['method' => 'get']],
+        'product/excel/:fileid' => ['index/Api/product_excel', ['method' => 'get'], ['fileid' => '\w+']],
         '__miss__' => ['index/Index/index', ['method' => 'get']]
     ],
     '[login]' => [

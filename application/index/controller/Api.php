@@ -190,7 +190,7 @@ class Api extends \think\Controller
         $request = Request::instance();
         $project_name = $request->post('name');
         $project_description = $request->post('nameAbbr');
-        $project_type = intval($request->post('type'));
+        $project_type = $request->post('type');
         $project_code = $request->post('code');
         $project_address = $request->post('address');
         $project_compact_sum = $request->post('compactSum');
@@ -495,6 +495,42 @@ class Api extends \think\Controller
             ]);
         }
     }
+    public function product_get_detail() {
+        $this->check_login();
+        $request = Request::instance();
+        if(!$request->has('productID')) {
+            return json([
+                'code' => 1112,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        $product_id = $request->get('productID');
+       
+        $product = new Product();
+        $product_info = $product->field('product_project_id,product_item_id,product_name,product_sum,product_type,product_tip')->where('product_id', $product_id)->find();
+        if($product_info == null) {
+            return json([
+                'code' => 1112,
+                'message' => '参数有误！'
+            ]);
+        }
+        return json([
+            'code' => 1111,
+            'message' => '产品详细获取成功！',
+            'ID' => $product_info['product_project_id'],
+            'productID' => $product_id,
+            'itemID' => $product_info['product_item_id'],
+            'name' => $product_info['product_name'],
+            'type' => $product_info['product_type'],
+            'sum' => $product_info['product_sum'],
+            'tip' => $product_info['product_tip']
+        ]);
+    }
+    public function product_excel() {
+        
+    }
+
     public function purchase()
     {
         return $this->fetch('purchase', ['name' => Session::get('name')]);
@@ -530,18 +566,18 @@ class Api extends \think\Controller
         return $file_list;
     }
     private function list_to_product($productidlist) {
-        $file = new File();
-        $file_list = array();
-        $file_id_list = explode(',', $productidlist);
-        array_pop($file_id_list);
-        foreach ($file_id_list as $file_id) {
-            $file_info = $file->field('file_name,file_md5,file_upload_time')->where('file_id', $file_id)->find();
-            $file_list[] = [
-                'productID' => $file_id,
-                'productName' => $file_info['file_name']
+        $product = new Product();
+        $product_list = array();
+        $product_id_list = explode(',', $productidlist);
+        array_pop($product_id_list);
+        foreach ($product_id_list as $product_id) {
+            $product_info = $product->field('product_name')->where('product_id', $product_id)->find();
+            $product_list[] = [
+                'productID' => $product_id,
+                'productName' => $file_info['product_name']
             ];
         }
-        return $file_list;
+        return $product_list;
     }
     private function excel_to_array($filepath) {
         $reader = new Xlsx();
