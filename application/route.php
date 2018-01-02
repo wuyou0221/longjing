@@ -29,8 +29,9 @@ return [
         'project/get/:pageid' => ['index/Api/project_get', ['method' => 'get'], ['pageid' => '\d+']],
         'project/get' => ['index/Api/project_get', ['method' => 'get']],
         'project/getDetail/:projectid' => ['index/Api/project_get_detail', ['method' => 'get'], ['projectid' => '\d+']],
-        'product/excel/:fileid' => ['index/Api/product_excel', ['method' => 'get'], ['fileid' => '\w+']],
-        'product/search' => ['index/Api/product_search', ['method' => 'get']],
+        'item/excel/:fileid' => ['index/Api/item_excel', ['method' => 'get'], ['fileid' => '\w+']],
+        'item/search' => ['index/Api/item_search', ['method' => 'get']],
+        'product/edit' => ['index/Api/product_edit', ['method' => 'post']],
         '__miss__' => ['index/Index/index', ['method' => 'get']]
     ],
     '[login]' => [

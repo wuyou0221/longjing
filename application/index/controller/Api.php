@@ -8,6 +8,7 @@ use think\Hook;
 use app\index\model\User;
 use app\index\model\File;
 use app\index\model\Project;
+use app\index\model\Item;
 use app\index\model\Product;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
@@ -168,7 +169,7 @@ class Api extends \think\Controller
         if(intval($file_info['file_user_id']) != $user_id) {
             return json([
                 'code' => 1045,
-                'message' => '没有下载权限！'.$file_info['file_user_id'].$user_id
+                'message' => '没有下载权限！'
             ]);
         }
 
@@ -185,7 +186,7 @@ class Api extends \think\Controller
 
     public function project_edit() {
         $this->check_login();
-        // $project_name = intval($request->post('userID'));
+        $user_id = intval(Session::get('userid'));
         $request = Request::instance();
         $project_name = $request->post('name');
         $project_description = $request->post('nameAbbr');
@@ -251,8 +252,9 @@ class Api extends \think\Controller
             $project->data([
                 'project_name' => $project_name,
                 'project_description' => $project_description,
+                'project_user_id' => $user_id,
                 'project_type' => $project_type,
-                'project_code' => $project_code,
+                'project_code' => time(),
                 'project_address' => $project_address,
                 'project_compact_sum' => $project_compact_sum,
                 'project_target' => $project_target,
@@ -283,11 +285,12 @@ class Api extends \think\Controller
 
     public function project_get($pageid = 1) {
         $this->check_login();
+        $user_id = intval(Session::get('userid'));
         $pageid = intval($pageid);
         $project = new Project();
         $perpage = 10;
         $totalid = ceil($project->count('project_id') / 10);
-        $project_info = $project->field('project_id as ID,project_name as name,project_manager as manager,project_status as state')->order('project_id asc')->limit(($pageid - 1) * $perpage, $pageid * $perpage)->select();
+        $project_info = $project->field('project_id as ID,project_name as name,project_manager as manager,project_status as state')->order('project_id asc')->where('project_user_id', $user_id)->limit(($pageid - 1) * $perpage, $pageid * $perpage)->select();
         return json([
             'code' => 1061,
             'message' => '项目查询成功！',
@@ -346,7 +349,7 @@ class Api extends \think\Controller
         ]);
     }
 
-    public function product_excel($fileid) {
+    public function item_excel($fileid) {
         $this->check_login();
         if(strlen($fileid) != 32) {
             return json([
@@ -425,15 +428,72 @@ class Api extends \think\Controller
         ]);
     }
 
-    public function product_search() {
+    public function item_search() {
         $this->check_login();
         $request = Request::instance();
-        // $product_name = $request->get('name');
+        $item_name = $request->get('name');
+
+        $item = new Item();
+        $item_info = $item->field('item_id as itemID,item_name as name')->where('item_name', 'like', '%'.$item_name.'%')->where('item_is_root', 1)->select();
+        return json([
+            'code' => 1091,
+            'message' => '物料搜索成功！',
+            'content' => $item_info
+        ]);
+    }
+
+    public function product_edit() {
+        $this->check_login();
+        $request = Request::instance();
+        $product_project_id = $request->post('ID');
+        $product_item_id = $request->post('itemID');
+        $product_name = $request->post('name');
+        $product_sum = intval($request->post('sum'));
+        $product_type = $request->post('type');
+        $product_tip = $request->post('tip');
 
         $product = new Product();
-        // ->where('product_name', 'like', '%'.$product_name.'%')
-        $product_info = $product->field('product_id as ID,product_name as name')->where('product_is_root', 1)->select();
-        return json($product_info);
+        
+        if($request->post('productID') != '') {
+            $product_id = intval($request->post('productID'));
+            $product_info = $product->field('product_id')->where('product_id', $product_id)->find();
+            if($product_info == null) {
+                return json([
+                    'code' => 1103,
+                    'message' => '项目不存在！'
+                ]);
+            }
+            $product->save([
+                'product_project_id' => $product_project_id,
+                'product_item_id' => $product_item_id,
+                'product_name' => $product_name,
+                'product_sum' => $product_sum,
+                'product_type' => $product_type,
+                'product_tip' => $product_tip,
+            ], ['product_id' => $product_id]);
+            return json([
+                'code' => 1102,
+                'message' => '产品编辑成功！',
+                'productID' => $product_id,
+                'productName' => $product_name
+            ]);
+        } else {
+            $product->data([
+                'product_project_id' => $product_project_id,
+                'product_item_id' => $product_item_id,
+                'product_name' => $product_name,
+                'product_sum' => $product_sum,
+                'product_type' => $product_type,
+                'product_tip' => $product_tip,
+            ]);
+            $product->save();
+            return json([
+                'code' => 1101,
+                'message' => '产品创建成功！',
+                'productID' => $product->product_id,
+                'productName' => $product_name
+            ]);
+        }
     }
     public function purchase()
     {
