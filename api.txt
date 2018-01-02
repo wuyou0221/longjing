@@ -274,6 +274,7 @@ API
     "tip":"备注"
   }
 
+
 *************************************
 接口：item/search
 功能：物料库中搜索
@@ -387,4 +388,172 @@ API
         "productName":"产品1"
       }
     ]
+  }
+
+
+
+*************************************
+接口：purchase/getProduct
+功能：获取某个项目可用于请购的产品（已添加请购的的产品不返回）
+方式：get
+发送：
+  ID=CP001
+返回：
+  {
+    "code":0,
+    "message":"ok",
+    "content":[
+      {
+        "productID":"00001",
+        "productName":"name",
+      },
+      {
+        "productID":"00002",
+        "productName":"name",
+      }
+    ]
+  }
+  
+
+*************************************
+接口：purchase/getProject
+功能：获取可用于请购的项目
+方式：get
+发送：null
+返回：
+  {
+    "code":0,
+    "message":"ok",
+    "content":[
+      {
+        "ID":"00001",
+        "name":"name",
+      },
+      {
+        "ID":"00002",
+        "name":"name",
+      }
+    ]
+  }
+
+*************************************
+接口：purchase/edit
+功能：新建/修改请购单
+方式：post
+发送：
+  purchaseID=1
+& type=A
+& project=A
+& code=项目代号
+& ID=关联项目ID
+& product=1,2,3,    //请购产品
+& dept=请购单位
+& tecPara=技术参数
+& explain=用途说明
+& tecFile=1,2,3,
+& isConform=是
+& notReason=不符合原因
+& notContent=不符合内容
+& way=付款方式
+& quality=质保期
+& ddl=2018-01-18
+& arriveDate=2018-01-18
+& place=交货地点
+& recommend=推荐供方
+& order=接单人
+& orderDate=2018-01-18
+& tip=备注
+返回：
+  {
+    "code":0,
+    "msg":"OK!"
+  }
+
+*************************************
+接口：purchase/get/:pageid
+功能：获取请购列表
+方式：get
+发送：
+  pageid=1
+返回：
+  {
+    "code" : 0,
+    "message" : "ok",
+    "page" : 1,    //页码
+    "total" : 8,   //总页码
+    "content":[
+      {
+        "purchaseID":"00001",
+        "product":"采购产品1/采购产品2",
+        "project":"关联项目名",
+        "state":"待审核",
+      },
+      {
+        "purchaseID":"00001",
+        "product":"采购产品1/采购产品2",
+        "project":"关联项目名",
+        "state":"待审核",
+      }
+    ]
+  }
+
+
+*************************************
+接口：purchase/getDetail/:purchaseID
+功能：获取请购详情
+方式：get
+发送：
+  purchaseID=1
+返回：
+  {
+    "code":"0",
+    "message"："ok",
+    "content":{
+      "purchaseID":"1",
+      "type":"A",
+      "project":"A",
+      "code":"项目代号",
+      "ID":"关联项目ID",
+      "product":"1,2,3,",
+      "productArray":[
+        {
+          "productID":1,
+          "productName":"产品1",
+        },
+        {
+          "productID":1,
+          "productName":"产品1",
+        }
+      ],
+      "dept":"请购单位",
+      "tecPara":"技术参数",
+      "explain":"用途说明",
+      "tecFile":"1,2,3,",
+      "tecFileArray":[
+        {
+          "fileID" : "0001",
+          "fileName" : "文件名",
+          "downloadUrl" : "下载地址",
+          "fileTime" : "2017-12-30"
+        },
+        {
+          "fileID" : "0001",
+          "fileName" : "文件名",
+          "downloadUrl" : "下载地址",
+          "fileTime" : "2017-12-30"
+        }
+      ],
+      "isConform":"是",
+      "notReason":"不符合原因",
+      "notContent":"不符合内容",
+      "way":"付款方式",
+      "quality":"质保期",
+      "ddl":"2018-01-18",
+      "arriveDate":"2018-01-18",
+      "place":"交货地点",
+      "recommend":"推荐供方",
+      "order":"接单人",
+      "orderDate":"2018-01-18",
+      "tip":"备注"
+    }
   }
