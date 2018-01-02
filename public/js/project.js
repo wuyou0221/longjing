@@ -44,7 +44,7 @@ $(function($) {
     if (id === 'new') {
       modal.find('.modal-header .modal-title').text('新建项目');
       // 清空数据
-      modal.find('input, textarea').val('');
+      modal.find('input, textarea, select').val('');
       modal.find('.form-group > .btn-group').remove();
     } else if (id) {
       modal.find('.modal-header .modal-title').text('项目详情');

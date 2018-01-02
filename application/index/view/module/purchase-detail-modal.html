@@ -4,137 +4,94 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="purchaseDetailModalLabel">采购申请详情</h4>
+            <h4 class="modal-title" id="purchaseDetailModalLabel">请购详情</h4>
           </div>
           <div class="modal-body">
-            <div class="alert alert-success" role="alert">申请已通过审批</div>
-            <form>
+            <div class="alert alert-warning" role="alert" style="display: none;">加载中</div>
+            <form id="purchaseDetailForm">
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseNum">采购申请编号</label>
-                    <input type="number" disabled class="form-control" id="purchaseNum" placeholder="采购申请编号" value="00001">
+                    <label for="purchaseNum">请购编号</label>
+                    <input type="number" class="form-control" id="purchaseNum" name="purchaseID" placeholder="请购编号" readonly>
                   </div>
                 </div>
                 <div class="col-sm-6">
-                  <div class="dropdown">
-                    <a id="projectList" role="button" data-toggle="dropdown">
-                      <div class="form-group">
-                        <label for="purchaseProject">关联项目</label>
-                        <input type="text" class="form-control" id="purchaseProject" placeholder="点击选择" disabled>
-                      </div>
-                    </a>
-                    <ul style="max-height: 200px; overflow-y: auto;" class="dropdown-menu" aria-labelledby="projectList">
-                      <li><a class="item-single" href="#">Another action</a></li>
-                      <li><a class="item-single" href="#">Something else here</a></li>
-                      <li><a class="item-single" href="#">Separated link</a></li>
-                    </ul>
+                  <div class="form-group">
+                    <label for="purchaseType">请购类别</label>
+                    <select class="form-control" id="purchaseType" name="type">
+                      <option>A</option>
+                      <option>B</option>
+                      <option>C</option>
+                      <option>D</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseProject">关联项目</label>
+                    <input type="hidden" id="purchaseProjectID" name="ID">
+                    <select class="form-control" id="purchaseProject" name="project">
+                      <option data-id="1">B</option>
+                      <option data-id="2">C</option>
+                      <option data-id="3">D</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseProjectCode">项目代号</label>
+                    <input type="text" class="form-control" id="purchaseProjectCode" name="code" placeholder="项目代号">
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label>采购内容</label>
-                    <input type="hidden" class="form-control" disabled><br>
-                    <p class="help-block">点击产品以查看详情</p>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-default product-detail" data-name="产品1"">产品1</button>
-                      <button type="button" class="btn btn-danger delProduct"><span class="glyphicon glyphicon-remove"></span></button>
+                    <label>物资名称</label><br>
+                    <input type="hidden" id="purchaseProduct" class="form-control" name="product" value="">
+                    <div class="btn-group" role="group" data-productid="1">
+                      <button type="button" class="btn btn-default product-detail">产品1</button>
+                      <button type="button" class="btn btn-danger del-product"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
-                    <div class="btn-group" role="group">
-                      <button type="button" class="btn btn-default product-detail" data-name="产品2">产品2</button>
-                      <button type="button" class="btn btn-danger delProduct"><span class="glyphicon glyphicon-remove"></span></button>
+                    <div class="btn-group" role="group" data-productid="2">
+                      <button type="button" class="btn btn-default product-detail">产品2</button>
+                      <button type="button" class="btn btn-danger del-product"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-plus"></span></button>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                      </ul>
-                    </div>
+                    <button type="button" class="btn btn-info product-detail" data-type="addfrom"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseApplyDate">申请日期</label>
-                    <input type="date" class="form-control" id="purchaseApplyDate" placeholder="申请日期">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="purchaseArriveDate">到货日期</label>
-                    <input type="date" class="form-control" id="purchaseArriveDate" placeholder="到货日期">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="purchasePlace">到货地点</label>
-                    <input type="text" class="form-control" id="purchasePlace" placeholder="到货地点">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="purchaseUnit">请购单位</label>
-                    <input type="text" class="form-control" id="purchaseUnit" placeholder="请购单位">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="purchaseWay">付款方式</label>
-                    <input type="text" class="form-control" id="purchaseWay" placeholder="付款方式">
+                    <label for="purchaseDept">请购单位</label>
+                    <input type="text" class="form-control" id="purchaseDept" name="dept" placeholder="请购单位">
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="purchaseTecNorm">技术规范</label>
-                    <textarea class="form-control" id="purchaseTecNorm" placeholder="技术规范"></textarea>
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <label for="purchaseTecFile">技术规范书</label>
-                    <div class="alert alert-warning" role="alert">文件上传中...</div>
-                    <div class="btn-group" role="group">
-                      <a href="#" role="button" class="btn btn-default">附件1</a>
-                      <button type="button" class="btn btn-danger delProduct"><span class="glyphicon glyphicon-remove"></span></button>
-                    </div>
-                    <button type="button" class="btn btn-info"><span class="glyphicon glyphicon-plus"></span></button>
+                    <label for="purchaseTecPara">技术参数</label>
+                    <textarea class="form-control" id="purchaseTecPara" name="tecPara" placeholder="技术参数"></textarea>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="purchaseExplain">用途说明</label>
-                    <textarea class="form-control" id="purchaseExplain" placeholder="用途说明"></textarea>
+                    <textarea class="form-control" id="purchaseExplain" name="explain" placeholder="用途说明"></textarea>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="purchaseRequest">采购商务要求</label>
-                    <textarea class="form-control" id="purchaseRequest" placeholder="采购商务要求"></textarea>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="purchaseDDL">最迟签约时间</label>
-                    <input type="date" class="form-control" id="purchaseDDL" placeholder="最迟签约时间">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="purchaseQuality">质保期</label>
-                    <input type="text" class="form-control" id="purchaseQuality" placeholder="质保期">
-                  </div>
-                </div>
-                <div class="col-sm-12">
-                  <div class="form-group">
-                    <label for="purchaseRecommend">推荐供方</label>
-                    <textarea class="form-control" id="purchaseRecommend" placeholder="推荐供方"></textarea>
+                    <label>技术规范书</label><br>
+                    <input type="hidden" id="purchaseTecFile" name="tecFile">
+                    <div class="btn-group" role="group" data-fileid="0">
+                      <a href="#" role="button" class="btn btn-default">附件1</a>
+                      <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <button type="button" class="btn btn-info upload-file" data-loading-text="上传中"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="purchaseIsConform">是否符合总包合同</label>
-                    <select class="form-control" id="purchaseIsConform">
+                    <select class="form-control" id="purchaseIsConform" name="isConform">
                       <option>是</option>
                       <option>否</option>
                     </select>
@@ -143,31 +100,75 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="purchaseNotReason">不符合原因</label>
-                    <textarea class="form-control" id="purchaseNotReason" placeholder="不符合原因"></textarea>
+                    <textarea class="form-control" id="purchaseNotReason" name="notReason" placeholder="不符合原因"></textarea>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="purchaseNotContent">不符合内容</label>
-                    <textarea class="form-control" id="purchaseNotContent" placeholder="不符合内容"></textarea>
+                    <textarea class="form-control" id="purchaseNotContent" name="notContent" placeholder="不符合内容"></textarea>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseApprover">审批人</label>
-                    <select class="form-control" id="purchaseApprover">
-                      <option>A</option>
-                      <option>B</option>
-                    </select>
+                    <label for="purchaseWay">付款方式</label>
+                    <input type="text" class="form-control" id="purchaseWay" name="way" placeholder="付款方式">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseQuality">质保期</label>
+                    <input type="text" class="form-control" id="purchaseQuality" name="quality" placeholder="质保期">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseDDL">最迟签约日期</label>
+                    <input type="date" class="form-control" id="purchaseDDL" name="ddl" placeholder="最迟签约日期">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseArriveDate">到货日期</label>
+                    <input type="date" class="form-control" id="purchaseArriveDate" name="arriveDate" placeholder="到货日期">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchasePlace">交货地点</label>
+                    <input type="text" class="form-control" id="purchasePlace" name="place" placeholder="交货地点">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="purchaseRecommend">推荐供方</label>
+                    <textarea class="form-control" id="purchaseRecommend" name="recommend" placeholder="推荐供方"></textarea>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseOrder">接单人</label>
+                    <input type="text" class="form-control" id="purchaseOrder" name="order" placeholder="接单人">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseOrderDate">承接期</label>
+                    <input type="date" class="form-control" id="purchaseOrderDate" name="orderDate" placeholder="承接期">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="purchaseTip">备注</label>
+                    <textarea class="form-control" id="purchaseTip" name="tip" placeholder="备注"></textarea>
                   </div>
                 </div>
               </div>          
-
             </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary">保存修改</button>
+            <button type="button" id="purchaseSubmit" class="btn btn-primary" data-loading-text="提交中">保存修改</button>
           </div>
         </div>
       </div>

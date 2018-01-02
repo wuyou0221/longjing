@@ -4,12 +4,12 @@
         <div class="col-sm-10">
 
           <div class="page-header">
-            <h4>采购管理</h4>
+            <h4>请购管理</h4>
           </div>
           <!-- 搜索框 & 新建 -->
           <div class="row">
             <div class="col-xs-3 col-sm-1 col-sm-offset-6 clearfix">
-              <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#purchaseDetailModal" data-name="new"><span class="glyphicon glyphicon-plus"></span></button>
+              <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#purchaseDetailModal" data-id="new"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <div class="col-xs-9 col-sm-5">
               <div class="input-group">
@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="panel panel-default content-list">
-            <table class="table table-hover">
+            <table id="purchaseTable" class="table table-hover">
               <thead>
                 <tr>
                   <th>编号</th>
@@ -38,8 +38,8 @@
                   <td>项目1</td>
                   <td>已通过</td>
                   <td>
-                    <a href="#purchaseDetailModal" data-toggle="modal" data-name="Mark">详细</a> |
-                    <a href="#purchaseProcessModal"  data-toggle="modal" data-name="Mark">审批流程</a>
+                    <a href="#purchaseDetailModal" data-toggle="modal" data-id="1">详细</a> |
+                    <a href="#purchaseProcessModal"  data-toggle="modal" data-id="1">审批流程</a>
                   </td>
                 </tr>
                 <tr>
@@ -48,8 +48,8 @@
                   <td>项目1</td>
                   <td>待审核</td>
                   <td>
-                    <a href="#purchaseDetailModal" data-toggle="modal" data-name="Jacob">详细</a> |
-                    <a href="#purchaseProcessModal"  data-toggle="modal" data-name="Jacob">审批流程</a>
+                    <a href="#purchaseDetailModal" data-toggle="modal" data-id="2">详细</a> |
+                    <a href="#purchaseProcessModal"  data-toggle="modal" data-id="2">审批流程</a>
                   </td>
                   </td>
                 </tr>
@@ -59,8 +59,8 @@
                   <td>项目1</td>
                   <td>待修改</td>
                   <td>
-                    <a href="#purchaseDetailModal" data-toggle="modal" data-name="Larry">详细</a> |
-                    <a href="#purchaseProcessModal"  data-toggle="modal" data-name="Larry">审批流程</a>
+                    <a href="#purchaseDetailModal" data-toggle="modal" data-id="3">详细</a> |
+                    <a href="#purchaseProcessModal"  data-toggle="modal" data-id="3">审批流程</a>
                   </td>
                   </td>
                 </tr>
@@ -68,15 +68,15 @@
             </table>
           </div>
 
-          <div class="alert alert-warning" role="alert">加载中...</div>
+          <div class="alert alert-warning" role="alert" style="display: none;">加载中...</div>
           
           <!-- 页码 -->
           <div class="row" style="margin-bottom: 20px">
             <div class="col-xs-5 col-sm-3 col-xs-offset-3 col-sm-offset-7">
               <div class="pull-right">
-                <button class="btn btn-default"><span class="glyphicon glyphicon-triangle-left text-muted"></span></button>
-                <b> 1 / 8 </b>
-                <button class="btn btn-default"><span class="glyphicon glyphicon-triangle-right text-muted"></span></button>
+                <button class="btn btn-default" style="display: none;"><span class="glyphicon glyphicon-triangle-left text-muted"></span></button>
+                <b> 1 / 1 </b>
+                <button class="btn btn-default" style="display: none;"><span class="glyphicon glyphicon-triangle-right text-muted"></span></button>
               </div>
             </div>
             <div class="col-xs-4 col-sm-2">
@@ -100,6 +100,6 @@
   
   <script src="./js/purchase.js"></script>
   <script src="./js/product.js"></script>
-
+  <script src="./js/upload.js"></script>
   </body>
 </html>

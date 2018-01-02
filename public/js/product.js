@@ -1,22 +1,49 @@
 $(function($) {
 
   var productModal = $('#productModal');
-  // 明细产品详情
+
+  // 弹出产品模态框
   $('.modal').on('click', '.product-detail', function() {
-    // 还原model数据
+    // 模态框初始化
     var id = $(this).parent().data('productid');
+    productModal.find('.alert').show();
+    $('#productForm').hide();
+    $('#productSelect').hide();
+    $('#addProductOver').hide();
+
     if ($(this).data('type') === 'add') {
       // 新建
-      $('#productProject').val($('#projectNum').val());
+      productModal.find('.alert').hide();
       productModal.find('.modal-header .modal-title').text('添加产品');
+      $('#productProject').val($('#projectNum').val());
       productModal.find('input, textarea').val('');
-      $('#addProductOver').css('display', 'inline-block');
+      $('#productForm').show();
+      $('#addProductOver').show();
+
+    } else if ($(this).data('type') === 'addfrom') {
+      // 从已有的集合中选取
+      productModal.find('.modal-header .modal-title').text('选取产品');
+      var ID = $('#purchaseProjectID').val();
+      if (!ID) return false;
+      $.get('api/purchase/getProduct?ID='+ID, function(data) {
+        var addContent = '';
+        for (var i = 0; i < data.content.length; i++) {
+          addContent += '\
+          <div class="btn-group" role="group" data-productid="'+data.content[i].productID+'">\
+            <button type="button" class="btn btn-default product-select">'+data.content[i].productName+'</button>\
+          </div>\
+        ';
+        }
+        $('#productSelect').html(addContent);
+      }).done(function() {
+        $('#productSelect').show();
+        productModal.find('.alert').hide();
+      });
+
     } else if (id) {
       // 查看已填写的内容
       productModal.find('.modal-header .modal-title').text('产品详情');
-      productModal.find('.alert').show();
-      $('#productForm').hide();
-      $('#addProductOver').css('display', 'none');
+      
       $.get('api/product/getDetail?productID='+id, function(data) {
         $('#productNum').val(data.productID);
         $('#productName').val(data.name);
@@ -29,7 +56,7 @@ $(function($) {
         $('#productForm').show();
       });
     }
-    // 弹出新的model
+    // 弹出新的modal
     var fatherModal = $(this).parents('.modal');
     fatherModal.modal('hide');
     fatherModal.on('hidden.bs.modal', function() {  
@@ -45,6 +72,7 @@ $(function($) {
     });
   });
 
+
   // 添加/修改明细产品
   productModal.on('click', '#addProductOver', function() {
     productModal.modal('hide');
@@ -56,6 +84,20 @@ $(function($) {
     });
   });
 
+  // 产品选取
+  productModal.on('click', '.product-select', function() {
+    $(this).attr('disabled','');
+    productModal.modal('hide');
+    var fatherModal = $('#'+productModal.data('father'));
+    var thisInput = fatherModal.find('[name=product]');
+    var data = {
+      productID : $(this).parent().data('productid'),
+      productName: $(this).text()
+    };
+    thisInput.val(thisInput.val()+data.productID+',');
+    addProductBtn(thisInput, [data], true);
+  });
+
   // 删除明细产品
   $('form').on('click', '.del-product', function() {
     var thisItem =  $(this).parent();
@@ -63,6 +105,8 @@ $(function($) {
     // 删除input中的数据
     thisInput.val(thisInput.val().replace(thisItem.data('productid')+',',''));
     thisItem.remove();
+    // 恢复产品可选
+    $('.product-select').removeAttr('disabled');
   });
 
   // 搜索物料

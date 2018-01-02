@@ -8,6 +8,7 @@
           </div>
           <div class="modal-body">
             <div class="alert alert-warning" role="alert" style="display: none;">加载中</div>
+            <!-- 添加产品表单 -->
             <form id="productForm">
               <div class="row">
                 <div class="col-sm-6">
@@ -32,7 +33,7 @@
                           <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
                         </div>
                       </li>
-                      <li><a class="item-single" href="#" data-itemid="1"><em>请输入需要查询的物料</em></a></li>
+                      <li style="margin:5px;color:#777;"><em>请输入需要查询的物料名称</em></li>
                     </ul>
                   </div>
                 </div>
@@ -56,6 +57,15 @@
                 </div>
               </div>
             </form>
+            <!-- 选取现有产品 -->
+            <div id="productSelect" class="form-group">
+              <div class="btn-group" role="group" data-productid="1">
+                <button type="button" class="btn btn-default product-select">产品1</button>
+              </div>
+              <div class="btn-group" role="group" data-productid="2">
+                <button type="button" class="btn btn-default product-select">产品2</button>
+              </div>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

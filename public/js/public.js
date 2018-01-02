@@ -68,7 +68,7 @@ function addFileBtn($input, array, isAdd) {
     ';
   }
   if (!isAdd) $input.nextAll('.btn-group').remove();
-  $input.nextAll('.btn-info').before(addContent);
+  $input.nextAll('[data-type="add"], [data-type="addfrom"]').before(addContent);
 }
 
 // 添加产品明细按钮
@@ -83,5 +83,5 @@ function addProductBtn($input, array, isAdd) {
     ';
   }
   if (!isAdd) $input.nextAll('.btn-group').remove();  
-  $input.nextAll('.btn-info').before(addContent);
+  $input.nextAll('[data-type="add"], [data-type="addfrom"]').before(addContent);
 }
