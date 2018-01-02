@@ -42,7 +42,7 @@ $(function($) {
 
   // 添加/修改明细产品
   productModal.on('click', '#addProductOver', function() {
-    $(this).modal('hide');
+    productModal.modal('hide');
     $.post('api/product/edit', $('#productForm').serialize(), function(data) {
       var addContent = '\
         <div class="btn-group" role="group">\
