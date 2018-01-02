@@ -528,36 +528,94 @@ class Api extends \think\Controller
         ]);
     }
     public function product_excel() {
+        //检查登陆
         $this->check_login();
-        if(strlen($fileid) != 32) {
+        
+        //获取参数并判断
+        $request = Request::instance();
+        
+        if(!$request->has('ID') || !$request->has('fileID')) {
             return json([
-                'code' => 1082,
+                'code' => 1124,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        $project_id = $request->post('ID');
+        $file_id = $request->post('fileID');
+
+        if(strlen($file_id) != 32) {
+            return json([
+                'code' => 1122,
                 'message' => '参数有误！'
             ]);
         }
         $file = new File();
-        $file_info = $file->field('file_name,file_upload_time')->where('file_md5', $fileid)->find();
+        $file_info = $file->field('file_name,file_upload_time')->where('file_md5', $file_id)->find();
         if($file_info === null) {
             return json([
-                'code' => 1083,
+                'code' => 1123,
                 'message' => '参数有误！'
             ]);
         }
 
         $file_extension = explode('.', $file_info['file_name']);
-        $file_path = ROOT_PATH.'upload'.DS.date('Ymd', $file_info['file_upload_time']).DS.$fileid.'.'.array_pop($file_extension);
+        $file_path = ROOT_PATH.'upload'.DS.date('Ymd', $file_info['file_upload_time']).DS.$file_id.'.'.array_pop($file_extension);
 
         //检查文件是否存在
         if(!file_exists($file_path)) {  
             return json([
-                'code' => 1084,
+                'code' => 1124,
                 'message' => '文件已被删除！'
             ]);
         }
 
         $product_array = $this->excel_to_array($file_path);
         $product = new Product();
-        
+        $item = new Item();
+
+        $error_num = 0;
+        $success_num = 0;
+        $total_num = count($product_array);
+        $rank = 0;
+
+        $product_data = array();
+        $product_data_list = '';
+
+        foreach ($product_array as $product_temp_info) {
+            if($product_temp_info[0] == null || $product_temp_info[1] == null || $product_temp_info[2] == null) {
+                $error_num++;
+                continue;
+            }
+            $item_info = $item->field('item_id')->where('item_name', $product_temp_info[0])->find();
+            if($item_info == null) {
+                $error_num++;
+                continue;
+            }
+            $product->data([
+                'product_project_id' => $project_id,
+                'product_item_id'  =>  $item_info['item_id'],
+                'product_name' =>  $product_temp_info[0],
+                'product_type' =>  $product_info[1],
+                'product_sum' =>  $product_info[2],
+                'product_tip' =>  $product_info[3]
+            ]);
+            $product->isUpdate(false)->save();
+            $product_data_list += $product->product_id.',';
+            $product_data[] = [
+                'productID' => $product->product_id,
+                'productName' => $product_temp_info[0]
+            ];
+            $success_num++;
+        }
+        return json([
+            'code' => 1121,
+            'message' => '文件导入成功！',
+            'successNum' => $success_num,
+            'errorNum' => $error_num,
+            'product' => $product_data_list,
+            'productArray' => $product_data
+        ]);
     }
 
     public function purchase()
