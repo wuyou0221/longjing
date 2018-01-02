@@ -594,9 +594,9 @@ class Api extends \think\Controller
             $product->data([
                 'product_item_id'  =>  $item_info['item_id'],
                 'product_name' =>  $product_temp_info[0],
-                'product_type' =>  $product_info[1],
-                'product_sum' =>  $product_info[2],
-                'product_tip' =>  $product_info[3]
+                'product_type' =>  $product_temp_info[1],
+                'product_sum' =>  $product_temp_info[2],
+                'product_tip' =>  $product_temp_info[3]
             ]);
             $product->isUpdate(false)->save();
             $product_data_list += $product->product_id.',';
