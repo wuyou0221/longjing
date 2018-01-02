@@ -534,7 +534,7 @@ class Api extends \think\Controller
         //获取参数并判断
         $request = Request::instance();
         
-        if(!$request->has('ID') || !$request->has('fileID')) {
+        if(!$request->has('ID') || !$request->has('fileName')) {
             return json([
                 'code' => 1124,
                 'message' => '参数有误！'
@@ -542,7 +542,7 @@ class Api extends \think\Controller
         }
 
         $project_id = $request->post('ID');
-        $file_id = $request->post('fileID');
+        $file_id = $request->post('fileName');
 
         if(strlen($file_id) != 32) {
             return json([
@@ -565,7 +565,7 @@ class Api extends \think\Controller
         //检查文件是否存在
         if(!file_exists($file_path)) {  
             return json([
-                'code' => 1124,
+                'code' => 1125,
                 'message' => '文件已被删除！'
             ]);
         }
