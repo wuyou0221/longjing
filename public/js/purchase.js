@@ -27,8 +27,7 @@ $(function($) {
       }
       tbody.html(addContent);
       pageDivide(pageBox, data.page, data.total, loadPurchase);
-    })
-    .done(function() {
+
       alertBox.hide();
       resizePage();
     });
@@ -44,23 +43,22 @@ $(function($) {
     if (id === 'new') {
       $(this).find('.modal-header .modal-title').text('新建请购');
       // 清空数据
-      $(this).find('input, textarea, select').val('');
+      formBox.find('input, textarea, select').val('');
       $(this).find('.form-group > .btn-group').remove();
       // 获取可用项目
       $.get('api/purchase/getProject', function(data) {
-        var addContent = '';
+        var addContent = '<option>请选择关联项目</option>';
         for (var i = 0; i < data.content.length; i++) {
           addContent += '<option data-id="'+data.content[i].ID+'">'+data.content[i].name+'</option>';
         }
         $('#purchaseProject').html(addContent);
-      })
-      .done(function() {
+
         formBox.show();
         alertBox.hide();
       });
     } else if (id) {
       $(this).find('.modal-header .modal-title').text('请购详情');
-      $.get('api/purchase/getDetail/'+id, function(data) {
+      $.get('api/purchase/getDetail?purchaseID='+id, function(data) {
         console.log(data);
         // 填入数据
         $('#purchaseNum').val(data.content.purchaseID);
@@ -89,11 +87,13 @@ $(function($) {
         // 添加按钮
         addFileBtn($('#purchaseTecFile'), data.content.tecFileArray, false);
         addProductBtn($('#purchaseProduct'), data.content.productArray, false);      
-      })
-      .done(function() {
+
         formBox.show();
         alertBox.hide();
       });
+    } else {
+      formBox.show();
+      alertBox.hide();
     }
   });
 
@@ -114,7 +114,9 @@ $(function($) {
 
   // 采购关联项目选择
   $('#purchaseProject').on('change', function() {
-    $('#purchaseProjectID').val($(this).children('option:selected').data('id'));
+    var selected = $(this).children('option:selected');
+    $('#purchaseProjectID').val(selected.data('id'));
+    $('#purchaseProjectCode').val(selected.data('code'));
   });
 
 });

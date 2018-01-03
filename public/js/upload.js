@@ -22,20 +22,19 @@ $(function($) {
             type: 'POST',
             data: formData,
             dataType: 'json',
-            success: function(data) {
-              if (data.code === 1031) {
-                // 上传成功
-                (thisBtn.data('type') === 'excel') ? exceled(data) : uploaded(data);
-              }else {
-                alert(data.message);
-              }
-            },
             //Options to tell JQuery not to process data or worry about content-type
             cache: false,
             contentType: false,
             processData: false
         })
         .done(function(){
+          if (data.code === 1031) {
+            // 上传成功
+            (thisBtn.data('type') === 'excel') ? exceled(data) : uploaded(data);
+          }else {
+            alert(data.message);
+          }
+          
           $(':file').remove();
         });
       }
@@ -50,8 +49,7 @@ $(function($) {
           console.log(response);
           thisInput.val(thisInput.val()+response.product);
           addProductBtn(thisInput, response.productArray, true);
-        })
-        .done(function(){
+
           thisBtn.button('reset');
         });
       }

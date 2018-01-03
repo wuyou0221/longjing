@@ -35,7 +35,6 @@ $(function($) {
         ';
         }
         $('#productSelect').html(addContent);
-      }).done(function() {
         $('#productSelect').show();
         productModal.find('.alert').hide();
       });
@@ -50,8 +49,6 @@ $(function($) {
         $('#productType').val(data.type);
         $('#productSum').val(data.sum);
         $('#productTip').val(data.tip);
-      })
-      .done(function() {
         productModal.find('.alert').hide();
         $('#productForm').show();
       });
