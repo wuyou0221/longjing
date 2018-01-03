@@ -623,7 +623,7 @@ class Api extends \think\Controller
         $project = new Project();
         $perpage = 10;
         $total_id = ceil($project->where('project_user_id', $user_id)->where('project_status', 1)->count('project_id') / 10);
-        $project_info = $project->field('project_id as ID,project_name as name')->order('project_id asc')->where('project_user_id', $user_id)->where('project_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        $project_info = $project->field('project_id as ID,project_name as name,project_code as code')->order('project_id asc')->where('project_user_id', $user_id)->where('project_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
         return json([
             'code' => 1131,
             'message' => '项目查询成功！',
@@ -658,7 +658,7 @@ class Api extends \think\Controller
         $product_id_list = explode(',', $project_info['project_product']);
         array_pop($product_id_list);
         $product = new Product();
-        $product_info = $product->field('product_id as productID,product_name as productName,product_code as code')->where('product_id', 'in', $product_id_list)->where('product_status', 1)->select();
+        $product_info = $product->field('product_id as productID,product_name as productName')->where('product_id', 'in', $product_id_list)->where('product_status', 1)->select();
         return json([
             'code' => 1141,
             'message' => '产品查询成功！',
@@ -778,7 +778,7 @@ class Api extends \think\Controller
 
         $purchase = new Purchase();
         $perpage = 10;
-        $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('project_status', 1)->count('purchase_id') / 10);
+        $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
         $purchase_info = $purchase->field('purchase_id as purchaseID,purchase_product_id as product,purchase_project_name as project,purchase_status as status')->order('project_id asc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
         return json([
             'code' => 1131,
