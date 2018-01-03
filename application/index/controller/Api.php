@@ -631,7 +631,39 @@ class Api extends \think\Controller
             'content' => $project_info
         ]);
     }
+    public function purchase_get_product() {
+        //检查登陆
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+        
+        $request = Request::instance();
+        if(!$request->has('ID')) {
+            return json([
+                'code' => 1142,
+                'message' => '参数有误！'
+            ]);
+        }
+        $project_id = $request->get('ID');
+        $project = new Project();
+        $project_info = $project->field('project_product')->where('project_id', $project_id)->find();
+        if($project_info == null) {
+            return json([
+                'code' => 1143,
+                'message' => '项目不存在！'
+            ]);
+        }
 
+        $product_id_list = explode(',', $project_info['project_product']);
+        array_pop($product_id_list);
+        $product = new Product();
+        $product_info = $product->field('product_id as productID,product_name as productName')->where('product_id', 'in', $product_id_list)->where('product_status', 1)->select();
+        return json([
+            'code' => 1141,
+            'message' => '产品查询成功！',
+            'content' => $product_info
+        ]);
+    }
     public function test() {
         $productidlist = '59,60,';
         $file_id_list = explode(',', $productidlist);
