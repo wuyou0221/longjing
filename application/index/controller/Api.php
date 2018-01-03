@@ -10,6 +10,7 @@ use app\index\model\File;
 use app\index\model\Project;
 use app\index\model\Item;
 use app\index\model\Product;
+use app\index\model\Purchase;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
@@ -657,18 +658,114 @@ class Api extends \think\Controller
         $product_id_list = explode(',', $project_info['project_product']);
         array_pop($product_id_list);
         $product = new Product();
-        $product_info = $product->field('product_id as productID,product_name as productName')->where('product_id', 'in', $product_id_list)->where('product_status', 1)->select();
+        $product_info = $product->field('product_id as productID,product_name as productName,product_code as code')->where('product_id', 'in', $product_id_list)->where('product_status', 1)->select();
         return json([
             'code' => 1141,
             'message' => '产品查询成功！',
             'content' => $product_info
         ]);
     }
+
+    public function purchase_edit() {
+        $this->check_login();
+        $user_id = intval(Session::get('userid'));
+
+        $request = Request::instance();
+        $purchase_project_id = $request->post('ID');
+        $purchase_project_name = $request->post('project');
+        $purchase_project_code = $request->post('code');
+        $purchase_type = $request->post('type');
+        $purchase_product_id = $request->post('product');
+        $purchase_dept = $request->post('dept');
+        $purchase_technology_parameter = $request->post('tecPara');
+        $purchase_explain = $request->post('explain');
+        $purchase_technology_file = $request->post('tecFile');
+        $purchase_is_conform = $request->post('isConform');
+        $purchase_reject_reason = $request->post('notReason');
+        $purchase_reject_content = $request->post('notContent');
+        $purchase_payment = $request->post('way');
+        $purchase_quality = strtotime($request->post('quality'));
+        $purchase_deadline = strtotime($request->post('ddl'));
+        $purchase_arrive_time = strtotime($request->post('arriveDate'));
+        $purchase_place = $request->post('place');
+        $purchase_recommend = $request->post('recommend');
+        $purchase_order = $request->post('order');
+        $purchase_order_time = strtotime($request->post('orderDate'));
+        $purchase_tip = $request->post('tip');
+        
+        $purchase = new Purchase();
+
+        if($request->post('purchaseID') != '') {
+            $purchase_id = intval($request->post('purchaseID'));
+            $purchase_info = $purchase->field('purchase_id')->where('purchase_id', $purchase_id)->find();
+            if($purchase_info == null) {
+                return json([
+                    'code' => 1153,
+                    'message' => '请购不存在！'
+                ]);
+            }
+            $purchase->save([
+                'purchase_project_id' => $purchase_project_id,
+                'purchase_project_name' => $purchase_project_name,
+                'purchase_project_code' => $purchase_project_code,
+                'purchase_type' => $purchase_type,
+                'purchase_product_id' => $purchase_product_id,
+                'purchase_dept' => $purchase_dept,
+                'purchase_technology_parameter' => $purchase_technology_parameter,
+                'purchase_explain' => $purchase_explain,
+                'purchase_technology_file' => $purchase_technology_file,
+                'purchase_is_conform' => $purchase_is_conform,
+                'purchase_reject_reason' => $purchase_reject_reason,
+                'purchase_reject_content' => $purchase_reject_content,
+                'purchase_payment' => $purchase_payment,
+                'purchase_quality' => $purchase_quality,
+                'purchase_deadline' => $purchase_deadline,
+                'purchase_arrive_time' => $purchase_arrive_time,
+                'purchase_place' => $purchase_place,
+                'purchase_recommend' => $purchase_recommend,
+                'purchase_order' => $purchase_order,
+                'purchase_order_time' => $purchase_order_time,
+                'purchase_tip' => $purchase_tip
+            ], ['purchase_id' => $purchase_id]);
+            return json([
+                'code' => 1152,
+                'message' => '请购编辑成功！'
+            ]);
+        } else {
+            $purchase->data([
+                'purchase_project_id' => $purchase_project_id,
+                'purchase_project_name' => $purchase_project_name,
+                'purchase_project_code' => $purchase_project_code,
+                'purchase_type' => $purchase_type,
+                'purchase_product_id' => $purchase_product_id,
+                'purchase_dept' => $purchase_dept,
+                'purchase_technology_parameter' => $purchase_technology_parameter,
+                'purchase_explain' => $purchase_explain,
+                'purchase_technology_file' => $purchase_technology_file,
+                'purchase_is_conform' => $purchase_is_conform,
+                'purchase_reject_reason' => $purchase_reject_reason,
+                'purchase_reject_content' => $purchase_reject_content,
+                'purchase_payment' => $purchase_payment,
+                'purchase_quality' => $purchase_quality,
+                'purchase_deadline' => $purchase_deadline,
+                'purchase_arrive_time' => $purchase_arrive_time,
+                'purchase_place' => $purchase_place,
+                'purchase_recommend' => $purchase_recommend,
+                'purchase_order' => $purchase_order,
+                'purchase_order_time' => $purchase_order_time,
+                'purchase_tip' => $purchase_tip,
+                'purchase_create_time' => time(),
+                'purchase_status' => 0
+            ]);
+            $purchase->save();
+            return json([
+                'code' => 1151,
+                'message' => '请购创建成功！'
+            ]);
+        }
+    }
     public function test() {
-        $productidlist = '59,60,';
-        $file_id_list = explode(',', $productidlist);
-        array_pop($file_id_list);
-        var_dump($file_id_list);
+        echo strtotime('2018-01-01');
     }
 
     private function check_login() {
