@@ -1,6 +1,7 @@
 $(function($) {
 
   var productModal = $('#productModal');
+  var getProductOnce = false;   // 每选择一次项目只会获取一次产品
 
   // 弹出产品模态框
   $('.modal').on('click', '.product-detail', function() {
@@ -21,23 +22,36 @@ $(function($) {
       $('#addProductOver').show();
 
     } else if ($(this).data('type') === 'addfrom') {
+      // 是否已获取产品列表
+      if ($(this).data('once') === "false") {
+        $(this).data('once', 'true');
+        getProductOnce = false;
+      }
+
       // 从已有的集合中选取
       productModal.find('.modal-header .modal-title').text('选取产品');
       var ID = $('#purchaseProjectID').val();
       if (!ID) return false;
-      $.get('api/purchase/getProduct?ID='+ID, function(data) {
-        var addContent = '';
-        for (var i = 0; i < data.content.length; i++) {
-          addContent += '\
-          <div class="btn-group" role="group" data-productid="'+data.content[i].productID+'">\
-            <button type="button" class="btn btn-default product-select">'+data.content[i].productName+'</button>\
-          </div>\
-        ';
-        }
-        $('#productSelect').html(addContent);
+
+      if (getProductOnce) {
         $('#productSelect').show();
         productModal.find('.alert').hide();
-      });
+      } else {
+        $.get('api/purchase/getProduct?ID='+ID, function(data) {
+          var addContent = '';
+          for (var i = 0; i < data.content.length; i++) {
+            addContent += '\
+            <div class="btn-group" role="group" data-productid="'+data.content[i].productID+'">\
+              <button type="button" class="btn btn-default product-select">'+data.content[i].productName+'</button>\
+            </div>\
+          ';
+          }
+          $('#productSelect').html(addContent);
+          $('#productSelect').show();
+          productModal.find('.alert').hide();
+        });
+        getProductOnce = true;
+      }
 
     } else if (id) {
       // 查看已填写的内容
@@ -83,7 +97,8 @@ $(function($) {
 
   // 产品选取
   productModal.on('click', '.product-select', function() {
-    $(this).attr('disabled','');
+    $(this).attr('disabled','true');
+    console.log($(this));
     productModal.modal('hide');
     var fatherModal = $('#'+productModal.data('father'));
     var thisInput = fatherModal.find('[name=product]');
@@ -103,7 +118,7 @@ $(function($) {
     thisInput.val(thisInput.val().replace(thisItem.data('productid')+',',''));
     thisItem.remove();
     // 恢复产品可选
-    $('.product-select').removeAttr('disabled');
+    $('[data-productid="'+thisItem.data('productid')+'"] .product-select').removeAttr('disabled');
   });
 
   // 搜索物料

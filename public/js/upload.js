@@ -27,30 +27,26 @@ $(function($) {
             contentType: false,
             processData: false
         })
-        .done(function(){
+        .done(function(data){
           if (data.code === 1031) {
             // 上传成功
-            (thisBtn.data('type') === 'excel') ? exceled(data) : uploaded(data);
+            if (thisBtn.data('type') === 'excel') {
+              // excel数据导入接口
+              $.post('api/product/excel', 'fileName='+data.downloadUrl, function(response) {
+                thisInput.val(thisInput.val()+response.product);
+                addProductBtn(thisInput, response.productArray, true);
+                thisBtn.button('reset');
+              });
+            } else {
+              thisInput.val(thisInput.val()+data.fileID+',');
+              addFileBtn(thisInput, [data], true)
+              thisBtn.button('reset');
+            }            
           }else {
             alert(data.message);
           }
           
           $(':file').remove();
-        });
-      }
-      // 上传成功处理函数
-      function uploaded(data) {
-        addFileBtn(thisInput, [data], true)
-        thisInput.val(thisInput.val()+data.fileID+',');
-        thisBtn.button('reset');
-      }
-      function exceled(data) {
-        $.post('api/product/excel', 'fileName='+data.downloadUrl, function(response) {
-          console.log(response);
-          thisInput.val(thisInput.val()+response.product);
-          addProductBtn(thisInput, response.productArray, true);
-
-          thisBtn.button('reset');
         });
       }
     });

@@ -49,7 +49,7 @@ $(function($) {
       $.get('api/purchase/getProject', function(data) {
         var addContent = '<option>请选择关联项目</option>';
         for (var i = 0; i < data.content.length; i++) {
-          addContent += '<option data-id="'+data.content[i].ID+'">'+data.content[i].name+'</option>';
+          addContent += '<option data-id="'+data.content[i].ID+'" data-code="'+data.content[i].code+'">'+data.content[i].name+'</option>';
         }
         $('#purchaseProject').html(addContent);
 
@@ -117,6 +117,9 @@ $(function($) {
     var selected = $(this).children('option:selected');
     $('#purchaseProjectID').val(selected.data('id'));
     $('#purchaseProjectCode').val(selected.data('code'));
+    $('#purchaseProduct').val('');
+    $('#purchaseProduct').nextAll('.btn-group').remove();
+    $('[data-type="addfrom"]').data('once', 'false');
   });
 
 });
