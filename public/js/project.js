@@ -28,8 +28,7 @@ $(function($) {
       }
       tbody.html(addContent);
       pageDivide(pageBox, data.page, data.total, loadProject);
-    })
-    .done(function() {
+      
       alertBox.hide();
       resizePage();
     });
@@ -81,9 +80,8 @@ $(function($) {
         addFileBtn($('#projectOtherFile'), data.content.otherFileArray, false);
         addFileBtn($('#projectPlan'), data.content.projectPlanArray, false);
         addFileBtn($('#projectPurchasePlan'), data.content.purchasePlanArray, false);
-        addProductBtn($('#projectProduct'), data.content.productArray, false);      
-      })
-      .done(function() {
+        addProductBtn($('#projectProduct'), data.content.productArray, false);
+
         formBox.show();
         alertBox.hide();
       });
