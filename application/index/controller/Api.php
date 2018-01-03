@@ -15,13 +15,11 @@ use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class Api extends \think\Controller
 {
-    public function index()
-    {
+    public function index() {
         return $this->fetch('index', ['name' => '管理员']);
     }
 
-    public function login()
-    {
+    public function login() {
         $request = Request::instance();
         if(!$request->has('userID','post')) {
             return json([
@@ -60,8 +58,8 @@ class Api extends \think\Controller
             ]);
         }
     }
-    public function logout()
-    {
+
+    public function logout() {
         Session::delete('userid');
         return json([
             'code' => 1011,
@@ -69,8 +67,7 @@ class Api extends \think\Controller
         ]);
     }
 
-    public function get_info()
-    {
+    public function get_info() {
         $this->check_login();
         if(!Session::has('userid')) {
             return json([
@@ -93,8 +90,7 @@ class Api extends \think\Controller
         
     }
 
-    public function upload()
-    {
+    public function upload() {
         $this->check_login();
         $user_id = intval(Session::get('userid'));
         $file_info = request()->file('file');
@@ -136,8 +132,7 @@ class Api extends \think\Controller
         }
     }
 
-    public function download($fileid)
-    {
+    public function download($fileid) {
         $this->check_login();
         $user_id = intval(Session::get('userid'));
         if(strlen($fileid) != 32) {
@@ -290,7 +285,7 @@ class Api extends \think\Controller
         $project = new Project();
         $perpage = 10;
         $totalid = ceil($project->count('project_id') / 10);
-        $project_info = $project->field('project_id as ID,project_name as name,project_manager as manager,project_status as state')->order('project_id asc')->where('project_user_id', $user_id)->limit(($pageid - 1) * $perpage, $pageid * $perpage)->select();
+        $project_info = $project->field('project_id as ID,project_name as name,project_manager as manager,project_status as state')->order('project_id desc')->where('project_user_id', $user_id)->limit(($pageid - 1) * $perpage, $pageid * $perpage)->select();
         return json([
             'code' => 1061,
             'message' => '项目查询成功！',
@@ -612,13 +607,32 @@ class Api extends \think\Controller
         ]);
     }
 
-    public function purchase()
-    {
-        return $this->fetch('purchase', ['name' => Session::get('name')]);
+    public function purchase_get_project() {
+        //检查登陆
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+        
+        $request = Request::instance();
+        $page_id = 1;
+        if($request->has('pageID')) {
+            $page_id = intval($request->get('pageID'));
+        }
+
+        $project = new Project();
+        $perpage = 10;
+        $total_id = ceil($project->where('project_user_id', $user_id)->where('project_status', 1)->count('project_id') / 10);
+        $project_info = $project->field('project_id as ID,project_name as name')->order('project_id asc')->where('project_user_id', $user_id)->where('project_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        return json([
+            'code' => 1131,
+            'message' => '项目查询成功！',
+            'page' => $page_id,
+            'total' => $total_id,
+            'content' => $project_info
+        ]);
     }
 
-    public function test()
-    {
+    public function test() {
         $productidlist = '59,60,';
         $file_id_list = explode(',', $productidlist);
         array_pop($file_id_list);
