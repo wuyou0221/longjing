@@ -733,6 +733,7 @@ class Api extends \think\Controller
             ]);
         } else {
             $purchase->data([
+                'purchase_user_id' => $user_id,
                 'purchase_project_id' => $purchase_project_id,
                 'purchase_project_name' => $purchase_project_name,
                 'purchase_project_code' => $purchase_project_code,
@@ -763,6 +764,29 @@ class Api extends \think\Controller
                 'message' => '请购创建成功！'
             ]);
         }
+    }
+    public function purchase_get() {
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+        
+        $request = Request::instance();
+        $page_id = 1;
+        if($request->has('pageID')) {
+            $page_id = intval($request->get('pageID'));
+        }
+
+        $purchase = new Purchase();
+        $perpage = 10;
+        $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('project_status', 1)->count('purchase_id') / 10);
+        $purchase_info = $purchase->field('purchase_id as purchaseID,purchase_product_id as product,purchase_project_name as project,purchase_status as status')->order('project_id asc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        return json([
+            'code' => 1131,
+            'message' => '项目查询成功！',
+            'page' => $page_id,
+            'total' => $total_id,
+            'content' => $purchase_info
+        ]);
     }
     public function test() {
         echo strtotime('2018-01-01');
