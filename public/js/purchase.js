@@ -37,7 +37,7 @@ $(function($) {
   // 请购详情
   $('#purchaseDetailModal').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget); // Button that triggered the modal
-    var id = button.data('id');      // Extract info from data-* attributes
+    var id = button.data('purchaseid');      // Extract info from data-* attributes
     var formBox = $(this).find('form').hide();
     var alertBox = $(this).find('.alert').show();
     if (id === 'new') {
@@ -102,7 +102,7 @@ $(function($) {
     var thisBtn = $(this).button('loading');
     $.post('api/purchase/edit', $('#purchaseDetailForm').serialize(), function(data) {
       thisBtn.button('reset');
-      if (data.code === 1052 || data.code === 1051) {
+      if (data.code === 1152 || data.code === 1151) {
         $('#purchaseDetailModal').modal('hide');
         loadPurchase(currentPage);
       } else {
