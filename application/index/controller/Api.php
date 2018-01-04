@@ -779,7 +779,7 @@ class Api extends \think\Controller
         $purchase = new Purchase();
         $perpage = 10;
         $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
-        $purchase_info = $purchase->field('purchase_id as purchaseID,purchase_product_id as product,purchase_project_name as project,purchase_status as status')->order('purchase_project_id asc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        $purchase_info = $purchase->field('purchase_id as purchaseID,purchase_product_id as product,purchase_project_name as project,purchase_status as state')->order('purchase_project_id asc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
         return json([
             'code' => 1131,
             'message' => '项目查询成功！',
