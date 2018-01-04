@@ -36,6 +36,7 @@ return [
         'product/excel' => ['index/Api/product_excel', ['method' => 'post']],
         'purchase/getProject' => ['index/Api/purchase_get_project', ['method' => 'get']],
         'purchase/getProduct' => ['index/Api/purchase_get_product', ['method' => 'get']],
+        'purchase/edit' => ['index/Api/purchase_edit', ['method' => 'post']],
         'purchase/get' => ['index/Api/purchase_get', ['method' => 'get']],
         'purchase/getDetail' => ['index/Api/purchase_get_detail', ['method' => 'get']],
         '__miss__' => ['index/Index/index', ['method' => 'get']]
