@@ -788,6 +788,61 @@ class Api extends \think\Controller
             'content' => $purchase_info
         ]);
     }
+
+    public function purchase_get_detail() {
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+
+        $request = Request::instance();
+
+        if($request->has('purchaseID')) {
+            $purchase_id = intval($request->get('purchaseID'));
+        }
+
+        $purchase = new Purchase();
+        $purchase_info = $purchase->field('purchase_project_id,purchase_project_name,purchase_project_code,purchase_type,purchase_product_id,purchase_dept,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
+        if($purchase_info == null) {
+            return json([
+                'code' => 1142,
+                'message' => '请购不存在！'
+            ]);
+        }
+
+        return json([
+            'code' => 1141,
+            'message' => '请购明细查询成功！',
+            'content' => [
+                'purchaseID' => $purchase_id,
+                'type' => $purchase_info['purchase_type'],
+                'project' => $purchase_info['purchase_project_name'],
+                'code' => $purchase_info['purchase_project_code'],
+                'ID' => $purchase_info['purchase_project_id'],
+                'product' => $purchase_info['purchase_product_id'],
+                'productArray' => $this->list_to_product($purchase_info['purchase_product_id']),
+                'dept' => $purchase_info['purchase_dept'],
+                'tecPara' => $purchase_info['purchase_technology_parameter'],
+                'explain' => $purchase_info['purchase_explain'],
+                'tecFile' => $purchase_info['purchase_technology_file'],
+                'tecFileArray' => $this->list_to_file($purchase_info['purchase_technology_file']),
+                'isConform' => $purchase_info['purchase_is_conform'],
+                'notReason' => $purchase_info['purchase_reject_reason'],
+                'notContent' => $purchase_info['purchase_reject_content'],
+                'way' => $purchase_info['purchase_payment'],
+                'quality' => date('Y-m-d', $purchase_info['purchase_quality']),
+                'ddl' => date('Y-m-d', $purchase_info['purchase_deadline']),
+                'arriveDate' => date('Y-m-d', $purchase_info['purchase_arrive_time']),
+                'place' => $purchase_info['purchase_place'],
+                'recommend' => $purchase_info['purchase_recommend'],
+                'order' => $purchase_info['purchase_order'],
+                'orderDate' => date('Y-m-d', $purchase_info['purchase_order_time']),
+                'tip' => $purchase_info['purchase_tip']
+            ],
+            'time' => date('Y-m-d', $purchase_info['purchase_create_time']),
+            'state' => $purchase_info['purchase_status']
+        ]);
+
+    }
     public function test() {
         echo strtotime('2018-01-01');
     }
