@@ -14,8 +14,7 @@ use app\index\model\Purchase;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
-class Api extends \think\Controller
-{
+class Api extends \think\Controller {
     public function index() {
         return $this->fetch('index', ['name' => '管理员']);
     }
@@ -36,7 +35,7 @@ class Api extends \think\Controller
         }
 
         $userid = intval($request->post('userID'));
-        $password = $request->post('password');
+        $password = md5($request->post('password'));
 
         $user = new User;
         $user_info = $user->field('user_id,user_login_password')->where('user_login_id', $userid)->find();
@@ -672,15 +671,24 @@ class Api extends \think\Controller
 
         $request = Request::instance();
         $purchase_project_id = $request->post('ID');
-        $purchase_project_name = $request->post('project');
-        $purchase_project_code = $request->post('code');
         $purchase_type = $request->post('type');
         $purchase_product_id = $request->post('product');
+
+        $purchase_product_list = $this->list_to_product($purchase_product_id);
+
         $purchase_dept = $request->post('dept');
         $purchase_technology_parameter = $request->post('tecPara');
         $purchase_explain = $request->post('explain');
         $purchase_technology_file = $request->post('tecFile');
+        
         $purchase_is_conform = $request->post('isConform');
+        if($purchase_is_conform == '是') {
+            $purchase_is_conform = 1;
+        }
+        if($purchase_is_conform == '否') {
+            $purchase_is_conform = 0;
+        }
+        
         $purchase_reject_reason = $request->post('notReason');
         $purchase_reject_content = $request->post('notContent');
         $purchase_payment = $request->post('way');
@@ -694,6 +702,7 @@ class Api extends \think\Controller
         $purchase_tip = $request->post('tip');
         
         $purchase = new Purchase();
+        $product = new Product();
 
         if($request->post('purchaseID') != '') {
             $purchase_id = intval($request->post('purchaseID'));
@@ -706,8 +715,6 @@ class Api extends \think\Controller
             }
             $purchase->save([
                 'purchase_project_id' => $purchase_project_id,
-                'purchase_project_name' => $purchase_project_name,
-                'purchase_project_code' => $purchase_project_code,
                 'purchase_type' => $purchase_type,
                 'purchase_product_id' => $purchase_product_id,
                 'purchase_dept' => $purchase_dept,
@@ -727,6 +734,17 @@ class Api extends \think\Controller
                 'purchase_order_time' => $purchase_order_time,
                 'purchase_tip' => $purchase_tip
             ], ['purchase_id' => $purchase_id]);
+            
+            $product_update_list = array();
+            foreach ($purchase_product_list as $purchase_product) {
+                $product_update_list[] = [
+                    'product_id' => $purchase_product['productID'],
+                    'product_status' => 2
+                ];
+
+            }
+            $product->saveAll($product_update_list);
+
             return json([
                 'code' => 1152,
                 'message' => '请购编辑成功！'
@@ -735,8 +753,6 @@ class Api extends \think\Controller
             $purchase->data([
                 'purchase_user_id' => $user_id,
                 'purchase_project_id' => $purchase_project_id,
-                'purchase_project_name' => $purchase_project_name,
-                'purchase_project_code' => $purchase_project_code,
                 'purchase_type' => $purchase_type,
                 'purchase_product_id' => $purchase_product_id,
                 'purchase_dept' => $purchase_dept,
@@ -759,6 +775,11 @@ class Api extends \think\Controller
                 'purchase_status' => 0
             ]);
             $purchase->save();
+            foreach ($purchase_product_list as $purchase_product) {
+                $product->save([
+                    'product_status' => 2
+                ], ['product_id' => $purchase_product['productID']]);
+            }
             return json([
                 'code' => 1151,
                 'message' => '请购创建成功！'
@@ -779,7 +800,19 @@ class Api extends \think\Controller
         $purchase = new Purchase();
         $perpage = 10;
         $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
-        $purchase_info = $purchase->field('purchase_id as purchaseID,purchase_product_id as product,purchase_project_name as project,purchase_status as state')->order('purchase_project_id asc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        $purchase_info = array();
+        $purchase_temp_list = $purchase->field('purchase_id,purchase_product_id,purchase_project_id,purchase_status')->order('purchase_id desc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        $project = new Project;
+
+        foreach ($purchase_temp_list as $purchase_temp) {
+            $project_info = $project->field('project_name')->where('project_id', $purchase_temp['purchase_project_id'])->find();
+            $purchase_info[] = [
+                'purchaseID' => $purchase_temp['purchase_id'],
+                'product' => implode('/', $this->list_to_product_name($purchase_temp['purchase_product_id'])),
+                'project' => $project_info['project_name'],
+                'state' => $purchase_temp['purchase_status']
+            ];
+        }
         return json([
             'code' => 1131,
             'message' => '项目查询成功！',
@@ -801,11 +834,27 @@ class Api extends \think\Controller
         }
 
         $purchase = new Purchase();
-        $purchase_info = $purchase->field('purchase_project_id,purchase_project_name,purchase_project_code,purchase_type,purchase_product_id,purchase_dept,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
+        $purchase_info = $purchase->field('purchase_project_id,purchase_type,purchase_product_id,purchase_dept,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
         if($purchase_info == null) {
             return json([
                 'code' => 1142,
                 'message' => '请购不存在！'
+            ]);
+        }
+
+        if(intval($purchase_info['purchase_is_conform']) == 1) {
+            $purchase_info['purchase_is_conform'] = '是';
+        }
+        if(intval($purchase_info['purchase_is_conform']) == 0) {
+            $purchase_info['purchase_is_conform'] = '否';
+        }
+
+        $project = new Project();
+        $project_info = $project->field('project_code,project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
+        if($project_info == null) {
+            return json([
+                'code' => 1143,
+                'message' => '参数有误！'
             ]);
         }
 
@@ -815,8 +864,8 @@ class Api extends \think\Controller
             'content' => [
                 'purchaseID' => $purchase_id,
                 'type' => $purchase_info['purchase_type'],
-                'project' => $purchase_info['purchase_project_name'],
-                'code' => $purchase_info['purchase_project_code'],
+                'project' => $project_info['project_name'],
+                'code' => $project_info['project_code'],
                 'ID' => $purchase_info['purchase_project_id'],
                 'product' => $purchase_info['purchase_product_id'],
                 'productArray' => $this->list_to_product($purchase_info['purchase_product_id']),
@@ -844,7 +893,7 @@ class Api extends \think\Controller
 
     }
     public function test() {
-        echo strtotime('2018-01-01');
+        echo md5('123456');
     }
 
     private function check_login() {
@@ -879,6 +928,17 @@ class Api extends \think\Controller
                 'productID' => $product_id,
                 'productName' => $product_info['product_name']
             ];
+        }
+        return $product_list;
+    }
+    private function list_to_product_name($productidlist) {
+        $product = new Product();
+        $product_list = array();
+        $product_id_list = explode(',', $productidlist);
+        array_pop($product_id_list);
+        foreach ($product_id_list as $product_id) {
+            $product_info = $product->field('product_name')->where('product_id', $product_id)->find();
+            $product_list[] = $product_info['product_name'];
         }
         return $product_list;
     }
