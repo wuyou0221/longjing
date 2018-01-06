@@ -149,3 +149,7 @@ footer > span {
   margin: 20px 0;
 }
 
+.list-group-item button {
+  background: none;
+  border: none;
+}
