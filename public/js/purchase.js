@@ -2,7 +2,7 @@ $(function($) {
 
   var currentPage = 1;
 
-  // 加载项目列表
+  // 加载请购列表
   function loadPurchase(page) {
     currentPage = page;
     var tbody = $('#purchaseTable > tbody').html('');
@@ -20,7 +20,8 @@ $(function($) {
             <td>'+data.content[i].state+'</td>\
             <td>\
               <a href="#purchaseDetailModal" data-toggle="modal" data-purchaseid="'+data.content[i].purchaseID+'">详细</a> |\
-              <a href="#purchaseProcessModal"  data-toggle="modal" data-purchaseid="'+data.content[i].purchaseID+'">审批流程</a>\
+              <a href="#purchaseProcessModal"  data-toggle="modal" data-purchaseid="'+data.content[i].purchaseID+'">审批流程</a> |\
+              <a href="api/purchase/export/'+data.content[i].purchaseID+'">导出</a>\
             </td>\
           </tr>\
         ';

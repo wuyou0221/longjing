@@ -97,7 +97,7 @@ $(function($) {
 
   // 产品选取
   productModal.on('click', '.product-select', function() {
-    $(this).attr('disabled','true');
+    $(this).hide();
     console.log($(this));
     productModal.modal('hide');
     var fatherModal = $('#'+productModal.data('father'));
@@ -118,7 +118,7 @@ $(function($) {
     thisInput.val(thisInput.val().replace(thisItem.data('productid')+',',''));
     thisItem.remove();
     // 恢复产品可选
-    $('[data-productid="'+thisItem.data('productid')+'"] .product-select').removeAttr('disabled');
+    $('[data-productid="'+thisItem.data('productid')+'"] .product-select').show();
   });
 
   // 搜索物料

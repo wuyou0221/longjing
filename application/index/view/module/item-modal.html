@@ -1,0 +1,28 @@
+    <!-- 物料编辑 -->
+    <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="itemModalLabel">物料编辑</h4>
+          </div>
+          <div class="modal-body">
+            <form id="itemForm">
+              <input type="hidden" id="itemParentID" name="parentID">
+              <input type="hidden" id="itemRank" name="rank">
+              <input type="hidden" id="itemID" name="itemID">
+              <div class="form-group">
+                <label for="itemName">物料名称</label>
+                <input type="text" class="form-control" id="itemName" name="name" placeholder="物料名称">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button id="itemDel" type="button" class="btn btn-danger" data-loading-text="提交中">删除</button>
+            <button id="itemSubmit" type="button" class="btn btn-primary" data-loading-text="提交中">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+

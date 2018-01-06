@@ -1,30 +1,108 @@
-    <!-- 供应商详细 -->
+    <!-- 供方详细 -->
     <div class="modal fade" id="suplierDetailModal" tabindex="-1" role="dialog" aria-labelledby="suplierDetailModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="suplierDetailModalLabel">供应商详情</h4>
+            <h4 class="modal-title" id="suplierDetailModalLabel">供方详情</h4>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="suplierDetailForm">
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="suplierNum">供应商编号</label>
-                    <input type="number" disabled class="form-control" id="suplierNum" name="ID" placeholder="供应商编号" value="00001">
+                    <label for="suplierNum">供方编号</label>
+                    <input type="number" class="form-control" id="suplierNum" name="suplierID" placeholder="供方编号" value="00001" readonly>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="suplierName">供应商名称</label>
-                    <input type="text" class="form-control" id="suplierName" name="name" placeholder="供应商名称">
+                    <label for="suplierName">供方名称</label>
+                    <input type="text" class="form-control" id="suplierName" name="name" placeholder="供方名称">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="suplierType">供应商类型</label>
-                    <input type="text" class="form-control" id="suplierType" name="type" placeholder="供应商类型">
+                    <label for="suplierCode">供方代码</label>
+                    <input type="text" class="form-control" id="suplierCode" name="code" placeholder="供方代码">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierType">供方类型</label>
+                    <input type="text" class="form-control" id="suplierType" name="type" placeholder="供方类型">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierCtName">联系人姓名</label>
+                    <input type="text" class="form-control" id="suplierCtName" name="ctName" placeholder="联系人姓名">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierCtPhone">联系人电话</label>
+                    <input type="text" class="form-control" id="suplierCtPhone" name="ctPhone" placeholder="联系人电话">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierCtJob">联系人职务</label>
+                    <input type="text" class="form-control" id="suplierCtJob" name="ctJob" placeholder="联系人职务">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierCtFax">联系人传真</label>
+                    <input type="text" class="form-control" id="suplierCtFax" name="ctFax" placeholder="联系人传真">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierEmail">电子邮件</label>
+                    <input type="text" class="form-control" id="suplierEmail" name="email" placeholder="电子邮件">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierHomepage">供方主页</label>
+                    <input type="text" class="form-control" id="suplierHomepage" name="homepage" placeholder="供方主页">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierContact">其他联系方式</label>
+                    <input type="text" class="form-control" id="suplierContact" name="contact" placeholder="其他联系方式">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierLegal">企业法人</label>
+                    <input type="text" class="form-control" id="suplierLegal" name="legal" placeholder="企业法人">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierFund">注册资金</label>
+                    <input type="text" class="form-control" id="suplierFund" name="fund" placeholder="注册资金">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierQualified">质量认证</label>
+                    <input type="text" class="form-control" id="suplierQualified" name="qualified" placeholder="质量认证">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierAppraise">评审情况</label>
+                    <input type="text" class="form-control" id="suplierAppraise" name="appraise" placeholder="评审情况">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="suplierArchiveID">档案编号</label>
+                    <input type="text" class="form-control" id="suplierArchiveID" name="archiveID" placeholder="档案编号">
                   </div>
                 </div>
                 <div class="col-sm-6">
@@ -35,62 +113,38 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="suplierAddress">地址</label>
-                    <input type="text" class="form-control" id="suplierAddress" name="address" placeholder="地址">
+                    <label for="suplierAddress">详细地址</label>
+                    <input type="text" class="form-control" id="suplierAddress" name="address" placeholder="详细地址">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="suplierPhone">电话</label>
-                    <input type="text" class="form-control" id="suplierPhone" name="phone" placeholder="电话">
+                    <label for="suplierIntroduction">企业介绍</label>
+                    <textarea class="form-control" id="suplierIntroduction" name="introduction" placeholder="企业介绍"></textarea>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="suplierFax">传真</label>
-                    <input type="text" class="form-control" id="suplierFax" name="fax" placeholder="传真">
+                    <label for="suplierMainProduct">主要产品</label>
+                    <textarea class="form-control" id="suplierMainProduct" name="mainProduct" placeholder="主要产品"></textarea>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="suplierQuali">资质</label>
-                    <input type="text" class="form-control" id="suplierQuali" name="quali" placeholder="资质">
+                    <label for="suplierFinance">财务状况</label>
+                    <textarea class="form-control" id="suplierFinance" name="finance" placeholder="财务状况"></textarea>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="suplierPayWay">结算方式</label>
-                    <input type="text" class="form-control" id="suplierPayWay" name="payWay" placeholder="结算方式">
+                    <label for="suplierAchievement">典型业绩</label>
+                    <textarea class="form-control" id="suplierAchievement" name="achievement" placeholder="典型业绩"></textarea>
                   </div>
                 </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="suplierLicense">营业执照号</label>
-                    <input type="text" class="form-control" id="suplierLicense" name="license" placeholder="营业执照号">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="suplierBillPhone">开票地址电话</label>
-                    <input type="text" class="form-control" id="suplierBillPhone" name="billPhone" placeholder="开票地址电话">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="suplierBank">账户开户行</label>
-                    <input type="text" class="form-control" id="suplierBank" name="bank" placeholder="账户开户行">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="suplierAccount">银行账户</label>
-                    <input type="text" class="form-control" id="suplierAccount" name="account" placeholder="银行账户">
-                  </div>
-                </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <label for="suplierTip">备注</label>
-                    <input type="text" class="form-control" id="suplierTip" name="tip" placeholder="备注">
+                    <textarea class="form-control" id="suplierTip" name="tip" placeholder="备注"></textarea>
                   </div>
                 </div>
               </div>
@@ -98,7 +152,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary">保存修改</button>
+            <button id="suplierSubmit" type="button" class="btn btn-primary" data-loading-text="提交中">保存修改</button>
           </div>
         </div>
       </div>

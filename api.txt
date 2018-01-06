@@ -567,11 +567,12 @@ API
 功能：获取物料的子列表
 方式：get
 发送：
-  itemID=1   // 为0时返回所有2级物料列表
+  itemID=1   // 为0时返回所有rank=2物料列表
 返回：
   {
   "code":0,
   "message":"ok",
+  "rank":2,  // 返回列表中的物料的rank（等于发送的itemID的rank+1）
   "content":[
     {
       "itemID":1,
@@ -590,8 +591,9 @@ API
 方式：post
 发送：
   itemID= 1 || ""       // 为空字符串""则添加
-& parentID=1
-& itemName=物料名
+& parentID=1            // 若为0，说明已为最高级分类(rank=2)
+& rank=2                
+& name=物料名
 返回：
   {
     "code":0,

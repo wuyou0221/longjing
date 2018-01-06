@@ -6,14 +6,62 @@
           <div class="page-header">
             <h4>物料管理</h4>
           </div>
-          <h2 id="welcome">欢迎使用龙净项目管理与采购系统!</h2>
+          <div class="row">
+            <div class="col-sm-3">
+              <div id="rank2" class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">二级</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="list-group">
+                    <a href="#" class="list-group-item active">工艺系统<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="1" data-rank="2"></button></span></a>
+                  </div>
+                  <button class="btn btn-success" data-toggle="modal" data-target="#itemModal" data-itemid="new" data-rank="2"><span class="glyphicon glyphicon-plus"></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div id="rank3" class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">三级</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="list-group">
+                    <a href="#" class="list-group-item active">钢材<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="2" data-rank="3"></button></span></a>
+                    <a href="#" class="list-group-item">烟气挡板门<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="3" data-rank="3"></button></span></a>
+                    <a href="#" class="list-group-item">膨胀节<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="4" data-rank="3"></button></span></a>
+                  </div>
+                  <button class="btn btn-success" data-toggle="modal" data-target="#itemModal" data-itemid="new" data-rank="3"><span class="glyphicon glyphicon-plus"></span></button>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-5">
+              <div id="rank4" class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">四级</h3>
+                </div>
+                <div class="panel-body">
+                  <ul class="list-group">
+                    <li class="list-group-item">吸收塔钢板及型材<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="5" data-rank="4"></button></span></li>
+                    <li class="list-group-item">烟道支架<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="6" data-rank="4"></button></span></li>
+                    <li class="list-group-item">吸收塔烟道材料<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="7" data-rank="4"></button></span></li>
+                    <li class="list-group-item">钢筋（线材）<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="8" data-rank="4"></button></span></li>
+                    <li class="list-group-item">钢筋（螺纹钢）<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="9" data-rank="4"></button></span></li>
+                  </ul>
+                  <button class="btn btn-success" data-toggle="modal" data-target="#itemModal" data-itemid="new" data-rank="4"><span class="glyphicon glyphicon-plus"></span></button>
+                </div>
+              </div>
+            </div>
+          </div>
 
         </div>
 
       </div>
     </div>
 
+{include file="module/item-modal" /}
 {include file="module/footer" /}
-
+  
+  <script src="./js/item.js"></script>
   </body>
 </html>

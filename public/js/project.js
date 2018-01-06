@@ -40,15 +40,17 @@ $(function($) {
     var modal = $(this);
     var button = $(event.relatedTarget); // Button that triggered the modal
     var id = button.data('id');      // Extract info from data-* attributes
+    var formBox = modal.find('form').hide();
+    var alertBox = modal.find('.alert').show();
     if (id === 'new') {
       modal.find('.modal-header .modal-title').text('新建项目');
       // 清空数据
       modal.find('input, textarea, select').val('');
       modal.find('.form-group > .btn-group').remove();
+      formBox.show();
+      alertBox.hide();
     } else if (id) {
       modal.find('.modal-header .modal-title').text('项目详情');
-      var formBox = modal.find('form').hide();
-      var alertBox = modal.find('.alert').show();
       $.get('api/project/getDetail/'+id, function(data) {
         console.log(data);
         // 填入数据
@@ -85,6 +87,9 @@ $(function($) {
         formBox.show();
         alertBox.hide();
       });
+    } else {
+      formBox.show();
+      alertBox.hide();
     }
   });
 
