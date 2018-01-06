@@ -11,8 +11,10 @@ use app\index\model\Project;
 use app\index\model\Item;
 use app\index\model\Product;
 use app\index\model\Purchase;
+use app\index\model\Provider;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
+use PhpOffice\PhpWord\TemplateProcessor;
 
 class Api extends \think\Controller {
     public function index() {
@@ -786,6 +788,7 @@ class Api extends \think\Controller {
             ]);
         }
     }
+
     public function purchase_get() {
         $this->check_login();
         
@@ -890,10 +893,202 @@ class Api extends \think\Controller {
             'time' => date('Y-m-d', $purchase_info['purchase_create_time']),
             'state' => $purchase_info['purchase_status']
         ]);
+    }
 
+    public function provider_edit() {
+        $this->check_login();
+        $user_id = intval(Session::get('userid'));
+
+        $request = Request::instance();
+        $provider_name = $request->post('name');
+        $provider_code = $request->post('code');
+        $provider_type = $request->post('type');
+        $provider_contact_name = $request->post('ctName');
+        $provider_contact_phone = $request->post('ctPhone');
+        $provider_contact_job = $request->post('ctJob');
+        $provider_contact_fax = $request->post('ctFax');
+        $provider_email = $request->post('email');
+        $provider_homepage = $request->post('homepage');
+        $provider_other_contact = $request->post('contact');
+        $provider_legal = $request->post('legal');
+        $provider_fund = $request->post('fund');
+        $provider_qualified = $request->post('qualified');
+        $provider_appraise = $request->post('appraise');
+        $provider_archive = $request->post('archiveID');
+        $provider_place = $request->post('place');
+        $provider_address = $request->post('address');
+        $provider_introduction = $request->post('introduction');
+        $provider_main_product = $request->post('mainProduct');
+        $provider_finance = $request->post('finance');
+        $provider_achievement = $request->post('achievement');
+        $provider_tip = $request->post('tip');
+        
+        $provider = new Provider();
+
+
+        if($request->post('suplierID') != '') {
+            $provider_id = intval($request->post('suplierID'));
+            $provider_info = $provider->field('provider_id')->where('provider_id', $provider_id)->find();
+            if($provider_info == null) {
+                return json([
+                    'code' => 1163,
+                    'message' => '供应商不存在！'
+                ]);
+            }
+            $provider->save([
+                'provider_name' => $provider_name,
+                'provider_code' => $provider_code,
+                'provider_type' => $provider_type,
+                'provider_contact_name' => $provider_contact_name,
+                'provider_contact_phone' => $provider_contact_phone,
+                'provider_contact_job' => $provider_contact_job,
+                'provider_contact_fax' => $provider_contact_fax,
+                'provider_email' => $provider_email,
+                'provider_homepage' => $provider_homepage,
+                'provider_other_contact' => $provider_other_contact,
+                'provider_legal' => $provider_legal,
+                'provider_fund' => $provider_fund,
+                'provider_qualified' => $provider_qualified,
+                'provider_appraise' => $provider_appraise,
+                'provider_archive' => $provider_archive,
+                'provider_place' => $provider_place,
+                'provider_address' => $provider_address,
+                'provider_introduction' => $provider_introduction,
+                'provider_main_product' => $provider_main_product,
+                'provider_finance' => $provider_finance,
+                'provider_achievement' => $provider_achievement,
+                'provider_tip' => $provider_tip
+            ], ['provider_id' => $provider_id]);
+            return json([
+                'code' => 1162,
+                'message' => '供应商编辑成功！'
+            ]);
+        } else {
+            $provider->data([
+                'provider_name' => $provider_name,
+                'provider_code' => $provider_code,
+                'provider_type' => $provider_type,
+                'provider_contact_name' => $provider_contact_name,
+                'provider_contact_phone' => $provider_contact_phone,
+                'provider_contact_job' => $provider_contact_job,
+                'provider_contact_fax' => $provider_contact_fax,
+                'provider_email' => $provider_email,
+                'provider_homepage' => $provider_homepage,
+                'provider_other_contact' => $provider_other_contact,
+                'provider_legal' => $provider_legal,
+                'provider_fund' => $provider_fund,
+                'provider_qualified' => $provider_qualified,
+                'provider_appraise' => $provider_appraise,
+                'provider_archive' => $provider_archive,
+                'provider_place' => $provider_place,
+                'provider_address' => $provider_address,
+                'provider_introduction' => $provider_introduction,
+                'provider_main_product' => $provider_main_product,
+                'provider_finance' => $provider_finance,
+                'provider_achievement' => $provider_achievement,
+                'provider_tip' => $provider_tip
+            ]);
+            $provider->save();
+            return json([
+                'code' => 1161,
+                'message' => '供应商创建成功！'
+            ]);
+        }
+    }
+    
+    public function provider_get() {
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+        
+        $request = Request::instance();
+        $page_id = 1;
+        if($request->has('pageID')) {
+            $page_id = intval($request->get('pageID'));
+        }
+
+        $provider = new Provider();
+        $perpage = 10;
+        $total_id = ceil($provider->count('provider_id') / 10);
+        $provider_info = $provider->field('provider_id as suplierID,provider_name as name,provider_contact_name as ctName,provider_contact_phone as ctPhone')->order('provider_id asc')->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+       
+        return json([
+            'code' => 1171,
+            'message' => '项目查询成功！',
+            'page' => $page_id,
+            'total' => $total_id,
+            'content' => $provider_info
+        ]);
+    }
+
+    public function provider_get_detail() {
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+
+        $request = Request::instance();
+
+        if($request->has('suplierID')) {
+            $provider_id = intval($request->get('suplierID'));
+        }
+
+        $provider = new Provider();
+        $provider_info = $provider->field('provider_name,provider_code,provider_type,provider_contact_name,provider_contact_phone,provider_contact_job,provider_contact_fax,provider_email,provider_homepage,provider_other_contact,provider_legal,provider_fund,provider_qualified,provider_appraise,provider_archive,provider_place,provider_address,provider_introduction,provider_main_product,provider_finance,provider_achievement,provider_tip')->where('provider_id', $provider_id)->find();
+        if($provider_info == null) {
+            return json([
+                'code' => 1182,
+                'message' => '供应商不存在！'
+            ]);
+        }
+
+        return json([
+            'code' => 1181,
+            'message' => '请购明细查询成功！',
+            'content' => [
+                'suplierID' => $provider_id,
+                'name' => $provider_info['provider_name'],
+                'code' => $provider_info['provider_code'],
+                'type' => $provider_info['provider_type'],
+                'ctName' => $provider_info['provider_contact_name'],
+                'ctPhone' => $provider_info['provider_contact_phone'],
+                'ctJob' => $provider_info['provider_contact_job'],
+                'ctFax' => $provider_info['provider_contact_fax'],
+                'email' => $provider_info['provider_email'],
+                'homepage' => $provider_info['provider_homepage'],
+                'contact' => $provider_info['provider_other_contact'],
+                'legal' => $provider_info['provider_legal'],
+                'fund' => $provider_info['provider_fund'],
+                'qualified' => $provider_info['provider_qualified'],
+                'appraise' => $provider_info['provider_appraise'],
+                'archiveID' => $provider_info['provider_archive'],
+                'place' => $provider_info['provider_place'],
+                'address' => $provider_info['provider_address'],
+                'introduction' => $provider_info['provider_introduction'],
+                'mainProduct' => $provider_info['provider_main_product'],
+                'finance' => $provider_info['provider_finance'],
+                'achievement' => $provider_info['provider_achievement'],
+                'tip' => $provider_info['provider_tip']
+            ]
+        ]);
     }
     public function test() {
-        echo md5('123456');
+        $reader = new TemplateProcessor('Template.docx');
+        $reader->setValue('Value1', 'Sun');
+        $reader->setValue('Value2', 'Mercury');
+        $reader->setValue('Value3', 'Venus');
+        $reader->setValue('Value4', 'Earth');
+        $reader->setValue('Value5', 'Mars');
+        $reader->setValue('Value6', 'Jupiter');
+        $reader->setValue('Value7', 'Saturn');
+        $reader->setValue('Value8', 'Uranus');
+        $reader->setValue('Value9', 'Neptun');
+        $reader->setValue('Value10', 'Pluto');
+
+        $reader->setValue('weekday', date('l'));
+        $reader->setValue('time', date('H:i'));
+
+        $reader->saveAs('Solarsystem.docx');
+        var_dump('1');
     }
 
     private function check_login() {

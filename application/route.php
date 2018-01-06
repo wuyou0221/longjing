@@ -39,6 +39,9 @@ return [
         'purchase/edit' => ['index/Api/purchase_edit', ['method' => 'post']],
         'purchase/get' => ['index/Api/purchase_get', ['method' => 'get']],
         'purchase/getDetail' => ['index/Api/purchase_get_detail', ['method' => 'get']],
+        'provider/edit' => ['index/Api/provider_edit', ['method' => 'post']],
+        'provider/get' => ['index/Api/provider_get', ['method' => 'get']],
+        'provider/getDetail' => ['index/Api/provider_get_detail', ['method' => 'get']],
         '__miss__' => ['index/Index/index', ['method' => 'get']]
     ],
     '[login]' => [
