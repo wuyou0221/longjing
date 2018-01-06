@@ -811,7 +811,7 @@ class Api extends \think\Controller {
             $project_info = $project->field('project_name')->where('project_id', $purchase_temp['purchase_project_id'])->find();
             $purchase_info[] = [
                 'purchaseID' => $purchase_temp['purchase_id'],
-                'product' => implode('/', $this->list_to_product_name($purchase_temp['purchase_product_id'])),
+                'product' => implode(' / ', $this->list_to_product_name($purchase_temp['purchase_product_id'])),
                 'project' => $project_info['project_name'],
                 'state' => $purchase_temp['purchase_status']
             ];

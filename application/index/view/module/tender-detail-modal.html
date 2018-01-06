@@ -7,47 +7,56 @@
             <h4 class="modal-title" id="tenderDetailModalLabel">招标申请详情</h4>
           </div>
           <div class="modal-body">
-            <div class="alert alert-success" role="alert">申请已通过审批</div>
-            <form>
+            <div class="alert alert-warning" role="alert">加载中</div>
+            <form id="tenderDetailForm">
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="tenderNum">招标申请编号</label>
-                    <input type="number" disabled class="form-control" id="tenderNum" placeholder="招标申请编号" value="00001">
+                    <input type="number" disabled class="form-control" id="tenderNum" name="tenderID" placeholder="招标申请编号" value="00001">
                   </div>
                 </div>
                 <div class="col-sm-6">
-                  <div class="dropdown">
-                    <a id="purchaseList" role="button" data-toggle="dropdown">
-                      <div class="form-group">
-                        <label for="tenderPurchase">关联采购申请</label>
-                        <input type="text" class="form-control" id="tenderPurchase" placeholder="点击选择" disabled>
-                      </div>
-                    </a>
-                    <ul style="max-height: 200px; overflow-y: auto;" class="dropdown-menu" aria-labelledby="purchaseList">
-                      <li><a class="item-single" href="#">Another action</a></li>
-                      <li><a class="item-single" href="#">Something else here</a></li>
-                      <li><a class="item-single" href="#">Separated link</a></li>
-                    </ul>
+                  <div class="form-group">
+                    <label for="tenderPurchase">关联请购</label>
+                    <select class="form-control" id="tenderPurchase" name="purchase">
+                      <option data-id="1">B</option>
+                      <option data-id="2">C</option>
+                      <option data-id="3">D</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input type="hidden" id="tenderProjectID" name="ID" readonly>
+                    <label for="tenderProject">关联项目</label>
+                    <input type="text" class="form-control" id="tenderProject" name="projectName" placeholder="关联项目" readonly>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="tenderManager">采购经理</label>
+                    <select class="form-control" id="tenderManager">
+                      <option>A</option>
+                      <option>B</option>
+                    </select>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label>招标内容</label>
-                    <input type="hidden" class="form-control" disabled><br>
-                    <button type="button" class="btn btn-default product-detail" data-name="产品1"">产品1</button>
-                    <button type="button" class="btn btn-default product-detail" data-name="产品2"">产品2</button>
+                    <input type="hidden" id="tenderProduct" name="product" readonly><br>
+                    <div class="btn-group" role="group" data-productid="1">
+                      <button type="button" class="btn btn-default product-detail">产品1</button>
+                    </div>
+                    <div class="btn-group" role="group" data-productid="2">
+                      <button type="button" class="btn btn-default product-detail">产品2</button>
+                    </div>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="purchaseApplyDate">申请日期</label>
-                    <input type="date" class="form-control" id="tenderApplyDate" placeholder="申请日期">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="tenderApplyDate">申请日期</label>
                     <input type="date" class="form-control" id="tenderApplyDate" placeholder="申请日期">
                   </div>
                 </div>
@@ -63,25 +72,22 @@
                     <input type="date" class="form-control" id="tenderPriceDate" placeholder="价格标开标日期">
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="tenderAdviceSuplier">建议投标入围制造厂商</label>
-                    <input type="text" class="form-control" id="tenderAdviceSuplier" placeholder="建议投标入围制造厂商">
+                    <label for="tenderAdviceSuplier">建议入围制造厂商</label>
+                    <textarea class="form-control" id="tenderAdviceSuplier" placeholder="建议入围制造厂商"></textarea>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="tenderAdviceSuplierAdd">补充入围制造厂商</label>
+                    <textarea class="form-control" id="tenderAdviceSuplierAdd" placeholder="补充入围制造厂商"></textarea>
+                  </div>
+                </div>
+                <div class="col-sm-12">
                   <div class="form-group">
                     <label for="tenderTip">备注</label>
-                    <input type="text" class="form-control" id="tenderTip" placeholder="备注">
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group">
-                    <label for="tenderApprover">审批人</label>
-                    <select class="form-control" id="tenderApprover">
-                      <option>A</option>
-                      <option>B</option>
-                    </select>
+                    <textarea class="form-control" id="tenderTip" placeholder="备注"></textarea>
                   </div>
                 </div>
               </div>          
@@ -89,7 +95,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary">保存修改</button>
+            <button type="button" id="tenderSubmit" class="btn btn-primary" data-loading-text="提交中">保存修改</button>
           </div>
         </div>
       </div>

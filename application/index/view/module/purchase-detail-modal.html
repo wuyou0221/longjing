@@ -30,7 +30,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="purchaseProject">关联项目</label>
-                    <input type="hidden" id="purchaseProjectID" name="ID">
+                    <input type="hidden" id="purchaseProjectID" name="ID" readonly>
                     <select class="form-control" id="purchaseProject" name="project">
                       <option data-id="1">B</option>
                       <option data-id="2">C</option>
@@ -47,7 +47,7 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label>物资名称</label><br>
-                    <input type="hidden" id="purchaseProduct" class="form-control" name="product" value="">
+                    <input type="hidden" id="purchaseProduct" class="form-control" name="product" value="" readonly>
                     <div class="btn-group" role="group" data-productid="1">
                       <button type="button" class="btn btn-default product-detail">产品1</button>
                       <button type="button" class="btn btn-danger del-product"><span class="glyphicon glyphicon-remove"></span></button>
@@ -80,7 +80,7 @@
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label>技术规范书</label><br>
-                    <input type="hidden" id="purchaseTecFile" name="tecFile">
+                    <input type="hidden" id="purchaseTecFile" name="tecFile" readonly>
                     <div class="btn-group" role="group" data-fileid="0">
                       <a href="#" role="button" class="btn btn-default">附件1</a>
                       <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
