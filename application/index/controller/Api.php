@@ -1328,7 +1328,7 @@ class Api extends \think\Controller {
             $tender_temp_info['project'] = $project_info['project_name'];
         }
         return json([
-            'code' => 1131,
+            'code' => 1221,
             'message' => '项目查询成功！',
             'page' => $page_id,
             'total' => $total_id,
@@ -1343,68 +1343,129 @@ class Api extends \think\Controller {
 
         $request = Request::instance();
 
-        if($request->has('purchaseID')) {
-            $purchase_id = intval($request->get('purchaseID'));
+        if($request->has('tenderID')) {
+            $tender_id = intval($request->get('tenderID'));
         }
 
-        $purchase = new Purchase();
-        $purchase_info = $purchase->field('purchase_project_id,purchase_type,purchase_product_id,purchase_dept,purchase_budget,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
-        if($purchase_info == null) {
+        $tender = new Tender();
+        $tender_info = $tender->field('tender_purchase_id,tender_manager,tender_apply_time,tender_technology_time,tender_price_time,tender_advice_suplier,tender_advice_suplier_add,tender_tip,tender_status')->where('tender_id', $tender_id)->where('tender_status', 1)->find();
+        if($tender_info == null) {
             return json([
-                'code' => 1142,
-                'message' => '请购不存在！'
+                'code' => 1232,
+                'message' => '招标不存在！'
             ]);
         }
 
-        if(intval($purchase_info['purchase_is_conform']) == 1) {
-            $purchase_info['purchase_is_conform'] = '是';
-        }
-        if(intval($purchase_info['purchase_is_conform']) == 0) {
-            $purchase_info['purchase_is_conform'] = '否';
+        $purchase = new Purchase();
+        $purchase_info = $purchase->field('purchase_project_id,purchase_product_id')->where('purchase_id', $tender_info['tender_purchase_id'])->find();
+        if($purchase_info == null) {
+            return json([
+                'code' => 1233,
+                'message' => '参数有误！'
+            ]);
         }
 
         $project = new Project();
-        $project_info = $project->field('project_code,project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
+        $project_info = $project->field('project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
         if($project_info == null) {
             return json([
-                'code' => 1143,
+                'code' => 1234,
                 'message' => '参数有误！'
             ]);
         }
 
         return json([
-            'code' => 1141,
-            'message' => '请购明细查询成功！',
+            'code' => 1231,
+            'message' => '招标明细查询成功！',
             'content' => [
-                'purchaseID' => $purchase_id,
-                'type' => $purchase_info['purchase_type'],
-                'project' => $project_info['project_name'],
-                'code' => $project_info['project_code'],
+                'tenderID' => $tender_id,
+                'purchaseID' => $tender_info['tender_purchase_id'],
+                'purchase' => $project_info['project_name'].'['.implode(' / ', $this->list_to_product_name($purchase_info['purchase_product_id'])).']',
                 'ID' => $purchase_info['purchase_project_id'],
+                'projectName' => $project_info['project_name'],
+                'manager' => $tender_info['tender_manager'],
                 'product' => $purchase_info['purchase_product_id'],
                 'productArray' => $this->list_to_product($purchase_info['purchase_product_id']),
-                'dept' => $purchase_info['purchase_dept'],
-                'budget' => $purchase_info['purchase_budget'],
-                'tecPara' => $purchase_info['purchase_technology_parameter'],
-                'explain' => $purchase_info['purchase_explain'],
-                'tecFile' => $purchase_info['purchase_technology_file'],
-                'tecFileArray' => $this->list_to_file($purchase_info['purchase_technology_file']),
-                'isConform' => $purchase_info['purchase_is_conform'],
-                'notReason' => $purchase_info['purchase_reject_reason'],
-                'notContent' => $purchase_info['purchase_reject_content'],
-                'way' => $purchase_info['purchase_payment'],
-                'quality' => date('Y-m-d', $purchase_info['purchase_quality']),
-                'ddl' => date('Y-m-d', $purchase_info['purchase_deadline']),
-                'arriveDate' => date('Y-m-d', $purchase_info['purchase_arrive_time']),
-                'place' => $purchase_info['purchase_place'],
-                'recommend' => $purchase_info['purchase_recommend'],
-                'order' => $purchase_info['purchase_order'],
-                'orderDate' => date('Y-m-d', $purchase_info['purchase_order_time']),
-                'tip' => $purchase_info['purchase_tip']
+                'applyDate' => date('Y-m-d', $tender_info['tender_apply_time']),
+                'TecDate' => date('Y-m-d', $tender_info['tender_technology_time']),
+                'priceDate' => date('Y-m-d', $tender_info['tender_price_time']),
+                'adviceSuplier' => $tender_info['tender_advice_suplier'],
+                'adviceSuplierAdd' => $tender_info['tender_advice_suplier_add'],
+                'tip' => $tender_info['tender_tip']
             ],
-            'time' => date('Y-m-d', $purchase_info['purchase_create_time']),
-            'state' => $purchase_info['purchase_status']
+            'state' => $tender_info['tender_status']
         ]);
+    }
+
+    public function tender_export() {
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+
+        $request = Request::instance();
+
+        if($request->has('tenderID')) {
+            $tender_id = intval($request->get('tenderID'));
+        } else {
+            return json([
+                'code' => 1242,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        $tender = new Tender();
+        $tender_info = $tender->field('tender_purchase_id,tender_manager,tender_apply_time,tender_technology_time,tender_price_time,tender_advice_suplier,tender_advice_suplier_add,tender_tip')->where('tender_id', $tender_id)->where('tender_status', 1)->find();
+        if($tender_info == null) {
+            return json([
+                'code' => 1243,
+                'message' => '请购不存在！'
+            ]);
+        }
+
+        $purchase = new Purchase();
+        $purchase_info = $purchase->field('purchase_project_id,purchase_product_id')->where('purchase_id', $tender_info['tender_purchase_id'])->find();
+        if($purchase_info == null) {
+            return json([
+                'code' => 1244,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        $project = new Project();
+        $project_info = $project->field('project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
+        if($project_info == null) {
+            return json([
+                'code' => 1245,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        $file_path = ROOT_PATH.'application'.DS.'index'.DS.'file'.DS;
+
+        $reader = new TemplateProcessor($file_path.'tender.docx');
+        $reader->setValue('tender_id', $tender_id);
+        $reader->setValue('project_name', $project_info['project_name']);
+        $reader->setValue('product_name', $this->list_to_product_name($purchase_info['purchase_product_id'])[0]);
+        $reader->setValue('tender_apply_time', date('Y-m-d', $tender_info['tender_apply_time']));
+        $reader->setValue('tender_technology_time', date('Y-m-d', $tender_info['tender_technology_time']));
+        $reader->setValue('tender_price_time', date('Y-m-d', $tender_info['tender_price_time']));
+        $reader->setValue('tender_advice_suplier', $tender_info['tender_advice_suplier']);
+        $reader->setValue('tender_advice_suplier_add', $tender_info['tender_advice_suplier_add']);
+        $reader->setValue('tender_tip', $tender_info['tender_tip']);
+        $reader->setValue('tender_manager', $tender_info['tender_manager']);
+        
+        $file_name = 'tender-'.time().'.docx';
+        $reader->saveAs($file_path.$file_name);
+        
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="'.$file_name.'"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file_path.$file_name));
+        readfile($file_path.$file_name);
+        exit();
     }
 
     public function test() {

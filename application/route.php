@@ -48,6 +48,7 @@ return [
         'tender/edit' => ['index/Api/tender_edit', ['method' => 'post']],
         'tender/get' => ['index/Api/tender_get', ['method' => 'get']],
         'tender/getDetail' => ['index/Api/tender_get_detail', ['method' => 'get']],
+        'tender/export' => ['index/Api/tender_export', ['method' => 'get']],
         '__miss__' => ['index/Index/index', ['method' => 'get']]
     ],
     '[login]' => [
