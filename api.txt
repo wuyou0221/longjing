@@ -599,3 +599,70 @@ API
     "code":0,
     "message":"ok"
   }
+
+
+************************************
+接口：tender/edit||getDetail
+功能：招标申请详情
+字段：
+  tenderID:1,            //招标申请编号
+  purchaseID:1,
+  purchase: 产品1/产品2,  //关联请购
+  ID:1,
+  projectName:项目名称    //关联项目，数据由tender/getPuechase返回，js控制填写
+  manager:A              //采购经理
+  product:1,2,           //产品名称，数据由tender/getPuechase返回，js控制填写
+  applyDate:2018-01-12   //申请日期
+  TecDate:2018-01-17     //技术标开标日期
+  priceDate:2018-01-20   //价格标开标日期 
+  adviceSuplier:建议入围制造厂商
+  adviceSuplierAdd:补充入围制造厂商
+  tip:备注
+
+
+*************************************
+接口：tender/getPurchase
+功能：获取可用于招标的请购
+方式：get
+发送：null
+返回：
+  {
+    "code":0,
+    "message":"ok",
+    "content":[
+      {
+        "ID":"00001",  //项目ID
+        "projectName":"name",
+        "purchaseID":"1", //请购编号
+        "purchaseName":"项目1[产品1/产品2]", //按此格式拼接字符串，
+        "product":"1,2," //采购内容
+        "productArray":[
+          {
+            "productID":1,
+            "productName":"产品1",
+          },
+          {
+            "productID":1,
+            "productName":"产品1",
+          }
+        ]
+      },
+      {
+        "ID":"00001",  //项目ID
+        "projectName":"name",
+        "purchaseID":"1", //请购编号
+        "purchaseName":"项目1[产品1/产品2]", //按此格式拼接字符串，
+        "product":"1,2," //采购内容
+        "productArray":[
+          {
+            "productID":1,
+            "productName":"产品1",
+          },
+          {
+            "productID":1,
+            "productName":"产品1",
+          }
+        ]
+      }
+    ]
+  }
