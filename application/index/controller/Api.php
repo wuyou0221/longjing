@@ -1193,8 +1193,16 @@ class Api extends \think\Controller {
         $perpage = 100;
         $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
         $product_info = array();
-        $purchase_info = $purchase->field('purchase_project_id,purchase_product_id')->order('purchase_id asc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        $purchase_info = $purchase->field('purchase_id as purchaseID,purchase_project_id as ID,purchase_product_id as product')->order('purchase_id asc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
         
+        $project = new Project();
+        foreach ($purchase_info as &$purchase_temp_info) {
+            $project_info = $project->field('project_name')->where('project_id', $purchase_temp_info['ID'])->find();
+            $purchase_temp_info['projectName'] = $project_info['project_name'];
+            $purchase_temp_info['productArray'] = $this->list_to_product($purchase_temp_info['product']);
+            $purchase_temp_info['purchaseName'] = $project_info['project_name'].'['.implode(' / ', $this->list_to_product_name($purchase_temp_info['product'])).']';
+            
+        }
 
 
         return json([
