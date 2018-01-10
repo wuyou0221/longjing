@@ -37,15 +37,16 @@ $(function($) {
 
   // 请购详情
   $('#purchaseDetailModal').on('show.bs.modal', function(event) {
+    var modal = $(this);
     var button = $(event.relatedTarget); // Button that triggered the modal
     var id = button.data('purchaseid');      // Extract info from data-* attributes
     var formBox = $(this).find('form').hide();
     var alertBox = $(this).find('.alert').show();
     if (id === 'new') {
-      $(this).find('.modal-header .modal-title').text('新建请购');
+      modal.find('.modal-header .modal-title').text('新建请购');
       // 清空数据
       formBox.find('input, textarea, select').val('');
-      $(this).find('.form-group > .btn-group').remove();
+      modal.find('.form-group > .btn-group').remove();
       // 获取可用项目
       $.get('api/purchase/getProject', function(data) {
         var addContent = '<option>请选择关联项目</option>';
@@ -58,7 +59,7 @@ $(function($) {
         alertBox.hide();
       });
     } else if (id) {
-      $(this).find('.modal-header .modal-title').text('请购详情');
+      modal.find('.modal-header .modal-title').text('请购详情');
       $.get('api/purchase/getDetail?purchaseID='+id, function(data) {
         console.log(data);
         // 填入数据
@@ -87,6 +88,7 @@ $(function($) {
         $('#purchaseOrderDate').val(data.content.orderDate);
         $('#purchaseTip').val(data.content.tip);
         // 添加按钮
+        modal.find('.form-group > .btn-group').remove();
         addFileBtn($('#purchaseTecFile'), data.content.tecFileArray, true);
         addProductBtn($('#purchaseProduct'), data.content.productArray, true);      
 
