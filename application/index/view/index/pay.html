@@ -6,14 +6,73 @@
           <div class="page-header">
             <h4>付款</h4>
           </div>
-          <h2 id="welcome">欢迎使用龙净项目管理与采购系统!</h2>
+          <!-- 搜索框 & 新建 -->
+          <div class="row">
+            <div class="col-xs-3 col-sm-1 col-sm-offset-6 clearfix">
+              <!-- <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#payDetailModal" data-payid="new"><span class="glyphicon glyphicon-plus"></span></button> -->
+            </div>
+            <div class="col-xs-9 col-sm-5">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="项目名称">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default content-list">
+            <table id="payTable" class="table table-hover">
+              <thead>
+                <tr>
+                  <th>编号</th>
+                  <th>项目名称</th>
+                  <th>项目类型</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>已通过</td>
+                  <td>
+                    <a href="#payLedgerModal" data-toggle="modal" data-id="1">付款台账</a> |
+                    <a href="#payAddModal"  data-toggle="modal" data-id="1">新增付款</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
+          <div class="alert alert-warning" role="alert" style="display: none;">加载中...</div>
+
+          <!-- 页码 -->
+          <div class="row" style="margin-bottom: 20px">
+            <div class="col-xs-5 col-sm-3 col-xs-offset-3 col-sm-offset-7">
+              <div class="pull-right">
+                <button class="btn btn-default" style="display: none;"><span class="glyphicon glyphicon-triangle-left text-muted"></span></button>
+                <b> 1 / 1 </b>
+                <button class="btn btn-default" style="display: none;"><span class="glyphicon glyphicon-triangle-right text-muted"></span></button>
+              </div>
+            </div>
+            <div class="col-xs-4 col-sm-2">
+              <div class="input-group">
+                <input type="text" class="form-control" style="text-align: center;">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">跳转</button>
+                </span>
+              </div>
+            </div>
+          </div>
 
         </div>
 
       </div>
     </div>
 
+{include file="module/pay-ledger-modal" /}
 {include file="module/footer" /}
 
   </body>
