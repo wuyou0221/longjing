@@ -12,6 +12,7 @@ use app\index\model\Item;
 use app\index\model\Product;
 use app\index\model\Purchase;
 use app\index\model\Provider;
+use app\index\model\Tender;
 
 use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 use PhpOffice\PhpWord\TemplateProcessor;
@@ -1219,122 +1220,56 @@ class Api extends \think\Controller {
         $user_id = intval(Session::get('userid'));
 
         $request = Request::instance();
-        $purchase_project_id = $request->post('ID');
-        $purchase_type = $request->post('type');
-        $purchase_product_id = $request->post('product');
+        $tender_purchase_id = $request->post('purchaseID');
+        $tender_manager = $request->post('manager');
+        $tender_apply_time = strtotime($request->post('applyDate'));
+        $tender_technology_time = strtotime($request->post('TecDate'));
+        $tender_price_time = strtotime($request->post('priceDate'));
+        $tender_advice_suplier = $request->post('adviceSuplier');
+        $tender_advice_suplier_add = $request->post('adviceSuplierAdd');
+        $tender_tip = $request->post('tip');
 
-        $purchase_product_list = $this->list_to_product($purchase_product_id);
+        $tender = new Tender();
 
-        $purchase_dept = $request->post('dept');
-        $purchase_technology_parameter = $request->post('tecPara');
-        $purchase_explain = $request->post('explain');
-        $purchase_technology_file = $request->post('tecFile');
-        
-        $purchase_is_conform = $request->post('isConform');
-        if($purchase_is_conform == '是') {
-            $purchase_is_conform = 1;
-        }
-        if($purchase_is_conform == '否') {
-            $purchase_is_conform = 0;
-        }
-        
-        $purchase_reject_reason = $request->post('notReason');
-        $purchase_reject_content = $request->post('notContent');
-        $purchase_payment = $request->post('way');
-        $purchase_quality = strtotime($request->post('quality'));
-        $purchase_deadline = strtotime($request->post('ddl'));
-        $purchase_arrive_time = strtotime($request->post('arriveDate'));
-        $purchase_place = $request->post('place');
-        $purchase_recommend = $request->post('recommend');
-        $purchase_order = $request->post('order');
-        $purchase_order_time = strtotime($request->post('orderDate'));
-        $purchase_tip = $request->post('tip');
-        $purchase_budget = $request->post('budget');
-        
-        $purchase = new Purchase();
-        $product = new Product();
-
-        if($request->post('purchaseID') != '') {
-            $purchase_id = intval($request->post('purchaseID'));
-            $purchase_info = $purchase->field('purchase_id')->where('purchase_id', $purchase_id)->find();
-            if($purchase_info == null) {
+        if($request->post('tenderID') != '') {
+            $tender_id = intval($request->post('tenderID'));
+            $tender_info = $tender->field('tender_id')->where('tender_id', $tender_id)->find();
+            if($tender_info == null) {
                 return json([
-                    'code' => 1153,
-                    'message' => '请购不存在！'
+                    'code' => 1203,
+                    'message' => '招标不存在！'
                 ]);
             }
-            $purchase->save([
-                'purchase_project_id' => $purchase_project_id,
-                'purchase_type' => $purchase_type,
-                'purchase_product_id' => $purchase_product_id,
-                'purchase_dept' => $purchase_dept,
-                'purchase_technology_parameter' => $purchase_technology_parameter,
-                'purchase_explain' => $purchase_explain,
-                'purchase_technology_file' => $purchase_technology_file,
-                'purchase_is_conform' => $purchase_is_conform,
-                'purchase_reject_reason' => $purchase_reject_reason,
-                'purchase_reject_content' => $purchase_reject_content,
-                'purchase_payment' => $purchase_payment,
-                'purchase_quality' => $purchase_quality,
-                'purchase_deadline' => $purchase_deadline,
-                'purchase_arrive_time' => $purchase_arrive_time,
-                'purchase_place' => $purchase_place,
-                'purchase_recommend' => $purchase_recommend,
-                'purchase_order' => $purchase_order,
-                'purchase_order_time' => $purchase_order_time,
-                'purchase_tip' => $purchase_tip,
-                'purchase_budget' => $purchase_budget
-            ], ['purchase_id' => $purchase_id]);
+            $tender->save([
+                'tender_purchase_id' => $tender_purchase_id,
+                'tender_manager' => $tender_manager,
+                'tender_apply_time' => $tender_apply_time,
+                'tender_technology_time' => $tender_technology_time,
+                'tender_price_time' => $tender_price_time,
+                'tender_advice_suplier' => $tender_advice_suplier,
+                'tender_advice_suplier_add' => $tender_advice_suplier_add,
+                'tender_tip' => $tender_tip
+            ], ['tender_id' => $tender_id]);
             
-            $product_update_list = array();
-            foreach ($purchase_product_list as $purchase_product) {
-                $product_update_list[] = [
-                    'product_id' => $purchase_product['productID'],
-                    'product_status' => 2
-                ];
-
-            }
-            $product->saveAll($product_update_list);
-
             return json([
-                'code' => 1152,
-                'message' => '请购编辑成功！'
+                'code' => 1202,
+                'message' => '招标编辑成功！'
             ]);
         } else {
-            $purchase->data([
-                'purchase_user_id' => $user_id,
-                'purchase_project_id' => $purchase_project_id,
-                'purchase_type' => $purchase_type,
-                'purchase_product_id' => $purchase_product_id,
-                'purchase_dept' => $purchase_dept,
-                'purchase_technology_parameter' => $purchase_technology_parameter,
-                'purchase_explain' => $purchase_explain,
-                'purchase_technology_file' => $purchase_technology_file,
-                'purchase_is_conform' => $purchase_is_conform,
-                'purchase_reject_reason' => $purchase_reject_reason,
-                'purchase_reject_content' => $purchase_reject_content,
-                'purchase_payment' => $purchase_payment,
-                'purchase_quality' => $purchase_quality,
-                'purchase_deadline' => $purchase_deadline,
-                'purchase_arrive_time' => $purchase_arrive_time,
-                'purchase_place' => $purchase_place,
-                'purchase_recommend' => $purchase_recommend,
-                'purchase_order' => $purchase_order,
-                'purchase_order_time' => $purchase_order_time,
-                'purchase_tip' => $purchase_tip,
-                'purchase_create_time' => time(),
-                'purchase_status' => 0,
-                'purchase_budget' => $purchase_budget
+            $tender->data([
+                'tender_purchase_id' => $tender_purchase_id,
+                'tender_manager' => $tender_manager,
+                'tender_apply_time' => $tender_apply_time,
+                'tender_technology_time' => $tender_technology_time,
+                'tender_price_time' => $tender_price_time,
+                'tender_advice_suplier' => $tender_advice_suplier,
+                'tender_advice_suplier_add' => $tender_advice_suplier_add,
+                'tender_tip' => $tender_tip
             ]);
-            $purchase->save();
-            foreach ($purchase_product_list as $purchase_product) {
-                $product->save([
-                    'product_status' => 2
-                ], ['product_id' => $purchase_product['productID']]);
-            }
+            $tender->save();
             return json([
-                'code' => 1151,
-                'message' => '请购创建成功！'
+                'code' => 1201,
+                'message' => '招标创建成功！'
             ]);
         }
     }
