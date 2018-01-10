@@ -62,6 +62,7 @@ $(function($) {
         $('#productName').val(data.name);
         $('#productType').val(data.type);
         $('#productSum').val(data.sum);
+        $('#productUnit').val(data.unit);
         $('#productTip').val(data.tip);
         productModal.find('.alert').hide();
         $('#productForm').show();

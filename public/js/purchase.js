@@ -21,7 +21,7 @@ $(function($) {
             <td>\
               <a href="#purchaseDetailModal" data-toggle="modal" data-purchaseid="'+data.content[i].purchaseID+'">详细</a> |\
               <a href="#purchaseProcessModal"  data-toggle="modal" data-purchaseid="'+data.content[i].purchaseID+'">审批流程</a> |\
-              <a href="api/purchase/export/'+data.content[i].purchaseID+'">导出</a>\
+              <a href="api/purchase/export?purchaseID='+data.content[i].purchaseID+'">导出</a>\
             </td>\
           </tr>\
         ';
@@ -70,6 +70,7 @@ $(function($) {
         $('#purchaseProjectCode').val(data.content.code);
         $('#purchaseProduct').val(data.content.product);
         $('#purchaseDept').val(data.content.dept);
+        $('#purchaseBudget').val(data.content.budget);
         $('#purchaseTecPara').val(data.content.tecPara);
         $('#purchaseExplain').val(data.content.explain);
         $('#purchaseTecFile').val(data.content.tecFile);
