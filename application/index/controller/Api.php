@@ -445,6 +445,7 @@ class Api extends \think\Controller {
         $product_item_id = $request->post('itemID');
         $product_name = $request->post('name');
         $product_sum = intval($request->post('sum'));
+        $product_sum_unit = intval($request->post('unit'));
         $product_type = $request->post('type');
         $product_tip = $request->post('tip');
 
@@ -463,6 +464,7 @@ class Api extends \think\Controller {
                 'product_item_id' => $product_item_id,
                 'product_name' => $product_name,
                 'product_sum' => $product_sum,
+                'product_sum_unit' => $product_sum_unit,
                 'product_type' => $product_type,
                 'product_tip' => $product_tip,
             ], ['product_id' => $product_id]);
@@ -477,6 +479,7 @@ class Api extends \think\Controller {
                 'product_item_id' => $product_item_id,
                 'product_name' => $product_name,
                 'product_sum' => $product_sum,
+                'product_sum_unit' => $product_sum_unit,
                 'product_type' => $product_type,
                 'product_tip' => $product_tip,
             ]);
@@ -502,7 +505,7 @@ class Api extends \think\Controller {
         $product_id = $request->get('productID');
        
         $product = new Product();
-        $product_info = $product->field('product_item_id,product_name,product_sum,product_type,product_tip')->where('product_id', $product_id)->find();
+        $product_info = $product->field('product_item_id,product_name,product_sum,product_sum_unit,product_type,product_tip')->where('product_id', $product_id)->find();
         if($product_info == null) {
             return json([
                 'code' => 1112,
@@ -517,6 +520,7 @@ class Api extends \think\Controller {
             'name' => $product_info['product_name'],
             'type' => $product_info['product_type'],
             'sum' => $product_info['product_sum'],
+            'unit' => $product_info['product_sum_unit'],
             'tip' => $product_info['product_tip']
         ]);
     }
@@ -702,6 +706,7 @@ class Api extends \think\Controller {
         $purchase_order = $request->post('order');
         $purchase_order_time = strtotime($request->post('orderDate'));
         $purchase_tip = $request->post('tip');
+        $purchase_budget = $request->post('budget');
         
         $purchase = new Purchase();
         $product = new Product();
@@ -734,7 +739,8 @@ class Api extends \think\Controller {
                 'purchase_recommend' => $purchase_recommend,
                 'purchase_order' => $purchase_order,
                 'purchase_order_time' => $purchase_order_time,
-                'purchase_tip' => $purchase_tip
+                'purchase_tip' => $purchase_tip,
+                'purchase_budget' => $purchase_budget
             ], ['purchase_id' => $purchase_id]);
             
             $product_update_list = array();
@@ -774,7 +780,8 @@ class Api extends \think\Controller {
                 'purchase_order_time' => $purchase_order_time,
                 'purchase_tip' => $purchase_tip,
                 'purchase_create_time' => time(),
-                'purchase_status' => 0
+                'purchase_status' => 0,
+                'purchase_budget' => $purchase_budget
             ]);
             $purchase->save();
             foreach ($purchase_product_list as $purchase_product) {
