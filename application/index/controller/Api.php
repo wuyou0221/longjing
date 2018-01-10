@@ -844,7 +844,7 @@ class Api extends \think\Controller {
         }
 
         $purchase = new Purchase();
-        $purchase_info = $purchase->field('purchase_project_id,purchase_type,purchase_product_id,purchase_dept,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
+        $purchase_info = $purchase->field('purchase_project_id,purchase_type,purchase_product_id,purchase_dept,purchase_budget,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
         if($purchase_info == null) {
             return json([
                 'code' => 1142,
@@ -880,6 +880,7 @@ class Api extends \think\Controller {
                 'product' => $purchase_info['purchase_product_id'],
                 'productArray' => $this->list_to_product($purchase_info['purchase_product_id']),
                 'dept' => $purchase_info['purchase_dept'],
+                'budget' => $purchase_info['purchase_budget'],
                 'tecPara' => $purchase_info['purchase_technology_parameter'],
                 'explain' => $purchase_info['purchase_explain'],
                 'tecFile' => $purchase_info['purchase_technology_file'],
