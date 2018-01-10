@@ -109,6 +109,8 @@ $(function($) {
     };
     thisInput.val(thisInput.val()+data.productID+',');
     addProductBtn(thisInput, [data], true);
+    // 仅能选取一个
+    thisInput.nextAll('button').hide();
   });
 
   // 删除明细产品
@@ -120,6 +122,7 @@ $(function($) {
     thisItem.remove();
     // 恢复产品可选
     $('[data-productid="'+thisItem.data('productid')+'"] .product-select').show();
+    thisInput.nextAll('button').show();
   });
 
   // 搜索物料

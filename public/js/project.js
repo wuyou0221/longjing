@@ -77,6 +77,7 @@ $(function($) {
         $('#projectPurchasePlan').val(data.content.purchasePlan);
         $('#projectTip').val(data.content.tip);
         // 添加按钮
+        modal.find('.form-group > .btn-group').remove();
         addFileBtn($('#projectCompact'), data.content.compactArray, true);
         addFileBtn($('#projectTecDeal'), data.content.tecDealArray, true);
         addFileBtn($('#projectOtherFile'), data.content.otherFileArray, true);
