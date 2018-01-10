@@ -440,6 +440,23 @@ class Api extends \think\Controller {
         ]);
     }
 
+    public function item_get() {
+        $this->check_login();
+        $request = Request::instance();
+        $item_id = intval($request->get('itemID'));
+
+        $item = new Item();
+        $item_rank_info = $item->field('item_rank')->where('item_id', $item_id)->find();
+
+        $item_info = $item->field('item_id as itemID,item_name as itemName')->where('item_parent_id', $item_id)->select();
+        return json([
+            'code' => 1211,
+            'message' => '物料搜索成功！',
+            'rank' => intval($item_rank_info['item_rank']) + 1,
+            'content' => $item_info
+        ]);
+    }
+
     public function product_edit() {
         $this->check_login();
         $request = Request::instance();
@@ -1193,7 +1210,6 @@ class Api extends \think\Controller {
         $purchase = new Purchase();
         $perpage = 100;
         $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
-        $product_info = array();
         $purchase_info = $purchase->field('purchase_id as purchaseID,purchase_project_id as ID,purchase_product_id as product')->order('purchase_id asc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
         
         $project = new Project();
@@ -1265,7 +1281,8 @@ class Api extends \think\Controller {
                 'tender_price_time' => $tender_price_time,
                 'tender_advice_suplier' => $tender_advice_suplier,
                 'tender_advice_suplier_add' => $tender_advice_suplier_add,
-                'tender_tip' => $tender_tip
+                'tender_tip' => $tender_tip,
+                'tender_status' => 1
             ]);
             $tender->save();
             return json([
@@ -1288,19 +1305,16 @@ class Api extends \think\Controller {
 
         $tender = new Tender();
         $perpage = 10;
-        $total_id = ceil($tender->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
-        $purchase_info = array();
-        $purchase_temp_list = $purchase->field('purchase_id,purchase_product_id,purchase_project_id,purchase_status')->order('purchase_id desc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
-        $project = new Project;
+        $total_id = ceil($tender->where('tender_user_id', $user_id)->where('tender_status', 1)->count('tender_id') / 10);
+        $tender_info = $tender->field('tender_id as tenderID,tender_purchase_id as purchaseID,tender_status as status')->order('tender_id desc')->where('tender_user_id', $user_id)->where('tender_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        
+        
+        $purchase = new Purchase();
+        $project = new Project();
 
-        foreach ($purchase_temp_list as $purchase_temp) {
+        foreach ($tender_info as &$tender_temp_info) {
             $project_info = $project->field('project_name')->where('project_id', $purchase_temp['purchase_project_id'])->find();
-            $purchase_info[] = [
-                'purchaseID' => $purchase_temp['purchase_id'],
-                'product' => implode(' / ', $this->list_to_product_name($purchase_temp['purchase_product_id'])),
-                'project' => $project_info['project_name'],
-                'state' => $purchase_temp['purchase_status']
-            ];
+            
         }
         return json([
             'code' => 1131,

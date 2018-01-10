@@ -31,6 +31,7 @@ return [
         'project/getDetail/:projectid' => ['index/Api/project_get_detail', ['method' => 'get'], ['projectid' => '\d+']],
         'item/excel/:fileid' => ['index/Api/item_excel', ['method' => 'get'], ['fileid' => '\w+']],
         'item/search' => ['index/Api/item_search', ['method' => 'get']],
+        'item/get' => ['index/Api/item_get', ['method' => 'get']],
         'product/edit' => ['index/Api/product_edit', ['method' => 'post']],
         'product/getDetail' => ['index/Api/product_get_detail', ['method' => 'get']],
         'product/excel' => ['index/Api/product_excel', ['method' => 'post']],
