@@ -22,7 +22,8 @@ $(function($) {
               <a href="#tenderDetailModal" data-toggle="modal" data-tenderid="'+data.content[i].tenderID+'">详细</a> |\
               <a href="#tenderProcessModal"  data-toggle="modal" data-tenderid="'+data.content[i].tenderID+'">流程</a> |\
               <a href="#tenderReviewModal"  data-toggle="modal" data-tenderid="'+data.content[i].tenderID+'">评审</a> |\
-              <a href="#"  data-toggle="modal" data-tenderid="'+data.content[i].tenderID+'">定标</a>\
+              <a href="#"  data-toggle="modal" data-tenderid="'+data.content[i].tenderID+'">定标</a> |\
+              <a href="api/tender/export?tenderID='+data.content[i].tenderID+'">导出</a>\
             </td>\
             </td>\
           </tr>\
