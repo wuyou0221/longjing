@@ -87,8 +87,8 @@ $(function($) {
         $('#purchaseOrderDate').val(data.content.orderDate);
         $('#purchaseTip').val(data.content.tip);
         // 添加按钮
-        addFileBtn($('#purchaseTecFile'), data.content.tecFileArray, false);
-        addProductBtn($('#purchaseProduct'), data.content.productArray, false);      
+        addFileBtn($('#purchaseTecFile'), data.content.tecFileArray, true);
+        addProductBtn($('#purchaseProduct'), data.content.productArray, true);      
 
         formBox.show();
         alertBox.hide();

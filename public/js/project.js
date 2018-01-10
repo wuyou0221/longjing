@@ -77,12 +77,12 @@ $(function($) {
         $('#projectPurchasePlan').val(data.content.purchasePlan);
         $('#projectTip').val(data.content.tip);
         // 添加按钮
-        addFileBtn($('#projectCompact'), data.content.compactArray, false);
-        addFileBtn($('#projectTecDeal'), data.content.tecDealArray, false);
-        addFileBtn($('#projectOtherFile'), data.content.otherFileArray, false);
-        addFileBtn($('#projectPlan'), data.content.projectPlanArray, false);
-        addFileBtn($('#projectPurchasePlan'), data.content.purchasePlanArray, false);
-        addProductBtn($('#projectProduct'), data.content.productArray, false);
+        addFileBtn($('#projectCompact'), data.content.compactArray, true);
+        addFileBtn($('#projectTecDeal'), data.content.tecDealArray, true);
+        addFileBtn($('#projectOtherFile'), data.content.otherFileArray, true);
+        addFileBtn($('#projectPlan'), data.content.projectPlanArray, true);
+        addFileBtn($('#projectPurchasePlan'), data.content.purchasePlanArray, true);
+        addProductBtn($('#projectProduct'), data.content.productArray, true);
 
         formBox.show();
         alertBox.hide();

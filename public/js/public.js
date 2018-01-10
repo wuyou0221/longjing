@@ -57,7 +57,7 @@ function pageDivide(pageBox, page, total, getList) {
 }
 
 // 添加文件按钮
-function addFileBtn($input, array, isAdd) {
+function addFileBtn($input, array, editable) {
   var addContent = '';
   for (var i = 0; i < array.length; i++) {    
     addContent += '\
@@ -67,12 +67,16 @@ function addFileBtn($input, array, isAdd) {
       </div>\
     ';
   }
-  if (!isAdd) $input.nextAll('.btn-group').remove();
-  $input.nextAll('[data-type="add"], [data-type="addfrom"]').before(addContent);
+  var addBtn = $input.nextAll('[data-type="add"], [data-type="addfrom"]').before(addContent);
+  if (!editable) {
+    $input.nextAll('.btn-group').find('.del-file').hide();
+    addBtn.nextAll().hide();
+    addBtn.hide();
+  }
 }
 
 // 添加产品明细按钮
-function addProductBtn($input, array, isAdd) {
+function addProductBtn($input, array, editable) {
   var addContent = '';
   for (var i = 0; i < array.length; i++) {
     addContent += '\
@@ -82,6 +86,10 @@ function addProductBtn($input, array, isAdd) {
       </div>\
     ';
   }
-  if (!isAdd) $input.nextAll('.btn-group').remove();  
-  $input.nextAll('[data-type="add"], [data-type="addfrom"]').before(addContent);
+  var addBtn = $input.nextAll('[data-type="add"], [data-type="addfrom"]').before(addContent);
+  if (!editable) {
+    $input.nextAll('.btn-group').find('.del-product').hide();
+    addBtn.nextAll().hide();
+    addBtn.hide();
+  }
 }

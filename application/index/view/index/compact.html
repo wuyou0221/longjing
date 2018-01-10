@@ -9,7 +9,7 @@
           <!-- 搜索框 & 新建 -->
           <div class="row">
             <div class="col-xs-3 col-sm-1 col-sm-offset-6 clearfix">
-              <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#compactDetailModal" data-name="new"><span class="glyphicon glyphicon-plus"></span></button>
+              <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#compactDetailModal" data-compactid="new"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <div class="col-xs-9 col-sm-5">
               <div class="input-group">
@@ -38,9 +38,8 @@
                   <td>项目1</td>
                   <td>已通过</td>
                   <td>
-                    <a href="#compactDetailModal" data-toggle="modal" data-name="Mark">详细</a> |
-                    <a href="#compactProcessModal"  data-toggle="modal" data-name="Mark">流程</a> |
-                    <a href="#compactCheckModal"  data-toggle="modal" data-name="Mark">验收</a>
+                    <a href="#compactDetailModal" data-toggle="modal" data-compactid="Mark">详细</a> |
+                    <a href="#compactProcessModal"  data-toggle="modal" data-compactid="Mark">流程</a> |
                   </td>
                 </tr>
                 <tr>
@@ -49,9 +48,8 @@
                   <td>项目1</td>
                   <td>待审核</td>
                   <td>
-                    <a href="#compactDetailModal" data-toggle="modal" data-name="Jacob">详细</a> |
-                    <a href="#compactProcessModal"  data-toggle="modal" data-name="Jacob">流程</a> |
-                    <a href="#compactCheckModal"  data-toggle="modal" data-name="Jacob">验收</a>
+                    <a href="#compactDetailModal" data-toggle="modal" data-compactid="Jacob">详细</a> |
+                    <a href="#compactProcessModal"  data-toggle="modal" data-compactid="Jacob">流程</a> |
                   </td>
                   </td>
                 </tr>
@@ -61,9 +59,8 @@
                   <td>项目1</td>
                   <td>待修改</td>
                   <td>
-                    <a href="#compactDetailModal" data-toggle="modal" data-name="Larry">详细</a> |
-                    <a href="#compactProcessModal"  data-toggle="modal" data-name="Larry">流程</a> |
-                    <a href="#compactCheckModal"  data-toggle="modal" data-name="Larry">验收</a>
+                    <a href="#compactDetailModal" data-toggle="modal" data-compactid="Larry">详细</a> |
+                    <a href="#compactProcessModal"  data-toggle="modal" data-compactid="Larry">流程</a> |
                   </td>
                   </td>
                 </tr>
@@ -99,6 +96,8 @@
 {include file="module/compact-process-modal" /}
 {include file="module/product-modal" /}
 {include file="module/footer" /}
-
+  
+  <script src="./js/compact.js"></script>
+  <script src="./js/product.js"></script>
   </body>
 </html>

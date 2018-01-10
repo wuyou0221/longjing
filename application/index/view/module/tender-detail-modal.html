@@ -21,9 +21,9 @@
                     <input type="hidden" id="tenderPurchaseID" name="purchaseID" readonly>
                     <label for="tenderPurchase">关联请购</label>
                     <select class="form-control" id="tenderPurchase" name="purchase">
-                      <option data-id="1">B</option>
-                      <option data-id="2">C</option>
-                      <option data-id="3">D</option>
+                      <option data-purchaseid="1">B</option>
+                      <option data-purchaseid="2">C</option>
+                      <option data-purchaseid="3">D</option>
                     </select>
                   </div>
                 </div>
@@ -49,10 +49,13 @@
                     <input type="hidden" id="tenderProduct" name="product" readonly><br>
                     <div class="btn-group" role="group" data-productid="1">
                       <button type="button" class="btn btn-default product-detail">产品1</button>
+                      <button type="button" class="btn btn-danger del-product"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
                     <div class="btn-group" role="group" data-productid="2">
                       <button type="button" class="btn btn-default product-detail">产品2</button>
+                      <button type="button" class="btn btn-danger del-product"><span class="glyphicon glyphicon-remove"></span></button>
                     </div>
+                    <button type="button" class="btn btn-info product-detail" data-type="add" data-once="false"><span class="glyphicon glyphicon-plus"></span></button>
                   </div>
                 </div>
                 <div class="col-sm-6">
