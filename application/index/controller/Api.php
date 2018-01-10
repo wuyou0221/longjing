@@ -270,7 +270,7 @@ class Api extends \think\Controller {
                 'project_purchase_plan' => $project_purchase_plan,
                 'project_tip' => $project_tip,
                 'project_create_time' => time(),
-                'project_status' => 0
+                'project_status' => 1
             ]);
             $project->save();
             return json([
@@ -374,45 +374,45 @@ class Api extends \think\Controller {
             ]);
         }
 
-        $product_array = $this->excel_to_array($file_path);
-        $product = new Product();
+        $item_array = $this->excel_to_array($file_path);
+        $item = new Item();
 
         $error_num = 0;
         $success_num = 0;
-        $total_num = count($product_array);
+        $total_num = count($item_array);
         $rank = 0;
-        foreach ($product_array as $product_temp_info) {
-            if($product_temp_info[0] == null || $product_temp_info[1] == null || $product_temp_info[2] == null) {
+        foreach ($item_array as $item_temp_info) {
+            if($item_temp_info[0] == null || $item_temp_info[1] == null || $item_temp_info[2] == null) {
                 $error_num++;
                 continue;
             }
-            if(intval($product_temp_info[1]) == 1) {
-                $product_info = $product->field('product_id,product_rank')->where('product_name', $product_temp_info[0])->find();
-                if($product_info != null) {
+            if(intval($item_temp_info[1]) == 1) {
+                $item_info = $item->field('item_id,item_rank')->where('item_name', $item_temp_info[0])->find();
+                if($item_info != null) {
                     $error_num++;
                     continue;
                 } else {
-                    $product->data([
-                        'product_name'  =>  $product_temp_info[0],
-                        'product_rank' =>  1,
-                        'product_parent_id' =>  0
+                    $item->data([
+                        'item_name'  =>  $item_temp_info[0],
+                        'item_rank' =>  1,
+                        'item_parent_id' =>  0
                     ]);
-                    $product->isUpdate(false)->save();
+                    $item->isUpdate(false)->save();
                     $success_num++;
                 }
             } else {
-                $product_info = $product->field('product_id,product_rank')->where('product_name', 'in', [$product_temp_info[0], $product_temp_info[2]])->select();
-                if(count($product_info) == 2 || count($product_info) == 0) {
+                $item_info = $item->field('item_id,item_rank')->where('item_name', 'in', [$item_temp_info[0], $item_temp_info[2]])->select();
+                if(count($item_info) == 2 || count($item_info) == 0) {
                     $error_num++;
                     continue;
                 }
-                if(count($product_info) == 1) {
-                    $product->data([
-                        'product_name'  =>  $product_temp_info[0],
-                        'product_rank' =>  intval($product_temp_info[1]),
-                        'product_parent_id' =>  $product_info[0]['product_id']
+                if(count($item_info) == 1) {
+                    $item->data([
+                        'item_name'  =>  $item_temp_info[0],
+                        'item_rank' =>  intval($item_temp_info[1]),
+                        'item_parent_id' =>  $item_info[0]['item_id']
                     ]);
-                    $product->isUpdate(false)->save();
+                    $item->isUpdate(false)->save();
                     $success_num++;
                 }
             }
@@ -431,7 +431,7 @@ class Api extends \think\Controller {
         $item_name = $request->get('name');
 
         $item = new Item();
-        $item_info = $item->field('item_id as itemID,item_name as name')->where('item_name', 'like', '%'.$item_name.'%')->where('item_is_root', 1)->select();
+        $item_info = $item->field('item_id as itemID,item_name as name')->where('item_name', 'like', '%'.$item_name.'%')->select();
         return json([
             'code' => 1091,
             'message' => '物料搜索成功！',
@@ -567,6 +567,7 @@ class Api extends \think\Controller {
         }
 
         $product_array = $this->excel_to_array($file_path);
+        array_shift($product_array);
         $product = new Product();
         $item = new Item();
 
@@ -579,7 +580,7 @@ class Api extends \think\Controller {
         $product_data_list = '';
 
         foreach ($product_array as $product_temp_info) {
-            if($product_temp_info[0] == null || $product_temp_info[1] == null || $product_temp_info[2] == null) {
+            if($product_temp_info[0] == null || $product_temp_info[1] == null || $product_temp_info[2] == null || $product_temp_info[3] == null) {
                 $error_num++;
                 continue;
             }
@@ -593,7 +594,8 @@ class Api extends \think\Controller {
                 'product_name' =>  $product_temp_info[0],
                 'product_type' =>  $product_temp_info[1],
                 'product_sum' =>  $product_temp_info[2],
-                'product_tip' =>  $product_temp_info[3]
+                'product_sum_unit' =>  $product_temp_info[3],
+                'product_tip' =>  $product_temp_info[4]
             ]);
             $product->isUpdate(false)->save();
             $product_data_list = $product_data_list.$product->product_id.',';
@@ -780,7 +782,7 @@ class Api extends \think\Controller {
                 'purchase_order_time' => $purchase_order_time,
                 'purchase_tip' => $purchase_tip,
                 'purchase_create_time' => time(),
-                'purchase_status' => 0,
+                'purchase_status' => 1,
                 'purchase_budget' => $purchase_budget
             ]);
             $purchase->save();
@@ -920,7 +922,7 @@ class Api extends \think\Controller {
         }
 
         $purchase = new Purchase();
-        $purchase_info = $purchase->field('purchase_project_id,purchase_type,purchase_product_id,purchase_dept,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
+        $purchase_info = $purchase->field('purchase_project_id,purchase_type,purchase_product_id,purchase_dept,purchase_budget,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
         if($purchase_info == null) {
             return json([
                 'code' => 1192,
@@ -928,18 +930,37 @@ class Api extends \think\Controller {
             ]);
         }
 
+        $purchase_is_conform = '';
+        $purchase_not_conform = '';
         if(intval($purchase_info['purchase_is_conform']) == 1) {
-            $purchase_info['purchase_is_conform'] = '是';
+            $purchase_is_conform = '√';
         }
         if(intval($purchase_info['purchase_is_conform']) == 0) {
-            $purchase_info['purchase_is_conform'] = '否';
+            $purchase_not_conform = '√';
         }
 
         $project = new Project();
         $project_info = $project->field('project_code,project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
         if($project_info == null) {
             return json([
-                'code' => 1143,
+                'code' => 1193,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        $product_array = $this->list_to_product($purchase_info['purchase_product_id']);
+        if(count($product_array) < 1) {
+            return json([
+                'code' => 1195,
+                'message' => '参数错误！'
+            ]);
+        }
+
+        $product = new Product();
+        $product_info = $product->field('product_name,product_sum,product_sum_unit,product_type')->where('product_id', $product_array[0]['productID'])->find();
+        if($product_info == null) {
+            return json([
+                'code' => 1196,
                 'message' => '参数有误！'
             ]);
         }
@@ -949,13 +970,22 @@ class Api extends \think\Controller {
         $reader->setValue('purchase_id', $purchase_id);
         $reader->setValue('project_name', $project_info['project_name']);
         $reader->setValue('project_code', $project_info['project_code']);
-        $reader->setValue('product_name', '');
-        $reader->setValue('product_sum', '');
-        $reader->setValue('product_type', '');
-        $reader->setValue('purchase_arrive_time', '');
-        $reader->setValue('purchase_place', '');
-        $reader->setValue('purchase_dept', '');
-        $reader->setValue('purchase_id', '');
+        $reader->setValue('product_name', $project_info['project_code']);
+        $reader->setValue('product_sum', $product_info['product_sum'].$product_info['product_sum_unit']);
+        $reader->setValue('product_type', $product_info['product_type']);
+        $reader->setValue('purchase_arrive_time', date('Y-m-d', $purchase_info['purchase_arrive_time']));
+        $reader->setValue('purchase_place', $purchase_info['purchase_place']);
+        $reader->setValue('purchase_dept', $purchase_info['purchase_dept']);
+        $reader->setValue('purchase_budget', $purchase_info['purchase_budget']);
+        $reader->setValue('purchase_technology_parameter', $purchase_info['purchase_technology_parameter']);
+        $reader->setValue('purchase_explain', $purchase_info['purchase_explain']);
+        $reader->setValue('purchase_deadline', date('Y-m-d', $purchase_info['purchase_deadline']));
+        $reader->setValue('purchase_quality', date('Y-m-d', $purchase_info['purchase_quality']));
+        $reader->setValue('purchase_recommend', $purchase_info['purchase_recommend']);
+        $reader->setValue('purchase_reject_reason', $purchase_info['purchase_reject_reason']);
+        $reader->setValue('purchase_reject_content', $purchase_info['purchase_reject_content']);
+        $reader->setValue('purchase_is_conform', $purchase_is_conform);
+        $reader->setValue('purchase_not_conform', $purchase_not_conform);
         $file_name = 'purchase-'.time().'.docx';
         $reader->saveAs($file_path.$file_name);
         
@@ -1146,6 +1176,268 @@ class Api extends \think\Controller {
             ]
         ]);
     }
+
+    public function tender_get_purchase() {
+        //检查登陆
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+        
+        $request = Request::instance();
+        $page_id = 1;
+        if($request->has('pageID')) {
+            $page_id = intval($request->get('pageID'));
+        }
+
+        $purchase = new Purchase();
+        $perpage = 100;
+        $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
+        $product_info = array();
+        $purchase_info = $purchase->field('purchase_project_id,purchase_product_id')->order('purchase_id asc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        
+
+
+        return json([
+            'code' => 1191,
+            'message' => '项目查询成功！',
+            'page' => $page_id,
+            'total' => $total_id,
+            'content' => $purchase_info
+        ]);
+    }
+
+    public function tender_edit() {
+        $this->check_login();
+        $user_id = intval(Session::get('userid'));
+
+        $request = Request::instance();
+        $purchase_project_id = $request->post('ID');
+        $purchase_type = $request->post('type');
+        $purchase_product_id = $request->post('product');
+
+        $purchase_product_list = $this->list_to_product($purchase_product_id);
+
+        $purchase_dept = $request->post('dept');
+        $purchase_technology_parameter = $request->post('tecPara');
+        $purchase_explain = $request->post('explain');
+        $purchase_technology_file = $request->post('tecFile');
+        
+        $purchase_is_conform = $request->post('isConform');
+        if($purchase_is_conform == '是') {
+            $purchase_is_conform = 1;
+        }
+        if($purchase_is_conform == '否') {
+            $purchase_is_conform = 0;
+        }
+        
+        $purchase_reject_reason = $request->post('notReason');
+        $purchase_reject_content = $request->post('notContent');
+        $purchase_payment = $request->post('way');
+        $purchase_quality = strtotime($request->post('quality'));
+        $purchase_deadline = strtotime($request->post('ddl'));
+        $purchase_arrive_time = strtotime($request->post('arriveDate'));
+        $purchase_place = $request->post('place');
+        $purchase_recommend = $request->post('recommend');
+        $purchase_order = $request->post('order');
+        $purchase_order_time = strtotime($request->post('orderDate'));
+        $purchase_tip = $request->post('tip');
+        $purchase_budget = $request->post('budget');
+        
+        $purchase = new Purchase();
+        $product = new Product();
+
+        if($request->post('purchaseID') != '') {
+            $purchase_id = intval($request->post('purchaseID'));
+            $purchase_info = $purchase->field('purchase_id')->where('purchase_id', $purchase_id)->find();
+            if($purchase_info == null) {
+                return json([
+                    'code' => 1153,
+                    'message' => '请购不存在！'
+                ]);
+            }
+            $purchase->save([
+                'purchase_project_id' => $purchase_project_id,
+                'purchase_type' => $purchase_type,
+                'purchase_product_id' => $purchase_product_id,
+                'purchase_dept' => $purchase_dept,
+                'purchase_technology_parameter' => $purchase_technology_parameter,
+                'purchase_explain' => $purchase_explain,
+                'purchase_technology_file' => $purchase_technology_file,
+                'purchase_is_conform' => $purchase_is_conform,
+                'purchase_reject_reason' => $purchase_reject_reason,
+                'purchase_reject_content' => $purchase_reject_content,
+                'purchase_payment' => $purchase_payment,
+                'purchase_quality' => $purchase_quality,
+                'purchase_deadline' => $purchase_deadline,
+                'purchase_arrive_time' => $purchase_arrive_time,
+                'purchase_place' => $purchase_place,
+                'purchase_recommend' => $purchase_recommend,
+                'purchase_order' => $purchase_order,
+                'purchase_order_time' => $purchase_order_time,
+                'purchase_tip' => $purchase_tip,
+                'purchase_budget' => $purchase_budget
+            ], ['purchase_id' => $purchase_id]);
+            
+            $product_update_list = array();
+            foreach ($purchase_product_list as $purchase_product) {
+                $product_update_list[] = [
+                    'product_id' => $purchase_product['productID'],
+                    'product_status' => 2
+                ];
+
+            }
+            $product->saveAll($product_update_list);
+
+            return json([
+                'code' => 1152,
+                'message' => '请购编辑成功！'
+            ]);
+        } else {
+            $purchase->data([
+                'purchase_user_id' => $user_id,
+                'purchase_project_id' => $purchase_project_id,
+                'purchase_type' => $purchase_type,
+                'purchase_product_id' => $purchase_product_id,
+                'purchase_dept' => $purchase_dept,
+                'purchase_technology_parameter' => $purchase_technology_parameter,
+                'purchase_explain' => $purchase_explain,
+                'purchase_technology_file' => $purchase_technology_file,
+                'purchase_is_conform' => $purchase_is_conform,
+                'purchase_reject_reason' => $purchase_reject_reason,
+                'purchase_reject_content' => $purchase_reject_content,
+                'purchase_payment' => $purchase_payment,
+                'purchase_quality' => $purchase_quality,
+                'purchase_deadline' => $purchase_deadline,
+                'purchase_arrive_time' => $purchase_arrive_time,
+                'purchase_place' => $purchase_place,
+                'purchase_recommend' => $purchase_recommend,
+                'purchase_order' => $purchase_order,
+                'purchase_order_time' => $purchase_order_time,
+                'purchase_tip' => $purchase_tip,
+                'purchase_create_time' => time(),
+                'purchase_status' => 0,
+                'purchase_budget' => $purchase_budget
+            ]);
+            $purchase->save();
+            foreach ($purchase_product_list as $purchase_product) {
+                $product->save([
+                    'product_status' => 2
+                ], ['product_id' => $purchase_product['productID']]);
+            }
+            return json([
+                'code' => 1151,
+                'message' => '请购创建成功！'
+            ]);
+        }
+    }
+
+    public function tender_get() {
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+        
+        $request = Request::instance();
+        $page_id = 1;
+        if($request->has('pageID')) {
+            $page_id = intval($request->get('pageID'));
+        }
+
+        $purchase = new Purchase();
+        $perpage = 10;
+        $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
+        $purchase_info = array();
+        $purchase_temp_list = $purchase->field('purchase_id,purchase_product_id,purchase_project_id,purchase_status')->order('purchase_id desc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        $project = new Project;
+
+        foreach ($purchase_temp_list as $purchase_temp) {
+            $project_info = $project->field('project_name')->where('project_id', $purchase_temp['purchase_project_id'])->find();
+            $purchase_info[] = [
+                'purchaseID' => $purchase_temp['purchase_id'],
+                'product' => implode(' / ', $this->list_to_product_name($purchase_temp['purchase_product_id'])),
+                'project' => $project_info['project_name'],
+                'state' => $purchase_temp['purchase_status']
+            ];
+        }
+        return json([
+            'code' => 1131,
+            'message' => '项目查询成功！',
+            'page' => $page_id,
+            'total' => $total_id,
+            'content' => $purchase_info
+        ]);
+    }
+
+    public function tender_get_detail() {
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+
+        $request = Request::instance();
+
+        if($request->has('purchaseID')) {
+            $purchase_id = intval($request->get('purchaseID'));
+        }
+
+        $purchase = new Purchase();
+        $purchase_info = $purchase->field('purchase_project_id,purchase_type,purchase_product_id,purchase_dept,purchase_budget,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
+        if($purchase_info == null) {
+            return json([
+                'code' => 1142,
+                'message' => '请购不存在！'
+            ]);
+        }
+
+        if(intval($purchase_info['purchase_is_conform']) == 1) {
+            $purchase_info['purchase_is_conform'] = '是';
+        }
+        if(intval($purchase_info['purchase_is_conform']) == 0) {
+            $purchase_info['purchase_is_conform'] = '否';
+        }
+
+        $project = new Project();
+        $project_info = $project->field('project_code,project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
+        if($project_info == null) {
+            return json([
+                'code' => 1143,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        return json([
+            'code' => 1141,
+            'message' => '请购明细查询成功！',
+            'content' => [
+                'purchaseID' => $purchase_id,
+                'type' => $purchase_info['purchase_type'],
+                'project' => $project_info['project_name'],
+                'code' => $project_info['project_code'],
+                'ID' => $purchase_info['purchase_project_id'],
+                'product' => $purchase_info['purchase_product_id'],
+                'productArray' => $this->list_to_product($purchase_info['purchase_product_id']),
+                'dept' => $purchase_info['purchase_dept'],
+                'budget' => $purchase_info['purchase_budget'],
+                'tecPara' => $purchase_info['purchase_technology_parameter'],
+                'explain' => $purchase_info['purchase_explain'],
+                'tecFile' => $purchase_info['purchase_technology_file'],
+                'tecFileArray' => $this->list_to_file($purchase_info['purchase_technology_file']),
+                'isConform' => $purchase_info['purchase_is_conform'],
+                'notReason' => $purchase_info['purchase_reject_reason'],
+                'notContent' => $purchase_info['purchase_reject_content'],
+                'way' => $purchase_info['purchase_payment'],
+                'quality' => date('Y-m-d', $purchase_info['purchase_quality']),
+                'ddl' => date('Y-m-d', $purchase_info['purchase_deadline']),
+                'arriveDate' => date('Y-m-d', $purchase_info['purchase_arrive_time']),
+                'place' => $purchase_info['purchase_place'],
+                'recommend' => $purchase_info['purchase_recommend'],
+                'order' => $purchase_info['purchase_order'],
+                'orderDate' => date('Y-m-d', $purchase_info['purchase_order_time']),
+                'tip' => $purchase_info['purchase_tip']
+            ],
+            'time' => date('Y-m-d', $purchase_info['purchase_create_time']),
+            'state' => $purchase_info['purchase_status']
+        ]);
+    }
+
     public function test() {
         $reader = new TemplateProcessor('Template.docx');
         $reader->setValue('Value1', 'Sun');

@@ -43,6 +43,7 @@ return [
         'provider/edit' => ['index/Api/provider_edit', ['method' => 'post']],
         'provider/get' => ['index/Api/provider_get', ['method' => 'get']],
         'provider/getDetail' => ['index/Api/provider_get_detail', ['method' => 'get']],
+        'tender/getPurchase' => ['index/Api/tender_get_purchase', ['method' => 'get']],
         'tender/edit' => ['index/Api/tender_edit', ['method' => 'post']],
         'tender/get' => ['index/Api/tender_get', ['method' => 'get']],
         'tender/getDetail' => ['index/Api/tender_get_detail', ['method' => 'get']],
