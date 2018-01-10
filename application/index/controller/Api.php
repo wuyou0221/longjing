@@ -1323,15 +1323,16 @@ class Api extends \think\Controller {
 
         foreach ($tender_info as &$tender_temp_info) {
             $purchase_info = $purchase->field('purchase_project_id,purchase_product_id')->where('purchase_id', $tender_temp_info['purchaseID'])->find();
-            $tender_temp_info['']
-            
+            $tender_temp_info['product'] = implode(' / ', $this->list_to_product_name($purchase_info['purchase_product_id']));
+            $project_info = $project->field('project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
+            $tender_temp_info['project'] = $project_info['project_name'];
         }
         return json([
             'code' => 1131,
             'message' => '项目查询成功！',
             'page' => $page_id,
             'total' => $total_id,
-            'content' => $purchase_info
+            'content' => $tender_info
         ]);
     }
 
