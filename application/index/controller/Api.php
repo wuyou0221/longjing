@@ -895,6 +895,73 @@ class Api extends \think\Controller {
         ]);
     }
 
+    public function purchase_export() {
+        $this->check_login();
+        
+        $user_id = intval(Session::get('userid'));
+
+        $request = Request::instance();
+
+        if($request->has('purchaseID')) {
+            $purchase_id = intval($request->get('purchaseID'));
+        } else {
+            return json([
+                'code' => 1194,
+                'message' => '参数有误！'
+            ]);
+        }
+
+        $purchase = new Purchase();
+        $purchase_info = $purchase->field('purchase_project_id,purchase_type,purchase_product_id,purchase_dept,purchase_technology_parameter,purchase_explain,purchase_technology_file,purchase_is_conform,purchase_reject_reason,purchase_reject_content,purchase_payment,purchase_quality,purchase_deadline,purchase_arrive_time,purchase_place,purchase_recommend,purchase_order,purchase_order_time,purchase_tip,purchase_create_time,purchase_status')->where('purchase_id', $purchase_id)->where('purchase_status', 1)->find();
+        if($purchase_info == null) {
+            return json([
+                'code' => 1192,
+                'message' => '请购不存在！'
+            ]);
+        }
+
+        if(intval($purchase_info['purchase_is_conform']) == 1) {
+            $purchase_info['purchase_is_conform'] = '是';
+        }
+        if(intval($purchase_info['purchase_is_conform']) == 0) {
+            $purchase_info['purchase_is_conform'] = '否';
+        }
+
+        $project = new Project();
+        $project_info = $project->field('project_code,project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
+        if($project_info == null) {
+            return json([
+                'code' => 1143,
+                'message' => '参数有误！'
+            ]);
+        }
+        $file_path = ROOT_PATH.'application'.DS.'index'.DS.'file'.DS;
+
+        $reader = new TemplateProcessor($file_path.'purchase.docx');
+        $reader->setValue('purchase_id', $purchase_id);
+        $reader->setValue('project_name', $project_info['project_name']);
+        $reader->setValue('project_code', $project_info['project_code']);
+        $reader->setValue('product_name', '');
+        $reader->setValue('product_sum', '');
+        $reader->setValue('product_type', '');
+        $reader->setValue('purchase_arrive_time', '');
+        $reader->setValue('purchase_place', '');
+        $reader->setValue('purchase_dept', '');
+        $reader->setValue('purchase_id', '');
+        $file_name = 'purchase-'.time().'.docx';
+        $reader->saveAs($file_path.$file_name);
+        
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="'.$file_name.'"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file_path.$file_name));
+        readfile($file_path.$file_name);
+        exit();
+    }
+
     public function provider_edit() {
         $this->check_login();
         $user_id = intval(Session::get('userid'));
