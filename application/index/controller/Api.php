@@ -446,15 +446,24 @@ class Api extends \think\Controller {
         $item_id = intval($request->get('itemID'));
 
         $item = new Item();
-        $item_rank_info = $item->field('item_rank')->where('item_id', $item_id)->find();
-
-        $item_info = $item->field('item_id as itemID,item_name as itemName')->where('item_parent_id', $item_id)->select();
-        return json([
-            'code' => 1211,
-            'message' => '物料搜索成功！',
-            'rank' => intval($item_rank_info['item_rank']) + 1,
-            'content' => $item_info
-        ]);
+        if($item_id == 0) {
+            $item_info = $item->field('item_id as itemID,item_name as itemName')->where('item_rank', 2)->select();
+            return json([
+                'code' => 1212,
+                'message' => '物料搜索成功！',
+                'rank' => 2,
+                'content' => $item_info
+            ]);
+        } else {
+            $item_rank_info = $item->field('item_rank')->where('item_id', $item_id)->find();
+            $item_info = $item->field('item_id as itemID,item_name as itemName')->where('item_parent_id', $item_id)->select();
+            return json([
+                'code' => 1211,
+                'message' => '物料搜索成功！',
+                'rank' => intval($item_rank_info['item_rank']) + 1,
+                'content' => $item_info
+            ]);
+        }
     }
 
     public function product_edit() {
@@ -1313,7 +1322,8 @@ class Api extends \think\Controller {
         $project = new Project();
 
         foreach ($tender_info as &$tender_temp_info) {
-            $project_info = $project->field('project_name')->where('project_id', $purchase_temp['purchase_project_id'])->find();
+            $purchase_info = $purchase->field('purchase_project_id,purchase_product_id')->where('purchase_id', $tender_temp_info['purchaseID'])->find();
+            $tender_temp_info['']
             
         }
         return json([
