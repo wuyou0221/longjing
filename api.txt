@@ -613,7 +613,7 @@ API
   manager:A              //采购经理
   product:1,2,           //产品名称，数据由tender/getPuechase返回，js控制填写
   applyDate:2018-01-12   //申请日期
-  TecDate:2018-01-17     //技术标开标日期
+  tecDate:2018-01-17     //技术标开标日期
   priceDate:2018-01-20   //价格标开标日期 
   adviceSuplier:建议入围制造厂商
   adviceSuplierAdd:补充入围制造厂商

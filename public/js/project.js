@@ -7,7 +7,7 @@ $(function($) {
     currentPage = page;
     var tbody = $('#projectTable > tbody').html('');
     var alertBox = $('#projectTable').parent().next();
-    var pageBox = alertBox.next();
+    var pageBox = alertBox.next('.alert');
     alertBox.show();
     $.get('api/project/get/'+page, function(data) {
       var addContent = '';

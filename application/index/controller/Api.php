@@ -1315,7 +1315,7 @@ class Api extends \think\Controller {
         $tender = new Tender();
         $perpage = 10;
         $total_id = ceil($tender->where('tender_user_id', $user_id)->where('tender_status', 1)->count('tender_id') / 10);
-        $tender_info = $tender->field('tender_id as tenderID,tender_purchase_id as purchaseID,tender_status as status')->order('tender_id desc')->where('tender_user_id', $user_id)->where('tender_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        $tender_info = $tender->field('tender_id as tenderID,tender_purchase_id as purchaseID,tender_status as state')->order('tender_id desc')->where('tender_user_id', $user_id)->where('tender_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
         
         
         $purchase = new Purchase();
@@ -1387,7 +1387,7 @@ class Api extends \think\Controller {
                 'product' => $purchase_info['purchase_product_id'],
                 'productArray' => $this->list_to_product($purchase_info['purchase_product_id']),
                 'applyDate' => date('Y-m-d', $tender_info['tender_apply_time']),
-                'TecDate' => date('Y-m-d', $tender_info['tender_technology_time']),
+                'tecDate' => date('Y-m-d', $tender_info['tender_technology_time']),
                 'priceDate' => date('Y-m-d', $tender_info['tender_price_time']),
                 'adviceSuplier' => $tender_info['tender_advice_suplier'],
                 'adviceSuplierAdd' => $tender_info['tender_advice_suplier_add'],

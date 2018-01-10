@@ -12,6 +12,8 @@ $(function($) {
       var parentButton = $('#rank'+parentRank+' .active').find('button');
       $('#itemParentID').val(parentButton.data('itemid'));
     }
+    // 没有选择父级
+    if (!$('#itemParentID').val()) return false;
     $('#itemRank').val(button.data('rank'));
     // 操作表单
     if (id === 'new') {
@@ -33,6 +35,7 @@ $(function($) {
   $('.list-group').on('click', '.list-group-item', function(event) {
     if (event.target.tagName === "A") {
       $(this).siblings().removeClass('active');
+      console.log(event.target, $(this).siblings());
       $(this).addClass('active');
       var id = $(this).find('button').data('itemid');
       loadRank(id);
@@ -40,22 +43,22 @@ $(function($) {
   });
 
   function loadRank(itemID) {
-    $.get('api/item/get/'+itemID, function(data) {
+    $('.alert').show();
+    $.get('api/item/get?itemID='+itemID, function(data) {
       var addContent = '';
       for (var i = 0; i < data.content.length; i++) {
-        addContent += '\
-          <div class="list-group">\
-            <a href="#" class="list-group-item">\
-              '+data.content[i].itemName+'\
-              <span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="'+data.content[i].itemID+'" data-rank="'+data.rank+'"></button></span>\
-            </a>\
-          </div>\
-        ';
+        if (data.rank === 4) {
+          addContent += '<li class="list-group-item">'+data.content[i].itemName+'<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="'+data.content[i].itemID+'" data-rank="'+data.rank+'"></button></span></li>';
+        } else {
+          addContent += '<a href="#" class="list-group-item">'+data.content[i].itemName+'<span class="badge"><button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#itemModal" data-itemid="'+data.content[i].itemID+'" data-rank="'+data.rank+'"></button></span></a>';
+        }
       }
       for (var i = parseInt(data.rank); i < 5; i++) {
         $('#rank'+i+' .list-group').html('');
       }
       $('#rank'+data.rank+' .list-group').html(addContent);
+      resizePage();
+      $('.alert').hide();
     });
   }
   loadRank(0);

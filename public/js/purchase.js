@@ -6,7 +6,7 @@ $(function($) {
   function loadPurchase(page) {
     currentPage = page;
     var tbody = $('#purchaseTable > tbody').html('');
-    var alertBox = $('#purchaseTable').parent().next();
+    var alertBox = $('#purchaseTable').parent().next('.alert');
     var pageBox = alertBox.next();
     alertBox.show();
     $.get('api/purchase/get/'+page, function(data) {
@@ -42,11 +42,14 @@ $(function($) {
     var id = button.data('purchaseid');      // Extract info from data-* attributes
     var formBox = $(this).find('form').hide();
     var alertBox = $(this).find('.alert').show();
+
     if (id === 'new') {
       modal.find('.modal-header .modal-title').text('新建请购');
       // 清空数据
       formBox.find('input, textarea, select').val('');
       modal.find('.form-group > .btn-group').remove();
+      // 更新产品选取
+      $('[data-type="addfrom"]').data('once', 'false');
       // 获取可用项目
       $.get('api/purchase/getProject', function(data) {
         var addContent = '<option>请选择关联项目</option>';
@@ -60,6 +63,8 @@ $(function($) {
       });
     } else if (id) {
       modal.find('.modal-header .modal-title').text('请购详情');
+      // 更新产品选取
+      $('[data-type="addfrom"]').data('once', 'false');
       $.get('api/purchase/getDetail?purchaseID='+id, function(data) {
         console.log(data);
         // 填入数据
@@ -123,6 +128,7 @@ $(function($) {
     $('#purchaseProjectCode').val(selected.data('code'));
     $('#purchaseProduct').val('');
     $('#purchaseProduct').nextAll('.btn-group').remove();
+    // 更新产品选取
     $('[data-type="addfrom"]').data('once', 'false');
   });
 

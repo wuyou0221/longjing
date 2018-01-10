@@ -7,6 +7,7 @@ $(function($) {
   $('.modal').on('click', '.product-detail', function() {
     // 模态框初始化
     var id = $(this).parent().data('productid');
+    var fatherModal = $(this).parents('.modal');
     productModal.find('.alert').show();
     $('#productForm').hide();
     $('#productSelect').hide();
@@ -24,19 +25,21 @@ $(function($) {
     } else if ($(this).data('type') === 'addfrom') {
       // 是否已获取产品列表
       if ($(this).data('once') === "false") {
-        $(this).data('once', 'true');
         getProductOnce = false;
+        $(this).data('once', 'true');
       }
 
       // 从已有的集合中选取
       productModal.find('.modal-header .modal-title').text('选取产品');
-      var ID = $('#purchaseProjectID').val();
+      var ID = fatherModal.find('[name="ID"]').val();
       if (!ID) return false;
 
       if (getProductOnce) {
+        // 直接显示
         $('#productSelect').show();
         productModal.find('.alert').hide();
       } else {
+        // 获取数据
         $.get('api/purchase/getProduct?ID='+ID, function(data) {
           var addContent = '';
           for (var i = 0; i < data.content.length; i++) {
@@ -56,7 +59,7 @@ $(function($) {
     } else if (id) {
       // 查看已填写的内容
       productModal.find('.modal-header .modal-title').text('产品详情');
-      
+      // 产品详情
       $.get('api/product/getDetail?productID='+id, function(data) {
         $('#productNum').val(data.productID);
         $('#productName').val(data.name);
@@ -69,7 +72,6 @@ $(function($) {
       });
     }
     // 弹出新的modal
-    var fatherModal = $(this).parents('.modal');
     fatherModal.modal('hide');
     fatherModal.on('hidden.bs.modal', function() {  
       // 动画完成之后再弹出新的模态框
