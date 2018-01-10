@@ -1257,6 +1257,7 @@ class Api extends \think\Controller {
             ]);
         } else {
             $tender->data([
+                'tender_user_id' => $user_id,
                 'tender_purchase_id' => $tender_purchase_id,
                 'tender_manager' => $tender_manager,
                 'tender_apply_time' => $tender_apply_time,
@@ -1285,9 +1286,9 @@ class Api extends \think\Controller {
             $page_id = intval($request->get('pageID'));
         }
 
-        $purchase = new Purchase();
+        $tender = new Tender();
         $perpage = 10;
-        $total_id = ceil($purchase->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
+        $total_id = ceil($tender->where('purchase_user_id', $user_id)->where('purchase_status', 1)->count('purchase_id') / 10);
         $purchase_info = array();
         $purchase_temp_list = $purchase->field('purchase_id,purchase_product_id,purchase_project_id,purchase_status')->order('purchase_id desc')->where('purchase_user_id', $user_id)->where('purchase_status', 1)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
         $project = new Project;
