@@ -1,0 +1,97 @@
+    <!-- 合同详细 -->
+    <div class="modal fade" id="urgeDetailModal" tabindex="-1" role="dialog" aria-labelledby="urgeDetailModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="urgeDetailModalLabel">催交详情</h4>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-warning" role="alert">加载中</div>
+            <form id="urgeDetailForm">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="urgeNum">催交编号</label>
+                    <input type="number" class="form-control" id="urgeNum" name="urgeID" placeholder="催交编号" readonly>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="urgeCompact">合同名称</label>
+                    <input type="text" class="form-control" id="urgeCompact" name="compact" placeholder="合同名称">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="urgeTecFile">技术资料提交状态</label>
+                    <input type="text" class="form-control" id="urgeTecFile" name="tecFile" placeholder="技术资料提交状态">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="urgeProduce">投产</label>
+                    <input type="text" class="form-control" id="urgeProduce" name="produce" placeholder="投产">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label>制造过程跟踪</label><br>
+                    <input type="hidden" id="urgeProcess" name="process" readonly>
+                    <div class="btn-group" role="group" data-fileid="0">
+                      <a href="#" role="button" class="btn btn-default">附件1 | 2017-12-18</a>
+                      <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <div class="btn-group" role="group" data-fileid="0">
+                      <a href="#" role="button" class="btn btn-default">附件2 | 2018-1-11</a>
+                      <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                    <button type="button" class="btn btn-info upload-file" data-type="add" data-loading-text="上传中"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="urgeExam">产成检验</label>
+                    <input type="text" class="form-control" id="urgeExam" name="exam" placeholder="产成检验">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="urgeDelivery">发货</label>
+                    <input type="text" class="form-control" id="urgeDelivery" name="delivery" placeholder="发货">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="urgeArriveDate">到货日期</label>
+                    <input type="date" class="form-control" id="urgeArriveDate" name="arriveDate" placeholder="到货日期">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="urgeCheck">开箱验收</label>
+                    <input type="text" class="form-control" id="urgeCheck" name="check" placeholder="开箱验收">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="urgeInstall">安装</label>
+                    <input type="text" class="form-control" id="urgeInstall" name="install" placeholder="安装">
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="form-group">
+                    <label for="urgeTip">备注</label>
+                    <textarea class="form-control" id="urgeTip" name="tip" placeholder="备注"></textarea>
+                  </div>
+                </div>
+              </div>          
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary">保存修改</button>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -6,13 +6,97 @@
           <div class="page-header">
             <h4>催交</h4>
           </div>
-          <h2 id="welcome">欢迎使用龙净项目管理与采购系统!</h2>
+          <!-- 搜索框 & 新建 -->
+          <div class="row">
+            <div class="col-xs-3 col-sm-1 col-sm-offset-6 clearfix">
+              <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#urgeDetailModal" data-urgeid="new"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+            <div class="col-xs-9 col-sm-5">
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="合同名称">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-default content-list">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>编号</th>
+                  <th>合同名称</th>
+                  <th>关联项目</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="success">
+                  <th scope="row">1</th>
+                  <td>Mark / Tom / Jack</td>
+                  <td>项目1</td>
+                  <td>已通过</td>
+                  <td>
+                    <a href="#urgeDetailModal" data-toggle="modal" data-urgeid="Mark">详细</a> |
+                    <a href="#urgeProblemModal"  data-toggle="modal" data-urgeid="Mark">问题</a> |
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Jacob</td>
+                  <td>项目1</td>
+                  <td>待审核</td>
+                  <td>
+                    <a href="#urgeDetailModal" data-toggle="modal" data-urgeid="Jacob">详细</a> |
+                    <a href="#urgeProblemModal"  data-toggle="modal" data-urgeid="Jacob">问题</a> |
+                  </td>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Larry</td>
+                  <td>项目1</td>
+                  <td>待修改</td>
+                  <td>
+                    <a href="#urgeDetailModal" data-toggle="modal" data-urgeid="Larry">详细</a> |
+                    <a href="#urgeProblemModal"  data-toggle="modal" data-urgeid="Larry">问题</a> |
+                  </td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="alert alert-warning" role="alert" style="display: none;">加载中...</div>
+
+          <!-- 页码 -->
+          <div class="row" style="margin-bottom: 20px">
+            <div class="col-xs-5 col-sm-3 col-xs-offset-3 col-sm-offset-7">
+              <div class="pull-right">
+                <button class="btn btn-default"><span class="glyphicon glyphicon-triangle-left text-muted"></span></button>
+                <b> 1 / 8 </b>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-triangle-right text-muted"></span></button>
+              </div>
+            </div>
+            <div class="col-xs-4 col-sm-2">
+              <div class="input-group">
+                <input type="text" class="form-control" style="text-align: center;">
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button">跳转</button>
+                </span>
+              </div>
+            </div>
+          </div>
 
         </div>
 
       </div>
     </div>
 
+{include file="module/urge-detail-modal" /}
+{include file="module/urge-problem-modal" /}
+{include file="module/product-modal" /}
 {include file="module/footer" /}
 
 
