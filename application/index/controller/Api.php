@@ -304,7 +304,7 @@ class Api extends \think\Controller {
         $perpage = 10;
         
         $total_id = ceil($project->where('project_user_id', $user_id)->count('project_id') / 10);
-        $project_info = $project->field('project_code as projectCode,project_name as projectName,project_manager as projectManager,project_state as projectState')->order('project_id desc')->where('project_user_id', $user_id)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        $project_info = $project->field('project_id as projectId,project_code as projectCode,project_name as projectName,project_manager as projectManager,project_state as projectState')->order('project_id desc')->where('project_user_id', $user_id)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
         
         return json([
             'code' => 1061,
