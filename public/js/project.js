@@ -1,32 +1,58 @@
 $(function($) {
 
   var currentPage = 1;
+  var fileds = ['projectId',
+                'projectName',
+                'projectDescription',
+                'projectType',
+                'projectCode',
+                'projectAddress',
+                'projectCompactSum',
+                'projectTarget',
+                'projectPayment',
+                'projectIntroduction',
+                'projectCompact',
+                'projectTechnologyDeal',
+                'projectProduct',
+                'projectManager',
+                'projectSiteManager',
+                'projectDesignManager',
+                'projectPurchaseManager',
+                'projectReceiver',
+                'projectPlan',
+                'projectPurchasePlan',
+                'projectOtherFile',
+                'projectTip'
+               ];
 
   // 加载项目列表
   function loadProject(page) {
     currentPage = page;
+    // 定位各个元素
     var tbody = $('#projectTable > tbody').html('');
     var alertBox = $('#projectTable').parent().next();
     var pageBox = alertBox.next('.alert');
     alertBox.show();
-    $.get('api/project/get/'+page, function(data) {
+    // 获取数据
+    $.get('api/project/get?pageId='+page, function(data) {
       var addContent = '';
-      for (var i = 0; i < data.content.length; i++) { 
+      $.map(data.content, function(n) {
         addContent += '\
           <tr>\
-            <th scope="row">'+data.content[i].ID+'</th>\
-            <td>'+data.content[i].name+'</td>\
-            <td>'+data.content[i].manager+'</td>\
-            <td>'+data.content[i].state+'</td>\
+            <td>'+n.projectName+'</td>\
+            <td>'+n.projectManager+'</td>\
+            <td>'+n.projectState+'</td>\
             <td>\
-              <a href="#projectDetailModal" data-toggle="modal" data-id="'+data.content[i].ID+'">详细</a> |\
-              <a href="#projectProcessModal"  data-toggle="modal" data-id="'+data.content[i].ID+'">审批流程</a> |\
-              <a href="#projectProcessModalTotal"  data-toggle="modal" data-id="'+data.content[i].ID+'">总流程</a>\
+              <a href="#projectDetailModal" data-toggle="modal" data-projectid="'+n.projectId+'">详细</a> |\
+              <a href="#projectProcessModal"  data-toggle="modal" data-projectid="'+n.projectId+'">审批流程</a> |\
+              <a href="#projectProcessModalTotal"  data-toggle="modal" data-projectid="'+n.projectId+'">总流程</a>\
             </td>\
           </tr>\
         ';
-      }
+      });
+      // 填充数据
       tbody.html(addContent);
+      // 分页
       pageDivide(pageBox, data.page, data.total, loadProject);
       
       alertBox.hide();
@@ -39,7 +65,7 @@ $(function($) {
   $('#projectDetailModal').on('show.bs.modal', function(event) {
     var modal = $(this);
     var button = $(event.relatedTarget); // Button that triggered the modal
-    var id = button.data('id');      // Extract info from data-* attributes
+    var id = button.data('projectid');      // Extract info from data-* attributes
     var formBox = modal.find('form').hide();
     var alertBox = modal.find('.alert').show();
     if (id === 'new') {
@@ -51,39 +77,18 @@ $(function($) {
       alertBox.hide();
     } else if (id) {
       modal.find('.modal-header .modal-title').text('项目详情');
-      $.get('api/project/getDetail/'+id, function(data) {
+      $.get('api/project/getDetail?projectId='+id, function(data) {
         console.log(data);
         // 填入数据
-        $('#projectNum').val(data.content.ID);
-        $('#projectName').val(data.content.name);
-        $('#projectNameAbbr').val(data.content.nameAbbr);
-        $('#projectType').val(data.content.type);
-        $('#projectCode').val(data.content.code);
-        $('#projectAddress').val(data.content.address);
-        $('#projectCompactSum').val(data.content.compactSum);
-        $('#projectTarget').val(data.content.target);
-        $('#projectPayWay').val(data.content.payWay);
-        $('#projectIntroduction').val(data.content.introduction);
-        $('#projectCompact').val(data.content.compact);
-        $('#projectTecDeal').val(data.content.tecDeal);
-        $('#projectOtherFile').val(data.content.otherFile);
-        $('#projectProduct').val(data.content.product);
-        $('#projectManager').val(data.content.manager);
-        $('#projectSiteManager').val(data.content.manager2);
-        $('#projectDesginManager').val(data.content.manager3);
-        $('#projectPurchaseManager').val(data.content.manager4);
-        $('#projectReceive').val(data.content.receive);
-        $('#projectPlan').val(data.content.projectPlan);
-        $('#projectPurchasePlan').val(data.content.purchasePlan);
-        $('#projectTip').val(data.content.tip);
+        fillInput(fileds, data.content, false);
         // 添加按钮
         modal.find('.form-group > .btn-group').remove();
-        addFileBtn($('#projectCompact'), data.content.compactArray, true);
-        addFileBtn($('#projectTecDeal'), data.content.tecDealArray, true);
-        addFileBtn($('#projectOtherFile'), data.content.otherFileArray, true);
+        addFileBtn($('#projectCompact'), data.content.projectCompactArray, true);
+        addFileBtn($('#projectTechnologyDeal'), data.content.projectTechnologyDealArray, true);
+        addFileBtn($('#projectOtherFile'), data.content.projectOtherFileArray, true);
         addFileBtn($('#projectPlan'), data.content.projectPlanArray, true);
-        addFileBtn($('#projectPurchasePlan'), data.content.purchasePlanArray, true);
-        addProductBtn($('#projectProduct'), data.content.productArray, true);
+        addFileBtn($('#projectPurchasePlan'), data.content.projectPurchasePlanArray, true);
+        addFileBtn($('#projectProduct'), data.content.projectProductArray, true);
 
         formBox.show();
         alertBox.hide();

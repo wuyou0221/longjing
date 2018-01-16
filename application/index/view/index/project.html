@@ -8,7 +8,7 @@
           <!-- 搜索框 & 新建 -->
           <div class="row">
             <div class="col-xs-3 col-sm-1 col-sm-offset-6 clearfix">
-              <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#projectDetailModal" data-id="new"><span class="glyphicon glyphicon-plus"></span></button>
+              <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#projectDetailModal" data-projectid="new"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <div class="col-xs-9 col-sm-5">
               <div class="input-group">
@@ -23,7 +23,6 @@
             <table id="projectTable" class="table table-hover">
               <thead>
                 <tr>
-                  <th>编号</th>
                   <th>项目名称</th>
                   <th>项目经理</th>
                   <th>状态</th>
@@ -32,7 +31,6 @@
               </thead>
               <tbody>
 <!--                 <tr class="success">
-                  <th scope="row">1</th>
                   <td>Mark</td>
                   <td>Otto</td>
                   <td>已通过</td>
@@ -74,11 +72,9 @@
 {include file="module/project-detail-modal" /}
 {include file="module/project-process-modal" /}
 {include file="module/project-process-total-modal" /}
-{include file="module/product-modal" /}
 {include file="module/footer" /}
 
   <script src="./js/project.js"></script>
-  <script src="./js/product.js"></script>
   <script src="./js/upload.js"></script>
   </body>
 </html>

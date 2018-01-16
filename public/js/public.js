@@ -56,6 +56,18 @@ function pageDivide(pageBox, page, total, getList) {
   }
 }
 
+
+// input数据绑定
+function fillInput(filedArray, data, disable) {
+
+  $.map(filedArray, function(filed) {
+    var input = $('#'+filed).val(data[filed]);
+    if (disable) {
+      input.attr('disable', 'true');
+    }
+  });
+}
+
 // 添加文件按钮
 function addFileBtn($input, array, editable) {
   var addContent = '';
