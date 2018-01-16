@@ -26,7 +26,6 @@ return [
         'file/upload' => ['index/Api/upload', ['method' => 'post']],
         'file/download/:fileid' => ['index/Api/download', ['method' => 'get'], ['fileid' => '\w+']],
         'project/edit' => ['index/Api/project_edit', ['method' => 'post']],
-        'project/get/:pageid' => ['index/Api/project_get', ['method' => 'get'], ['pageid' => '\d+']],
         'project/get' => ['index/Api/project_get', ['method' => 'get']],
         'project/getDetail/:projectid' => ['index/Api/project_get_detail', ['method' => 'get'], ['projectid' => '\d+']],
         'item/excel/:fileid' => ['index/Api/item_excel', ['method' => 'get'], ['fileid' => '\w+']],

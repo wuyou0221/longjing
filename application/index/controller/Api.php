@@ -185,33 +185,34 @@ class Api extends \think\Controller {
     public function project_edit() {
         $this->check_login();
         $user_id = intval(Session::get('userid'));
-        $request = Request::instance();
-        $project_name = $request->post('name');
-        $project_description = $request->post('nameAbbr');
-        $project_type = $request->post('type');
-        $project_code = $request->post('code');
-        $project_address = $request->post('address');
-        $project_compact_sum = $request->post('compactSum');
-        $project_target = $request->post('target');
-        $project_payment = $request->post('payWay');
-        $project_introduction = $request->post('introduction');
-        $project_compact = $request->post('compact');
-        $project_technology_deal = $request->post('tecDeal');
-        $project_other_file = $request->post('otherFile');
-        $project_product = $request->post('product');
-        $project_manager = $request->post('manager');
-        $project_site_manager = $request->post('manager2');
-        $project_design_manager = $request->post('manager3');
-        $project_purchase_manager = $request->post('manager4');
-        $project_receiver = $request->post('receive');
-        $project_plan = $request->post('projectPlan');
-        $project_purchase_plan = $request->post('purchasePlan');
-        $project_tip = $request->post('tip');
         
+        $request = Request::instance();
+        $project_name = $request->post('projectName');
+        $project_description = $request->post('projectDescription');
+        $project_type = $request->post('projectType');
+        $project_code = $request->post('projectCode');
+        $project_address = $request->post('projectAddress');
+        $project_compact_sum = $request->post('projectCompactSum');
+        $project_target = $request->post('projectTarget');
+        $project_payment = $request->post('projectPayment');
+        $project_introduction = $request->post('projectIntroduction');
+        $project_compact = $request->post('projectCompact');
+        $project_technology_deal = $request->post('projectTechnologyDeal');
+        $project_other_file = $request->post('projectOtherFile');
+        $project_product = $request->post('projectProduct');
+        $project_manager = $request->post('projectManager');
+        $project_site_manager = $request->post('projectSiteManager');
+        $project_design_manager = $request->post('projectDesignManager');
+        $project_purchase_manager = $request->post('projectPurchaseManager');
+        $project_receiver = $request->post('projectReceiver');
+        $project_plan = $request->post('projectPlan');
+        $project_purchase_plan = $request->post('projectPurchasePlan');
+        $project_tip = $request->post('projectTip');
+
         $project = new Project();
 
-        if($request->post('ID') != '') {
-            $project_id = intval($request->post('ID'));
+        if($request->post('projectId') != '') {
+            $project_id = intval($request->post('projectId'));
             $project_info = $project->field('project_id')->where('project_id', $project_id)->find();
             if($project_info == null) {
                 return json([
@@ -240,7 +241,7 @@ class Api extends \think\Controller {
                 'project_receiver' => $project_receiver,
                 'project_plan' => $project_plan,
                 'project_purchase_plan' => $project_purchase_plan,
-                'project_tip' => $project_tip,
+                'project_tip' => $project_tip
             ], ['project_id' => $project_id]);
             return json([
                 'code' => 1052,
@@ -248,9 +249,9 @@ class Api extends \think\Controller {
             ]);
         } else {
             $project->data([
+                'project_user_id' => $user_id,
                 'project_name' => $project_name,
                 'project_description' => $project_description,
-                'project_user_id' => $user_id,
                 'project_type' => $project_type,
                 'project_code' => $project_code,
                 'project_address' => $project_address,
@@ -271,7 +272,7 @@ class Api extends \think\Controller {
                 'project_purchase_plan' => $project_purchase_plan,
                 'project_tip' => $project_tip,
                 'project_create_time' => time(),
-                'project_status' => 1
+                'project_state' => 0
             ]);
             $project->save();
             return json([
@@ -281,19 +282,35 @@ class Api extends \think\Controller {
         }
     }
 
-    public function project_get($pageid = 1) {
+    public function project_get() {
         $this->check_login();
         $user_id = intval(Session::get('userid'));
-        $pageid = intval($pageid);
+
+        $request = Request::instance();
+        $page_id = 1;
+        if($request->has('pageId')) {
+            $page_id = intval($request->get('pageId'));
+        }
+
+        if($page_id == 0) {
+            return json([
+                'code' => 1062,
+                'message' => '参数有误'
+            ]);
+        }
+
         $project = new Project();
+        
         $perpage = 10;
-        $totalid = ceil($project->count('project_id') / 10);
-        $project_info = $project->field('project_id as ID,project_name as name,project_manager as manager,project_status as state')->order('project_id desc')->where('project_user_id', $user_id)->limit(($pageid - 1) * $perpage, $pageid * $perpage)->select();
+        
+        $total_id = ceil($project->count('project_id') / 10);
+        $project_info = $project->field('project_code as projectCode,project_name as projectName,project_manager as projectManager,project_state as projectState')->order('project_id desc')->where('project_user_id', $user_id)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
+        
         return json([
             'code' => 1061,
             'message' => '项目查询成功！',
-            'page' => $pageid,
-            'total' => $totalid,
+            'page' => $page_id,
+            'total' => $total_id,
             'content' => $project_info
         ]);
     }
