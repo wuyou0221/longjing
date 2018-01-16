@@ -4,7 +4,6 @@ namespace app\index\controller;
 use think\Session;
 use think\Request;
 use think\Response;
-use think\Hook;
 use app\index\model\User;
 use app\index\model\File;
 use app\index\model\Project;
@@ -1507,23 +1506,7 @@ class Api extends \think\Controller {
     }
 
     public function test() {
-        $reader = new TemplateProcessor('Template.docx');
-        $reader->setValue('Value1', 'Sun');
-        $reader->setValue('Value2', 'Mercury');
-        $reader->setValue('Value3', 'Venus');
-        $reader->setValue('Value4', 'Earth');
-        $reader->setValue('Value5', 'Mars');
-        $reader->setValue('Value6', 'Jupiter');
-        $reader->setValue('Value7', 'Saturn');
-        $reader->setValue('Value8', 'Uranus');
-        $reader->setValue('Value9', 'Neptun');
-        $reader->setValue('Value10', 'Pluto');
-
-        $reader->setValue('weekday', date('l'));
-        $reader->setValue('time', date('H:i'));
-
-        $reader->saveAs('Solarsystem.docx');
-        var_dump('1');
+       test();
     }
 
     private function check_login() {
