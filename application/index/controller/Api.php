@@ -303,7 +303,7 @@ class Api extends \think\Controller {
         
         $perpage = 10;
         
-        $total_id = ceil($project->count('project_id') / 10);
+        $total_id = ceil($project->where('project_user_id', $user_id)->count('project_id') / 10);
         $project_info = $project->field('project_code as projectCode,project_name as projectName,project_manager as projectManager,project_state as projectState')->order('project_id desc')->where('project_user_id', $user_id)->limit(($page_id - 1) * $perpage, $page_id * $perpage)->select();
         
         return json([
@@ -315,52 +315,73 @@ class Api extends \think\Controller {
         ]);
     }
     
-    public function project_get_detail($projectid) {
+    public function project_get_detail() {
         $this->check_login();
-        $projectid = intval($projectid);
+        $user_id = intval(Session::get('userid'));
+
+        $request = Request::instance();
+        if($request->has('projectId')) {
+            $project_id = intval($request->get('projectId'));
+        } else {
+            return json([
+                'code' => 1074,
+                'message' => '参数有误'
+            ]);
+        }
+
+        if($project_id == 0) {
+            return json([
+                'code' => 1073,
+                'message' => '参数有误'
+            ]);
+        }
+
         $project = new Project();
-        $project_info = $project->field('project_name,project_description,project_type,project_code,project_address,project_compact_sum,project_target,project_payment,project_introduction,project_compact,project_technology_deal,project_other_file,project_product,project_manager,project_site_manager,project_design_manager,project_purchase_manager,project_receiver,project_plan,project_purchase_plan,project_tip,project_create_time,project_status')->where('project_id', $projectid)->find();
+
+        $project_info = $project->field('project_name,project_description,project_type,project_code,project_address,project_compact_sum,project_target,project_payment,project_introduction,project_compact,project_technology_deal,project_other_file,project_product,project_manager,project_site_manager,project_design_manager,project_purchase_manager,project_receiver,project_plan,project_purchase_plan,project_tip,project_create_time,project_state')->where('project_user_id', $user_id)->where('project_id', $project_id)->find();
+        
         if($project_info == null) {
             return json([
                 'code' => 1072,
                 'message' => '项目不存在！'
             ]);
         }
+
         return json([
             'code' => 1071,
             'message' => '项目明细查询成功！',
             'content' => [
-                'ID' => $projectid,
-                'name' => $project_info['project_name'],
-                'nameAbbr' => $project_info['project_description'],
-                'type' => $project_info['project_type'],
-                'code' => $project_info['project_code'],
-                'address' => $project_info['project_address'],
-                'compactSum' => $project_info['project_compact_sum'],
-                'target' => $project_info['project_target'],
-                'payWay' => $project_info['project_payment'],
-                'introduction' => $project_info['project_introduction'],
-                'compact' => $project_info['project_compact'],
-                'compactArray' => $this->list_to_file($project_info['project_compact']),
-                'tecDeal' => $project_info['project_technology_deal'],
-                'tecDealArray' => $this->list_to_file($project_info['project_technology_deal']),
-                'otherFile' => $project_info['project_other_file'],
-                'otherFileArray' => $this->list_to_file($project_info['project_other_file']),
-                'product' => $project_info['project_product'],
-                'productArray' => $this->list_to_product($project_info['project_product']),
-                'manager' => $project_info['project_manager'],
-                'manager2' => $project_info['project_site_manager'],
-                'manager3' => $project_info['project_design_manager'],
-                'manager4' => $project_info['project_purchase_manager'],
-                'receive' => $project_info['project_receiver'],
+                'projectId' => $project_id,
+                'projectName' => $project_info['project_name'],
+                'projectDescription' => $project_info['project_description'],
+                'projectType' => $project_info['project_type'],
+                'projectCode' => $project_info['project_code'],
+                'projectAddress' => $project_info['project_address'],
+                'projectCompactSum' => $project_info['project_compact_sum'],
+                'projectTarget' => $project_info['project_target'],
+                'projectPayment' => $project_info['project_payment'],
+                'projectIntroduction' => $project_info['project_introduction'],
+                'projectCompact' => $project_info['project_compact'],
+                'projectCompactArray' => $this->list_to_file($project_info['project_compact']),
+                'projectTechnologyDeal' => $project_info['project_technology_deal'],
+                'projectTechnologyDealArray' => $this->list_to_file($project_info['project_technology_deal']),
+                'projectOtherFile' => $project_info['project_other_file'],
+                'projectOtherFileArray' => $this->list_to_file($project_info['project_other_file']),
+                'projectProduct' => $project_info['project_product'],
+                'projectProductArray' => $this->list_to_file($project_info['project_product']),
+                'projectManager' => $project_info['project_manager'],
+                'projectSiteManager' => $project_info['project_site_manager'],
+                'projectDesignManager' => $project_info['project_design_manager'],
+                'projectPurchaseManager' => $project_info['project_purchase_manager'],
+                'projectReceiver' => $project_info['project_receiver'],
                 'projectPlan' => $project_info['project_plan'],
                 'projectPlanArray' => $this->list_to_file($project_info['project_plan']),
-                'purchasePlan' => $project_info['project_purchase_plan'],
-                'purchasePlanArray' => $this->list_to_file($project_info['project_purchase_plan']),
-                'tip' => $project_info['project_tip']
+                'projectPurchasePlan' => $project_info['project_purchase_plan'],
+                'projectPurchasePlanArray' => $this->list_to_file($project_info['project_purchase_plan']),
+                'projectTip' => $project_info['project_tip']
             ],
-            'time' => date('Y-m-d', $project_info['project_create_time']),
-            'state' => $project_info['project_status']
+            'projectCreateTime' => date('Y-m-d', $project_info['project_create_time']),
+            'projectState' => $project_info['project_state']
         ]);
     }
 
