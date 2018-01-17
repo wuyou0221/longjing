@@ -128,7 +128,7 @@ $(function($) {
   // 采购关联项目选择
   $('#purchaseProjectName').on('change', function() {
     var selected = $(this).children('option:selected');
-    $('#purchaseProjectID').val(selected.data('projectid'));
+    $('#purchaseProjectId').val(selected.data('projectid'));
     $('#purchaseProjectCode').val(selected.data('projectcode'));
   });
 
