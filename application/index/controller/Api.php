@@ -1506,7 +1506,7 @@ class Api extends \think\Controller {
     }
 
     public function test() {
-       test();
+       echo zero_full(0, 2);
     }
 
     private function check_login() {

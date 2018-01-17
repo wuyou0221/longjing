@@ -28,6 +28,19 @@ function check_login() {
         header('Location: login');
     }
 }
+function zero_full($string, $num) {
+    $len = strlen($string);
+    if($len < $num) {
+        while (true) {
+            $string = '0'.$string;
+            $len++;
+            if($len == $num) {
+                break;
+            }
+        }
+    }
+    return $string;
+}
 function list_to_file($fileidlist) {
     $file = new File();
     $file_list = array();

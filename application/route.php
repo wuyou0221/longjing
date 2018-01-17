@@ -38,6 +38,7 @@ return [
         'purchase/edit' => ['index/PurchaseController/edit', ['method' => 'post']],
         'purchase/get' => ['index/PurchaseController/get', ['method' => 'get']],
         'purchase/getDetail' => ['index/PurchaseController/get_detail', ['method' => 'get']],
+        'purchase/checkCode' => ['index/PurchaseController/check_code', ['method' => 'get']],
         'purchase/export' => ['index/Api/purchase_export', ['method' => 'get']],
         'provider/edit' => ['index/Api/provider_edit', ['method' => 'post']],
         'provider/get' => ['index/Api/provider_get', ['method' => 'get']],
