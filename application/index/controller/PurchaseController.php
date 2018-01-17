@@ -241,7 +241,7 @@ class PurchaseController extends \think\Controller {
         }
 
         $project = new Project();
-        $project_info = $project->field('project_code,project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
+        $project_info = $project->field('project_id,project_code,project_name')->where('project_id', $purchase_info['purchase_project_id'])->find();
         if($project_info == null) {
             return json([
                 'code' => 1143,
@@ -255,6 +255,7 @@ class PurchaseController extends \think\Controller {
             'content' => [
                 'purchaseId' => $purchase_id,
                 'purchaseCode' => $purchase_info['purchase_code'],
+                'purchaseProjectId' => $project_info['project_id'],
                 'purchaseProjectName' => $project_info['project_name'],
                 'purchaseProjectCode' => $project_info['project_code'],
                 'purchaseProductName' => $purchase_info['purchase_product_name'],
