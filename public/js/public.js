@@ -18,6 +18,16 @@ $(function($) {
     userBox.find('.user-name').text(data.userName);
   });
 
+
+  //下拉菜单选择
+  $('.dropdown-add').on('click', '.item-single', function() {
+    var relativeInput = $(this).parents('.dropdown').find('.search-result');
+    relativeInput.val(relativeInput.val()+$(this).text()+'、');
+  });
+  $('.dropdown-change').on('click', '.item-single', function() {
+    $(this).parents('.dropdown').find('.search-result').val($(this).text());
+  });
+
 });
 
 
@@ -58,10 +68,10 @@ function pageDivide(pageBox, page, total, getList) {
 
 
 // input数据绑定
-function fillInput(filedArray, data, disable) {
+function fillInput(fieldArray, data, disable) {
 
-  $.map(filedArray, function(filed) {
-    var input = $('#'+filed).val(data[filed]);
+  $.map(fieldArray, function(field) {
+    var input = $('#'+field).val(data[field]);
     if (disable) {
       input.attr('disable', 'true');
     }
@@ -71,14 +81,14 @@ function fillInput(filedArray, data, disable) {
 // 添加文件按钮
 function addFileBtn($input, array, editable) {
   var addContent = '';
-  for (var i = 0; i < array.length; i++) {    
+  $.map(array, function(n) {
     addContent += '\
-      <div class="btn-group" role="group" data-fileid="'+array[i].fileID+'">\
-        <a href="api/file/download/'+array[i].downloadUrl+'" role="button" class="btn btn-default">'+array[i].fileName+' | '+array[i].fileTime+'</a>\
+      <div class="btn-group" role="group" data-fileid="'+n.fileID+'">\
+        <a href="api/file/download/'+n.downloadUrl+'" role="button" class="btn btn-default">'+n.fileName+' | '+n.fileTime+'</a>\
         <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>\
       </div>\
     ';
-  }
+  });
   var addBtn = $input.nextAll('[data-type="add"], [data-type="addfrom"]').before(addContent);
   if (!editable) {
     $input.nextAll('.btn-group').find('.del-file').hide();
@@ -90,14 +100,14 @@ function addFileBtn($input, array, editable) {
 // 添加产品明细按钮
 function addProductBtn($input, array, editable) {
   var addContent = '';
-  for (var i = 0; i < array.length; i++) {
+  $.map(array, function(n) {
     addContent += '\
-      <div class="btn-group" role="group" data-productid="'+array[i].productID+'">\
-        <button type="button" class="btn btn-default product-detail">'+array[i].productName+'</button>\
+      <div class="btn-group" role="group" data-productid="'+n.productID+'">\
+        <button type="button" class="btn btn-default product-detail">'+n.productName+'</button>\
         <button type="button" class="btn btn-danger del-product"><span class="glyphicon glyphicon-remove"></span></button>\
       </div>\
     ';
-  }
+  });
   var addBtn = $input.nextAll('[data-type="add"], [data-type="addfrom"]').before(addContent);
   if (!editable) {
     $input.nextAll('.btn-group').find('.del-product').hide();

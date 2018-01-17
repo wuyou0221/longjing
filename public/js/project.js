@@ -1,29 +1,30 @@
 $(function($) {
 
   var currentPage = 1;
-  var fileds = ['projectId',
-                'projectName',
-                'projectDescription',
-                'projectType',
-                'projectCode',
-                'projectAddress',
-                'projectCompactSum',
-                'projectTarget',
-                'projectPayment',
-                'projectIntroduction',
-                'projectCompact',
-                'projectTechnologyDeal',
-                'projectProduct',
-                'projectManager',
-                'projectSiteManager',
-                'projectDesignManager',
-                'projectPurchaseManager',
-                'projectReceiver',
-                'projectPlan',
-                'projectPurchasePlan',
-                'projectOtherFile',
-                'projectTip'
-               ];
+  var fields = [
+    'projectId',
+    'projectName',
+    'projectDescription',
+    'projectType',
+    'projectCode',
+    'projectAddress',
+    'projectCompactSum',
+    'projectTarget',
+    'projectPayment',
+    'projectIntroduction',
+    'projectCompact',
+    'projectTechnologyDeal',
+    'projectProduct',
+    'projectManager',
+    'projectSiteManager',
+    'projectDesignManager',
+    'projectPurchaseManager',
+    'projectReceiver',
+    'projectPlan',
+    'projectPurchasePlan',
+    'projectOtherFile',
+    'projectTip'
+  ];
 
   // 加载项目列表
   function loadProject(page) {
@@ -80,7 +81,7 @@ $(function($) {
       $.get('api/project/getDetail?projectId='+id, function(data) {
         console.log(data);
         // 填入数据
-        fillInput(fileds, data.content, false);
+        fillInput(fields, data.content, false);
         // 添加按钮
         modal.find('.form-group > .btn-group').remove();
         addFileBtn($('#projectCompact'), data.content.projectCompactArray, true);

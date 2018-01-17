@@ -127,11 +127,8 @@ $(function($) {
     thisInput.nextAll('button').show();
   });
 
+ 
   // 搜索物料
-  productModal.on('click', '.item-single', function(event) {
-    $('#productName').val($(this).text());
-    $('#itemID').val($(this).data('itemid'));
-  });
   var timeout;
   $('.search-item').on('input propertychange', function() {
     clearTimeout(timeout);   // 重复触发则取消

@@ -12,14 +12,15 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseNum">请购编号</label>
-                    <input type="number" class="form-control" id="purchaseNum" name="purchaseID" placeholder="请购编号" readonly>
+                    <input type="hidden" id="purchaseId" name="purchaseId">
+                    <label for="purchaseCode">请购编号</label>
+                    <input type="text" class="form-control" id="purchaseCode" name="purchaseCode" placeholder="请购编号" readonly>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="purchaseType">请购类别</label>
-                    <select class="form-control" id="purchaseType" name="type">
+                    <select class="form-control" id="purchaseType" name="purchaseType">
                       <option>设备</option>
                       <option>材料</option>
                       <option>建安</option>
@@ -30,9 +31,9 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseProject">关联项目</label>
-                    <input type="hidden" id="purchaseProjectID" name="ID" readonly>
-                    <select class="form-control" id="purchaseProject" name="project">
+                    <label for="purchaseProjectName">关联项目</label>
+                    <input type="hidden" id="purchaseProjectID" name="purchaseProjectID" readonly>
+                    <select class="form-control" id="purchaseProjectName" name="purchaseProjectName">
                       <option data-id="1">B</option>
                       <option data-id="2">C</option>
                       <option data-id="3">D</option>
@@ -42,52 +43,59 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="purchaseProjectCode">项目代号</label>
-                    <input type="text" class="form-control" id="purchaseProjectCode" name="code" placeholder="项目代号" readonly>
+                    <input type="text" class="form-control" id="purchaseProjectCode" name="purchaseProjectCode" placeholder="项目代号" readonly>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseProductName">物资名称</label>
+                    <input type="text" class="form-control" id="purchaseProductName" name="purchaseProductName" placeholder="物资名称">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="purchaseProductNum">数量</label>
+                    <input type="text" class="form-control" id="purchaseProductNum" name="purchaseProductNum" placeholder="数量">
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label>物资名称</label><br>
-                    <input type="hidden" id="purchaseProduct" class="form-control" name="product" value="" readonly>
-                    <div class="btn-group" role="group" data-productid="1">
-                      <button type="button" class="btn btn-default product-detail">产品1</button>
-                      <button type="button" class="btn btn-danger del-product"><span class="glyphicon glyphicon-remove"></span></button>
-                    </div>
-                    <div class="btn-group" role="group" data-productid="2">
-                      <button type="button" class="btn btn-default product-detail">产品2</button>
-                      <button type="button" class="btn btn-danger del-product"><span class="glyphicon glyphicon-remove"></span></button>
-                    </div>
-                    <button type="button" class="btn btn-info product-detail" data-type="addfrom" data-once="false"><span class="glyphicon glyphicon-plus"></span></button>
+                    <label for="purchaseProductType">规格型号</label>
+                    <input type="text" class="form-control" id="purchaseProductType" name="purchaseProductType" placeholder="规格型号">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="purchaseDept">请购单位</label>
-                    <input type="text" class="form-control" id="purchaseDept" name="dept" placeholder="请购单位">
+                    <select class="form-control" id="purchaseDept" name="purchaseDept">
+                      <option>设计部</option>
+                      <option>公专部</option>
+                      <option>其他</option>
+                    </select>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="purchaseBudget">单价预算</label>
-                    <input type="text" class="form-control" id="purchaseBudget" name="budget" placeholder="单价预算">
+                    <input type="text" class="form-control" id="purchaseBudget" name="purchaseBudget" placeholder="单价预算">
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="purchaseTecPara">技术参数</label>
-                    <textarea class="form-control" id="purchaseTecPara" name="tecPara" placeholder="技术参数"></textarea>
+                    <label for="purchaseTechnologyParameter">技术参数</label>
+                    <textarea class="form-control" id="purchaseTechnologyParameter" name="purchaseTechnologyParameter" placeholder="技术参数"></textarea>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="purchaseExplain">用途说明</label>
-                    <textarea class="form-control" id="purchaseExplain" name="explain" placeholder="用途说明"></textarea>
+                    <textarea class="form-control" id="purchaseExplain" name="purchaseExplain" placeholder="用途说明"></textarea>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label>技术规范书</label><br>
-                    <input type="hidden" id="purchaseTecFile" name="tecFile" readonly>
+                    <input type="hidden" id="purchaseTechnologyFile" name="purchaseTechnologyFile" readonly>
                     <div class="btn-group" role="group" data-fileid="0">
                       <a href="#" role="button" class="btn btn-default">附件1</a>
                       <button type="button" class="btn btn-danger del-file"><span class="glyphicon glyphicon-remove"></span></button>
@@ -97,8 +105,8 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseIsConform">是否符合总包合同</label>
-                    <select class="form-control" id="purchaseIsConform" name="isConform">
+                    <label for="purchaseIsConform">数量、参数等是否符合总承包合同</label>
+                    <select class="form-control" id="purchaseIsConform" name="purchaseIsConform">
                       <option>是</option>
                       <option>否</option>
                     </select>
@@ -106,68 +114,82 @@
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="purchaseNotReason">不符合原因</label>
-                    <textarea class="form-control" id="purchaseNotReason" name="notReason" placeholder="不符合原因"></textarea>
+                    <label for="purchaseRejectReason">不符合原因</label>
+                    <textarea class="form-control" id="purchaseRejectReason" name="purchaseRejectReason" placeholder="不符合原因"></textarea>
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
-                    <label for="purchaseNotContent">不符合内容</label>
-                    <textarea class="form-control" id="purchaseNotContent" name="notContent" placeholder="不符合内容"></textarea>
+                    <label for="purchaseRejectContent">不符合内容</label>
+                    <textarea class="form-control" id="purchaseRejectContent" name="purchaseRejectContent" placeholder="不符合内容"></textarea>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseWay">付款方式</label>
-                    <input type="text" class="form-control" id="purchaseWay" name="way" placeholder="付款方式">
+                    <label for="purchasePayment">付款方式</label>
+                    <input type="text" class="form-control" id="purchasePayment" name="purchasePayment" placeholder="付款方式">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="purchaseQuality">质保期</label>
-                    <input type="date" class="form-control" id="purchaseQuality" name="quality" placeholder="质保期">
+                    <input type="text" class="form-control" id="purchaseQuality" name="purchaseQuality" placeholder="质保期">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseDDL">最迟签约日期</label>
-                    <input type="date" class="form-control" id="purchaseDDL" name="ddl" placeholder="最迟签约日期">
+                    <label for="purchaseDeadline">最迟签约日期</label>
+                    <input type="date" class="form-control" id="purchaseDeadline" name="purchaseDeadline" placeholder="最迟签约日期">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseArriveDate">到货日期</label>
-                    <input type="date" class="form-control" id="purchaseArriveDate" name="arriveDate" placeholder="到货日期">
+                    <label for="purchaseArriveTime">到货日期</label>
+                    <input type="date" class="form-control" id="purchaseArriveTime" name="purchaseArriveTime" placeholder="到货日期">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchasePlace">交货地点</label>
-                    <input type="text" class="form-control" id="purchasePlace" name="place" placeholder="交货地点">
+                    <label for="purchasePlace">项目交货地址</label>
+                    <input type="text" class="form-control" id="purchasePlace" name="purchasePlace" placeholder="项目交货地址">
                   </div>
                 </div>
                 <div class="col-sm-12">
-                  <div class="form-group">
-                    <label for="purchaseRecommend">推荐供方</label>
-                    <textarea class="form-control" id="purchaseRecommend" name="recommend" placeholder="推荐供方"></textarea>
+                  <div class="dropdown dropdown-add">
+                    <a role="button" data-toggle="dropdown">
+                      <div class="form-group">
+                        <label for="purchaseRecommend">推荐供方</label>
+                        <textarea type="text" class="form-control search-result" id="purchaseRecommend" name="purchaseRecommend" placeholder="点击查找"></textarea>
+                      </div>
+                    </a>
+                    <ul style="max-height: 200px; overflow-y: auto;" class="dropdown-menu">
+                      <li>
+                        <div class="input-group">
+                          <input type="text" class="form-control search-provider" placeholder="名称">
+                          <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+                        </div>
+                      </li>
+                      <li style="margin:5px;color:#777;"><em>请输入需要查询的物料名称</em></li>
+                    </ul>
                   </div>
+
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="purchaseOrder">接单人</label>
-                    <input type="text" class="form-control" id="purchaseOrder" name="order" placeholder="接单人">
+                    <input type="text" class="form-control" id="purchaseOrder" name="purchaseOrder" placeholder="接单人">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="purchaseOrderDate">承接期</label>
-                    <input type="date" class="form-control" id="purchaseOrderDate" name="orderDate" placeholder="承接期">
+                    <label for="purchaseOrderTime">承接期</label>
+                    <input type="date" class="form-control" id="purchaseOrderTime" name="purchaseOrderTime" placeholder="承接期">
                   </div>
                 </div>
                 <div class="col-sm-12">
                   <div class="form-group">
                     <label for="purchaseTip">备注</label>
-                    <textarea class="form-control" id="purchaseTip" name="tip" placeholder="备注"></textarea>
+                    <textarea class="form-control" id="purchaseTip" name="purchaseTip" placeholder="备注"></textarea>
                   </div>
                 </div>
               </div>          

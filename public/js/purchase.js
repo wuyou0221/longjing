@@ -1,32 +1,63 @@
 $(function($) {
 
   var currentPage = 1;
+  var fields = [
+    'purchaseId',
+    'purchaseCode',
+    'purchaseType',
+    'purchaseProjectId',
+    'purchaseProjectName',
+    'purchaseProjectCode',
+    'purchaseProductName',
+    'purchaseProductNum',
+    'purchaseProductType',
+    'purchaseBudget',
+    'purchaseTechnologyParameter',
+    'purchaseExplain',
+    'purchaseTechnologyFile',
+    'purchaseIsConform',
+    'purchaseRejectReason',
+    'purchaseRejectContent',
+    'purchasePayment',
+    'purchaseQuality',
+    'purchaseDeadline',
+    'purchaseArriveTime',
+    'purchasePlace',
+    'purchaseRecommend',
+    'purchaseOrder',
+    'purchaseOrderTime',
+    'purchaseTip',
+  ];
 
   // 加载请购列表
   function loadPurchase(page) {
     currentPage = page;
+    // 定位各个元素
     var tbody = $('#purchaseTable > tbody').html('');
     var alertBox = $('#purchaseTable').parent().next('.alert');
     var pageBox = alertBox.next();
     alertBox.show();
-    $.get('api/purchase/get/'+page, function(data) {
+    // 获取数据
+    $.get('api/purchase/get?purchaseId='+page, function(data) {
       var addContent = '';
-      for (var i = 0; i < data.content.length; i++) { 
+      $.map(data.content, function(n) {
         addContent += '\
           <tr>\
-            <th scope="row">'+data.content[i].purchaseID+'</th>\
-            <td>'+data.content[i].product+'</td>\
-            <td>'+data.content[i].project+'</td>\
-            <td>'+data.content[i].state+'</td>\
+            <th scope="row">'+n.purchaseCode+'</th>\
+            <td>'+n.purchaseProductName+'</td>\
+            <td>'+n.purchaseProjectName+'</td>\
+            <td>'+n.purchaseState+'</td>\
             <td>\
-              <a href="#purchaseDetailModal" data-toggle="modal" data-purchaseid="'+data.content[i].purchaseID+'">详细</a> |\
-              <a href="#purchaseProcessModal"  data-toggle="modal" data-purchaseid="'+data.content[i].purchaseID+'">审批流程</a> |\
-              <a href="api/purchase/export?purchaseID='+data.content[i].purchaseID+'">导出</a>\
+              <a href="#purchaseDetailModal" data-toggle="modal" data-purchaseid="'+n.purchaseId+'">详细</a> |\
+              <a href="#purchaseProcessModal"  data-toggle="modal" data-purchaseid="'+n.purchaseId+'">审批流程</a> |\
+              <a href="api/purchase/export?purchaseId='+n.purchaseId+'">导出</a>\
             </td>\
           </tr>\
         ';
-      }
+      });
+      // 填充数据
       tbody.html(addContent);
+      // 分页
       pageDivide(pageBox, data.page, data.total, loadPurchase);
 
       alertBox.hide();
@@ -48,54 +79,27 @@ $(function($) {
       // 清空数据
       formBox.find('input, textarea, select').val('');
       modal.find('.form-group > .btn-group').remove();
-      // 更新产品选取
-      $('[data-type="addfrom"]').data('once', 'false');
       // 获取可用项目
       $.get('api/purchase/getProject', function(data) {
         var addContent = '<option>请选择关联项目</option>';
-        for (var i = 0; i < data.content.length; i++) {
-          addContent += '<option data-id="'+data.content[i].ID+'" data-code="'+data.content[i].code+'">'+data.content[i].name+'</option>';
-        }
-        $('#purchaseProject').html(addContent);
+        $.map(data.content, function(n) {
+          addContent += '<option data-projectid="'+n.projectId+'" data-projectcode="'+n.projectCode+'">'+n.projectName+'</option>';
+        });
+        $('#purchaseProjectName').html(addContent);
 
         formBox.show();
         alertBox.hide();
       });
     } else if (id) {
       modal.find('.modal-header .modal-title').text('请购详情');
-      // 更新产品选取
-      $('[data-type="addfrom"]').data('once', 'false');
-      $.get('api/purchase/getDetail?purchaseID='+id, function(data) {
+      $.get('api/purchase/getDetail?purchaseId='+id, function(data) {
         console.log(data);
         // 填入数据
-        $('#purchaseNum').val(data.content.purchaseID);
-        $('#purchaseType').val(data.content.type);
-        $('#purchaseProjectID').val(data.content.ID);
-        $('#purchaseProject').val(data.content.project);
-        $('#purchaseProject').html('<option data-id="'+data.content.ID+'">'+data.content.project+'</option>');
-        $('#purchaseProjectCode').val(data.content.code);
-        $('#purchaseProduct').val(data.content.product);
-        $('#purchaseDept').val(data.content.dept);
-        $('#purchaseBudget').val(data.content.budget);
-        $('#purchaseTecPara').val(data.content.tecPara);
-        $('#purchaseExplain').val(data.content.explain);
-        $('#purchaseTecFile').val(data.content.tecFile);
-        $('#purchaseIsConform').val(data.content.isConform);
-        $('#purchaseNotReason').val(data.content.notReason);
-        $('#purchaseNotContent').val(data.content.notContent);
-        $('#purchaseWay').val(data.content.way);
-        $('#purchaseQuality').val(data.content.quality);
-        $('#purchaseDDL').val(data.content.ddl);
-        $('#purchaseArriveDate').val(data.content.arriveDate);
-        $('#purchasePlace').val(data.content.place);
-        $('#purchaseRecommend').val(data.content.trecommendip);
-        $('#purchaseOrder').val(data.content.order);
-        $('#purchaseOrderDate').val(data.content.orderDate);
-        $('#purchaseTip').val(data.content.tip);
+        fillInput(fields, data.content, false);
+        $('#purchaseProjectName').html('<option data-projectid="'+data.content.projectId+'">'+data.content.projectName+'</option>');
         // 添加按钮
         modal.find('.form-group > .btn-group').remove();
-        addFileBtn($('#purchaseTecFile'), data.content.tecFileArray, true);
-        addProductBtn($('#purchaseProduct'), data.content.productArray, true);      
+        addFileBtn($('#purchaseTechnologyFile'), data.content.purchaseTechnologyFileArray, true);
 
         formBox.show();
         alertBox.hide();
@@ -122,14 +126,32 @@ $(function($) {
   });
 
   // 采购关联项目选择
-  $('#purchaseProject').on('change', function() {
+  $('#purchaseProjectName').on('change', function() {
     var selected = $(this).children('option:selected');
-    $('#purchaseProjectID').val(selected.data('id'));
-    $('#purchaseProjectCode').val(selected.data('code'));
-    $('#purchaseProduct').val('');
-    $('#purchaseProduct').nextAll('.btn-group').remove();
-    // 更新产品选取
-    $('[data-type="addfrom"]').data('once', 'false');
+    $('#purchaseProjectID').val(selected.data('projectid'));
+    $('#purchaseProjectCode').val(selected.data('projectcode'));
+  });
+
+
+  // 搜索供应商
+  var timeout;
+  $('.search-provider').on('input propertychange', function() {
+    clearTimeout(timeout);   // 重复触发则取消
+    var input = $(this);
+    var inputBox = input.parents('li');   
+    timeout = setTimeout(function(){
+      $.get('api/provider/search?providerName='+input.val(), function(data) {
+        var addContent = '';
+        $.map(data.content, function(n) {
+          addContent += '\
+            <li><a class="item-single" href="#">'+n.providerName+'</a></li>\
+          ';
+        });
+        // 插入
+        inputBox.nextAll('li').remove();
+        inputBox.after(addContent);
+      });
+    }, 500);
   });
 
 });
